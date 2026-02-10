@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMART Consent</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .scope-item {
+            margin: 0.5rem 0;
+        }
+
+        .actions {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+        }
+
+        .approve {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+
+        .deny {
+            background-color: #f44336;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>SMART App Authorization</h1>
+    <p>The application <strong>{{client_id}}</strong> is requesting access to your data.</p>
+
+    <form action="/auth/consent" method="post">
+        <input type="hidden" name="client_id" value="{{client_id}}" />
+        <input type="hidden" name="redirect_uri" value="{{redirect_uri}}" />
+        <input type="hidden" name="state" value="{{state}}" />
+        <input type="hidden" name="code_challenge" value="{{code_challenge}}" />
+        <input type="hidden" name="code_challenge_method" value="{{code_challenge_method}}" />
+        <input type="hidden" name="aud" value="{{aud}}" />
+        <input type="hidden" name="launch" value="{{launch}}" />
+        <input type="hidden" name="original_scope" value="{{scope}}" />
+
+        <h3>Requested Scopes:</h3>
+        {{scopes_list}}
+
+        <div class="actions">
+            <button type="submit" name="decision" value="approve" class="approve">Approve</button>
+            <button type="submit" name="decision" value="deny" class="deny">Deny</button>
+        </div>
+    </form>
+</body>
+
+</html>
