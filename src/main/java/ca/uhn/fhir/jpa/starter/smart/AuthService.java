@@ -24,6 +24,7 @@ public class AuthService {
 
     private final Map<String, AuthData> authCodeStore = new ConcurrentHashMap<>();
     private final Map<String, AuthData> refreshTokenStore = new ConcurrentHashMap<>();
+    private final Map<String, AuthData> launchContextStore = new ConcurrentHashMap<>();
     private RSAKey rsaJWK;
 
     @PostConstruct
@@ -66,6 +67,26 @@ public class AuthService {
     public AuthData consumeRefreshToken(String refreshToken) {
         AuthData data = refreshTokenStore.get(refreshToken);
         // data might be null if token doesn't exist or was removed
+        return data;
+    }
+
+    public String generateLaunchContext(String patientId) {
+        String launchToken = UUID.randomUUID().toString();
+        AuthData data = new AuthData();
+        data.setPatientId(patientId);
+        data.setExpiresAt(Instant.now().plusSeconds(300)); // 5 minutes validity for launch token
+        launchContextStore.put(launchToken, data);
+        return launchToken;
+    }
+
+    public AuthData getLaunchContext(String launchToken) {
+        AuthData data = launchContextStore.get(launchToken);
+        if (data == null)
+            return null;
+        if (Instant.now().isAfter(data.getExpiresAt())) {
+            launchContextStore.remove(launchToken);
+            return null;
+        }
         return data;
     }
 

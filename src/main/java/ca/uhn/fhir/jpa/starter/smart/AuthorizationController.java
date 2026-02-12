@@ -1,15 +1,16 @@
 package ca.uhn.fhir.jpa.starter.smart;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class AuthorizationController {
 
-    @GetMapping(value = "/auth/authorize", produces = "text/html")
+    @RequestMapping(value = "/auth/authorize", method = { RequestMethod.GET,
+            RequestMethod.POST }, produces = "text/html")
     @ResponseBody
     public String authorize(
             @RequestParam("response_type") String responseType,

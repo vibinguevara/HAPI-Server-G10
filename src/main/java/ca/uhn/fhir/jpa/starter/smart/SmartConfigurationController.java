@@ -43,7 +43,9 @@ public class SmartConfigurationController {
                                 "sso-openid-connect",
                                 "permission-v1",
                                 "permission-v2",
-                                "authorize-post"));
+                                "authorize-post",
+                                "context-banner",
+                                "context-style"));
                 config.put("code_challenge_methods_supported", Arrays.asList("S256"));
 
                 return config;
