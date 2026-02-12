@@ -30,38 +30,63 @@ public class TokenController {
         String redirectUri = body.getFirst("redirect_uri");
         String codeVerifier = body.getFirst("code_verifier");
 
-        if (!"authorization_code".equals(grantType)) {
+        if ("authorization_code".equals(grantType)) {
+            AuthService.AuthData authData = authService.consumeAuthorizationCode(code);
+            if (authData == null) {
+                return ResponseEntity.badRequest().body(Map.of("error", "invalid_grant"));
+            }
+
+            if (redirectUri != null && !redirectUri.equals(authData.getRedirectUri())) {
+                return ResponseEntity.badRequest()
+                        .body(Map.of("error", "invalid_request", "error_description", "redirect_uri mismatch"));
+            }
+
+            // PKCE Validation
+            if (authData.getCodeChallenge() != null) {
+                if (codeVerifier == null) {
+                    return ResponseEntity.badRequest()
+                            .body(Map.of("error", "invalid_request", "error_description", "code_verifier required"));
+                }
+                if (!validatePkce(codeVerifier, authData.getCodeChallenge())) {
+                    return ResponseEntity.badRequest()
+                            .body(Map.of("error", "invalid_grant", "error_description", "PKCE verification failed"));
+                }
+            }
+
+            Map<String, Object> tokenResponse = authService.generateTokens(authData);
+
+            return ResponseEntity.ok()
+                    .cacheControl(CacheControl.noStore())
+                    .header("Pragma", "no-cache")
+                    .body(tokenResponse);
+
+        } else if ("refresh_token".equals(grantType)) {
+            String refreshToken = body.getFirst("refresh_token");
+            if (refreshToken == null) {
+                return ResponseEntity.badRequest()
+                        .body(Map.of("error", "invalid_request", "error_description", "refresh_token required"));
+            }
+            AuthService.AuthData authData = authService.consumeRefreshToken(refreshToken);
+            if (authData == null) {
+                return ResponseEntity.badRequest()
+                        .body(Map.of("error", "invalid_grant", "error_description", "Invalid refresh token"));
+            }
+
+            // Handle scope if provided
+            String scope = body.getFirst("scope");
+            if (scope != null) {
+                authData.setScope(scope);
+            }
+
+            Map<String, Object> tokenResponse = authService.generateTokens(authData);
+
+            return ResponseEntity.ok()
+                    .cacheControl(CacheControl.noStore())
+                    .header("Pragma", "no-cache")
+                    .body(tokenResponse);
+        } else {
             return ResponseEntity.badRequest().body(Map.of("error", "unsupported_grant_type"));
         }
-
-        AuthService.AuthData authData = authService.consumeAuthorizationCode(code);
-        if (authData == null) {
-            return ResponseEntity.badRequest().body(Map.of("error", "invalid_grant"));
-        }
-
-        if (redirectUri != null && !redirectUri.equals(authData.getRedirectUri())) {
-            return ResponseEntity.badRequest()
-                    .body(Map.of("error", "invalid_request", "error_description", "redirect_uri mismatch"));
-        }
-
-        // PKCE Validation
-        if (authData.getCodeChallenge() != null) {
-            if (codeVerifier == null) {
-                return ResponseEntity.badRequest()
-                        .body(Map.of("error", "invalid_request", "error_description", "code_verifier required"));
-            }
-            if (!validatePkce(codeVerifier, authData.getCodeChallenge())) {
-                return ResponseEntity.badRequest()
-                        .body(Map.of("error", "invalid_grant", "error_description", "PKCE verification failed"));
-            }
-        }
-
-        Map<String, Object> tokenResponse = authService.generateTokens(authData);
-
-        return ResponseEntity.ok()
-                .cacheControl(CacheControl.noStore())
-                .header("Pragma", "no-cache")
-                .body(tokenResponse);
     }
 
     private boolean validatePkce(String verifier, String challenge) {

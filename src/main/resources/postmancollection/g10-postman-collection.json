@@ -1,0 +1,241 @@
+{
+	"info": {
+		"_postman_id": "e9c1d1e4-f3a2-4b5c-d6e7-f8a9b0c1d2e3",
+		"name": "HAPI FHIR Auth & Resources",
+		"description": "Collection to interact with the HAPI FHIR Server, including OAuth2 flow and resource creation.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "1. Authorize (Open in Browser)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/auth/authorize?response_type=code&client_id=my-client&redirect_uri={{callbackUrl}}&scope=launch patient/*.read&state=xyz&code_challenge=YOUR_CHALLENGE&code_challenge_method=S256",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"authorize"
+							],
+							"query": [
+								{
+									"key": "response_type",
+									"value": "code"
+								},
+								{
+									"key": "client_id",
+									"value": "my-client"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{callbackUrl}}"
+								},
+								{
+									"key": "scope",
+									"value": "launch patient/*.read"
+								},
+								{
+									"key": "state",
+									"value": "xyz"
+								},
+								{
+									"key": "code_challenge",
+									"value": "YOUR_CHALLENGE"
+								},
+								{
+									"key": "code_challenge_method",
+									"value": "S256"
+								}
+							]
+						},
+						"description": "Copy this URL and open it in a browser to get the authorization code. Replace YOUR_CHALLENGE with a PKCE challenge."
+					},
+					"response": []
+				},
+				{
+					"name": "2. Token Exchange (Authorization Code)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "text"
+								},
+								{
+									"key": "code",
+									"value": "PASTE_CODE_HERE",
+									"type": "text",
+									"description": "Paste the code received from the callback URL"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "{{callbackUrl}}",
+									"type": "text"
+								},
+								{
+									"key": "code_verifier",
+									"value": "YOUR_VERIFIER",
+									"type": "text",
+									"description": "The verifier used to generate the challenge"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/token",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3. Refresh Token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "refresh_token",
+									"type": "text"
+								},
+								{
+									"key": "refresh_token",
+									"value": "PASTE_REFRESH_TOKEN_HERE",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/token",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Resources",
+			"item": [
+				{
+					"name": "Create Practitioner 123",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"resourceType\": \"Practitioner\",\n  \"id\": \"123\",\n  \"name\": [\n    {\n      \"family\": \"Healer\",\n      \"given\": [\n        \"Hippocrates\"\n      ],\n      \"prefix\": [\n        \"Dr\"\n      ]\n    }\n  ],\n  \"gender\": \"male\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Practitioner/123",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Practitioner",
+								"123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Patient 123",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{accessToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/fhir+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"resourceType\": \"Patient\",\n  \"id\": \"123\",\n  \"active\": true,\n  \"name\": [\n    {\n      \"use\": \"official\",\n      \"family\": \"Doe\",\n      \"given\": [\n        \"John\",\n        \"Jacob\"\n      ]\n    }\n  ],\n  \"gender\": \"male\",\n  \"birthDate\": \"1974-12-25\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/Patient/123",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"Patient",
+								"123"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://digressingly-auriferous-lee.ngrok-free.dev/fhir",
+			"type": "string"
+		},
+		{
+			"key": "callbackUrl",
+			"value": "http://localhost:3000/callback",
+			"type": "string"
+		},
+		{
+			"key": "accessToken",
+			"value": "PASTE_ACCESS_TOKEN_HERE",
+			"type": "string"
+		}
+	]
+}
+

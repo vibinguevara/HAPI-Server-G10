@@ -23,6 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AuthService {
 
     private final Map<String, AuthData> authCodeStore = new ConcurrentHashMap<>();
+    private final Map<String, AuthData> refreshTokenStore = new ConcurrentHashMap<>();
     private RSAKey rsaJWK;
 
     @PostConstruct
@@ -62,6 +63,12 @@ public class AuthService {
         return data;
     }
 
+    public AuthData consumeRefreshToken(String refreshToken) {
+        AuthData data = refreshTokenStore.get(refreshToken);
+        // data might be null if token doesn't exist or was removed
+        return data;
+    }
+
     public Map<String, Object> generateTokens(AuthData authData) {
         try {
             String issuer = "https://digressingly-auriferous-lee.ngrok-free.dev/fhir";
@@ -95,12 +102,15 @@ public class AuthService {
             SignedJWT idToken = signJWT(idClaims);
 
             Map<String, Object> response = new ConcurrentHashMap<>();
+            String refreshToken = UUID.randomUUID().toString();
+            refreshTokenStore.put(refreshToken, authData);
+
             response.put("access_token", accessToken.serialize());
             response.put("token_type", "Bearer");
             response.put("expires_in", 300);
             response.put("scope", authData.getScope());
             response.put("id_token", idToken.serialize());
-            response.put("refresh_token", UUID.randomUUID().toString()); // Dummy refresh token
+            response.put("refresh_token", refreshToken);
 
             // Add context fields
             if (authData.getPatientId() != null) {
