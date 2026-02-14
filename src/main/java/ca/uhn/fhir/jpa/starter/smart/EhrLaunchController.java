@@ -19,7 +19,7 @@ public class EhrLaunchController {
 
         // 1. Validate inputs
         if (patientId == null || patientId.isEmpty()) {
-            patientId = "123"; // Default for testing
+            patientId = "patient-123"; // Default for testing
         }
 
         // 2. Generate Launch Token (Context)
@@ -27,7 +27,7 @@ public class EhrLaunchController {
 
         // 3. Construct Redirect URL
         // iss should be the FHIR base URL
-        String iss = "https://digressingly-auriferous-lee.ngrok-free.dev/fhir";
+        String iss = "https://digressingly-auriferous-lee.ngrok-free.dev/fhir";//"https://localhost:8080/fhir";//
 
         String redirect = launchUrl + (launchUrl.contains("?") ? "&" : "?") +
                 "iss=" + iss +

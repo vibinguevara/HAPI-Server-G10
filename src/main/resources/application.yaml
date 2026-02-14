@@ -107,7 +107,7 @@ spring:
 
   datasource:
     # url: "jdbc:h2:file:./target/database/h2"
-    url: jdbc:h2:mem:test_mem
+    url: jdbc:h2:file:./target/database/h2
     username: sa
     password: null
     driver-class-name: org.h2.Driver

@@ -13,7 +13,7 @@ public class OidcConfigurationController {
     @GetMapping("/.well-known/openid-configuration")
     public Map<String, Object> getOidcConfiguration() {
         Map<String, Object> config = new HashMap<>();
-        String issuer = "https://digressingly-auriferous-lee.ngrok-free.dev/fhir";
+        String issuer = "https://digressingly-auriferous-lee.ngrok-free.dev/fhir";//"https://localhost:8080/fhir";
 
         config.put("issuer", issuer);
         config.put("jwks_uri", issuer + "/auth/jwks");

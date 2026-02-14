@@ -71,7 +71,7 @@ public class ConsentController {
         } else {
             // Standalone Launch - create default context or select via UI
             // For now, hardcode patient 123
-            data.setPatientId("123");
+            data.setPatientId("patient-123");
             data.setEncounterId("456");
         }
 
