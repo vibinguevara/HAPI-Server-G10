@@ -20,9 +20,32 @@ BASE_URL = "https://localhost:8080"
 REDIRECT_URI = "http://localhost:8080/"
 CLIENT_ID = "my-client"
 
-CAPABILITY_STATEMENT_PATH = "src/main/resources/fhir-resources/us-core-capability-statement/CapabilityStatement-us-core-server.json"
-CODE_SYSTEM_DIR = "src/main/resources/fhir-resources/us-core-code-system"
-LOG_FILE_PATH = "src/main/resources/fhir-resources/import_log.txt"
+RESOURCE_BASE_DIR = "src/main/resources/fhir-resources"
+LOG_FILE_PATH = os.path.join(RESOURCE_BASE_DIR, "import_log.txt")
+
+# Define resource types and directories in order
+RESOURCE_ORDER = [
+    {
+        "type": "CapabilityStatement",
+        "dir": os.path.join(RESOURCE_BASE_DIR, "us-core-capability-statement")
+    },
+    {
+        "type": "CodeSystem",
+        "dir": os.path.join(RESOURCE_BASE_DIR, "us-core-code-system")
+    },
+    {
+        "type": "SearchParameter",
+        "dir": os.path.join(RESOURCE_BASE_DIR, "us-core-search-parameters")
+    },
+    {
+        "type": "StructureDefinition",
+        "dir": os.path.join(RESOURCE_BASE_DIR, "us-core-structured-definition")
+    },
+    {
+        "type": "ValueSet",
+        "dir": os.path.join(RESOURCE_BASE_DIR, "us-core-value-set")
+    }
+]
 
 class NoRedirectHandler(urllib.request.HTTPRedirectHandler):
     def http_error_302(self, req, fp, code, msg, headers):
@@ -43,8 +66,8 @@ def get_access_token():
     print("2. Requesting Authorization Code (Bypassing UI)...")
     consent_url = f"{BASE_URL}/auth/consent"
     
-    # Requesting scopes for CapabilityStatement and CodeSystem
-    # user/*.write should cover standard resources, but adding explicit coverage just in case
+    # Requesting wide scope access
+    # user/*.write covers most resource writes
     
     params = {
         "decision": "allow",
@@ -127,32 +150,36 @@ def get_access_token():
         print(e.read().decode('utf-8'))
         return None
 
-def log_success(resource_type, file_name, status, location):
+def log_result(resource_type, file_name, status, message):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    log_entry = f"[{timestamp}] IMPORT SUCCESS: {resource_type} from {file_name} - Status: {status}, Location: {location}\n"
-    with open(LOG_FILE_PATH, "a") as log_file:
-        log_file.write(log_entry)
+    log_entry = f"[{timestamp}] IMPORT {status}: {resource_type} from {file_name} - {message}\n"
+    print(log_entry.strip())
+    try:
+        with open(LOG_FILE_PATH, "a") as log_file:
+            log_file.write(log_entry)
+    except Exception as e:
+        print(f"Error writing to log file: {e}")
 
 def import_resource(access_token, file_path, resource_type):
     file_name = os.path.basename(file_path)
-    print(f"Reading {resource_type} Resource from {file_name}...")
+    print(f"Importing {resource_type} from {file_name}...")
+    
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             resource_data = json.load(f)
-    except FileNotFoundError:
-        print(f"   Error: File not found at {file_path}")
+    except Exception as e:
+        log_result(resource_type, file_name, "FAILURE", f"File read error: {str(e)}")
         return
 
-    # If resource has an ID, use PUT to be idempotent and allow updates. 
-    # Otherwise use POST.
+    # Check ID for PUT vs POST
     resource_id = resource_data.get("id")
     
     if resource_id:
-        print(f"   ID found: {resource_id}. Using PUT to update/create...")
+        # print(f"   ID: {resource_id} (PUT)")
         fhir_url = f"{BASE_URL}/fhir/{resource_type}/{resource_id}"
         method = "PUT"
     else:
-        print(f"   No ID found. Using POST to create...")
+        # print(f"   No ID (POST)")
         fhir_url = f"{BASE_URL}/fhir/{resource_type}"
         method = "POST"
     
@@ -164,28 +191,58 @@ def import_resource(access_token, file_path, resource_type):
     
     try:
         with urllib.request.urlopen(req, context=ctx) as response:
-            print(f"   Success! Status: {response.status}")
-            location = response.headers.get('Location')
-            print(f"   Location: {location}")
-            log_success(resource_type, file_name, response.status, location)
+            if response.status in [200, 201]:
+                location = response.headers.get('Location', 'No Location Header')
+                log_result(resource_type, file_name, "SUCCESS", f"Status: {response.status}, Location: {location}")
+            else:
+                log_result(resource_type, file_name, "WARNING", f"Unexpected Status: {response.status}")
             
     except urllib.error.HTTPError as e:
-        print(f"   Error: {e.code} {e.reason}")
+        error_msg = f"HTTP {e.code} {e.reason}"
         try:
-             print(e.read().decode('utf-8'))
+            body = e.read().decode('utf-8')
+            # Extract issue diagnostics if available
+            try:
+                oo = json.loads(body)
+                if 'issue' in oo and len(oo['issue']) > 0:
+                     diag = oo['issue'][0].get('diagnostics', 'No diagnostics')
+                     error_msg += f" - {diag}"
+            except:
+                pass
         except:
             pass
+        log_result(resource_type, file_name, "FAILURE", error_msg)
+    except Exception as e:
+        log_result(resource_type, file_name, "FAILURE", f"Exception: {str(e)}")
 
 if __name__ == "__main__":
-    # Ensure log file exists or clean it? User said "write all", implying append or create.
-    # We'll just append.
+    print("Starting US Core Import Process...")
     
+    # Initialize log file
+    with open(LOG_FILE_PATH, "a") as f:
+        f.write("\n--- New Import Session ---\n")
+
     token = get_access_token()
-    if token:
-        print("\n--- Importing CapabilityStatement ---")
-        import_resource(token, CAPABILITY_STATEMENT_PATH, "CapabilityStatement")
+    
+    if not token:
+        print("Failed to obtain access token. Aborting.")
+        exit(1)
         
-        print("\n--- Importing CodeSystems ---")
-        code_system_files = glob.glob(os.path.join(CODE_SYSTEM_DIR, "*.json"))
-        for file_path in code_system_files:
-            import_resource(token, file_path, "CodeSystem")
+    for item in RESOURCE_ORDER:
+        resource_type = item["type"]
+        directory = item["dir"]
+        
+        print(f"\n--- Processing {resource_type} ---")
+        if not os.path.isdir(directory):
+            print(f"Directory not found: {directory}")
+            continue
+            
+        json_files = glob.glob(os.path.join(directory, "*.json"))
+        if not json_files:
+             print(f"No JSON files found in {directory}")
+             continue
+             
+        for file_path in json_files:
+            import_resource(token, file_path, resource_type)
+
+    print("\nImport process completed. Check log for details.")
