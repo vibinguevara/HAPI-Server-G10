@@ -1,0 +1,3539 @@
+{
+    "resourceType": "Bundle",
+    "type": "transaction",
+    "entry": [
+        {
+            "resource": {
+                "resourceType": "Patient",
+                "id": "patient-9099",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "http://hospital.smarthealthit.org",
+                        "value": "9099"
+                    }
+                ],
+                "active": true,
+                "name": [
+                    {
+                        "family": "Smart",
+                        "given": [
+                            "Nancy"
+                        ]
+                    }
+                ],
+                "gender": "female",
+                "birthDate": "1980-01-01",
+                "address": [
+                    {
+                        "line": [
+                            "123 Smart Way"
+                        ],
+                        "city": "Smartville",
+                        "state": "MA",
+                        "postalCode": "02301",
+                        "country": "US"
+                    }
+                ],
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+                        "extension": [
+                            {
+                                "url": "ombCategory",
+                                "valueCoding": {
+                                    "system": "urn:oid:2.16.840.1.113883.6.238",
+                                    "code": "2028-9",
+                                    "display": "Asian"
+                                }
+                            },
+                            {
+                                "url": "text",
+                                "valueString": "Asian"
+                            }
+                        ]
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+                        "extension": [
+                            {
+                                "url": "ombCategory",
+                                "valueCoding": {
+                                    "system": "urn:oid:2.16.840.1.113883.6.238",
+                                    "code": "2186-5",
+                                    "display": "Not Hispanic or Latino"
+                                }
+                            },
+                            {
+                                "url": "text",
+                                "valueString": "Not Hispanic or Latino"
+                            }
+                        ]
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex",
+                        "valueCode": "F"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Patient/patient-9099"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "AllergyIntolerance",
+                "id": "allergy-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-allergyintolerance"
+                    ]
+                },
+                "clinicalStatus": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+                            "code": "active"
+                        }
+                    ]
+                },
+                "verificationStatus": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification",
+                            "code": "confirmed"
+                        }
+                    ]
+                },
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "91935009",
+                            "display": "Allergy to peanut"
+                        }
+                    ],
+                    "text": "Allergy to peanut"
+                },
+                "patient": {
+                    "reference": "Patient/patient-9099"
+                },
+                "reaction": [
+                    {
+                        "manifestation": [
+                            {
+                                "coding": [
+                                    {
+                                        "system": "http://snomed.info/sct",
+                                        "code": "247472004",
+                                        "display": "Urticarial eruption"
+                                    }
+                                ],
+                                "text": "Urticarial eruption"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "AllergyIntolerance/allergy-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "CarePlan",
+                "id": "careplan-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careplan"
+                    ]
+                },
+                "status": "active",
+                "intent": "plan",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://hl7.org/fhir/us/core/CodeSystem/careplan-category",
+                                "code": "assess-plan"
+                            }
+                        ]
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Care Plan</div>"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "CarePlan/careplan-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "CareTeam",
+                "id": "careteam-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careteam"
+                    ]
+                },
+                "status": "active",
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "participant": [
+                    {
+                        "role": [
+                            {
+                                "coding": [
+                                    {
+                                        "system": "http://snomed.info/sct",
+                                        "code": "17561000",
+                                        "display": "Cardiologist"
+                                    }
+                                ]
+                            }
+                        ],
+                        "member": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "CareTeam/careteam-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Condition",
+                "id": "condition-encounter-diagnosis-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition-encounter-diagnosis"
+                    ]
+                },
+                "clinicalStatus": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                            "code": "inactive"
+                        }
+                    ]
+                },
+                "verificationStatus": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                            "code": "confirmed"
+                        }
+                    ]
+                },
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                                "code": "encounter-diagnosis",
+                                "display": "Encounter Diagnosis"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "44054006",
+                            "display": "Type 2 diabetes mellitus"
+                        }
+                    ],
+                    "text": "Type 2 diabetes mellitus"
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "abatementDateTime": "2024-01-01T10:00:00Z",
+                "recordedDate": "2024-01-01T10:00:00Z",
+                "encounter": {
+                    "reference": "Encounter/encounter-1"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Condition/condition-encounter-diagnosis-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Condition",
+                "id": "condition-problem-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition-problems-health-concerns"
+                    ]
+                },
+                "clinicalStatus": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+                            "code": "active"
+                        }
+                    ]
+                },
+                "verificationStatus": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                            "code": "confirmed"
+                        }
+                    ]
+                },
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                                "code": "problem-list-item",
+                                "display": "Problem List Item"
+                            }
+                        ]
+                    },
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                                "code": "screening-assessment",
+                                "display": "Screening Assessment"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "38341003",
+                            "display": "Hypertension"
+                        }
+                    ],
+                    "text": "Hypertension"
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "onsetDateTime": "2024-01-01T10:00:00Z",
+                "recordedDate": "2024-01-01T10:00:00Z",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/condition-assertedDate",
+                        "valueDateTime": "2024-01-01T10:00:00Z"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Condition/condition-problem-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Coverage",
+                "id": "coverage-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-coverage"
+                    ]
+                },
+                "status": "active",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "https://nahdo.org/sopt",
+                            "code": "1",
+                            "display": "Private Health Insurance"
+                        }
+                    ]
+                },
+                "beneficiary": {
+                    "reference": "Patient/patient-9099"
+                },
+                "payor": [
+                    {
+                        "reference": "Organization/organization-1"
+                    }
+                ],
+                "relationship": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/subscriber-relationship",
+                            "code": "self"
+                        }
+                    ]
+                },
+                "identifier": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                                    "code": "MB",
+                                    "display": "Member Number"
+                                }
+                            ]
+                        },
+                        "system": "https://example.org/member-ids",
+                        "value": "MB123456"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Coverage/coverage-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Device",
+                "id": "device-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-implantable-device"
+                    ]
+                },
+                "type": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "19257004",
+                            "display": "Defibrillator"
+                        }
+                    ]
+                },
+                "patient": {
+                    "reference": "Patient/patient-9099"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Device/device-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DiagnosticReport",
+                "id": "diagnosticreport-note-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"
+                    ]
+                },
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://loinc.org",
+                                "code": "LP29684-5",
+                                "display": "Radiology"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "18748-4",
+                            "display": "Diagnostic imaging study"
+                        }
+                    ],
+                    "text": "Chest X-ray"
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "effectiveDateTime": "2024-01-01T10:00:00Z",
+                "presentedForm": [
+                    {
+                        "contentType": "text/plain",
+                        "data": "Q2hlc3QgWC1yYXkgcmVwb3J0"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "DiagnosticReport/diagnosticreport-note-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DiagnosticReport",
+                "id": "diagnosticreport-lab-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-lab"
+                    ]
+                },
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                                "code": "LAB"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "24331-1",
+                            "display": "Lipid 1996 panel - Serum or Plasma"
+                        }
+                    ],
+                    "text": "Lipid Panel"
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "effectiveDateTime": "2024-01-01T10:00:00Z",
+                "result": [
+                    {
+                        "reference": "Observation/obs-lab-1"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "DiagnosticReport/diagnosticreport-lab-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "documentreference-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"
+                    ]
+                },
+                "status": "current",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "34117-2",
+                            "display": "History and physical note"
+                        }
+                    ],
+                    "text": "History and physical note"
+                },
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category",
+                                "code": "clinical-note",
+                                "display": "Clinical Note"
+                            }
+                        ]
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "data": "SGlzdG9yeSBhbmQgUGh5c2ljYWw="
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "DocumentReference/documentreference-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Encounter",
+                "id": "encounter-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
+                    ]
+                },
+                "status": "finished",
+                "class": {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                    "code": "AMB",
+                    "display": "ambulatory"
+                },
+                "type": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://snomed.info/sct",
+                                "code": "185345009",
+                                "display": "Encounter for symptom"
+                            }
+                        ],
+                        "text": "Office Visit"
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "period": {
+                    "start": "2024-01-01T10:00:00Z",
+                    "end": "2024-01-01T11:00:00Z"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Encounter/encounter-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Goal",
+                "id": "goal-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-goal"
+                    ]
+                },
+                "lifecycleStatus": "active",
+                "description": {
+                    "text": "Maintain weight within healthy range"
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Goal/goal-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Immunization",
+                "id": "immunization-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-immunization"
+                    ]
+                },
+                "status": "completed",
+                "vaccineCode": {
+                    "coding": [
+                        {
+                            "system": "http://hl7.org/fhir/sid/cvx",
+                            "code": "207",
+                            "display": "COVID-19, mRNA, LNP-S, PF, 100 mcg/0.5mL dose"
+                        }
+                    ],
+                    "text": "Moderna COVID-19 Vaccine"
+                },
+                "patient": {
+                    "reference": "Patient/patient-9099"
+                },
+                "occurrenceDateTime": "2021-01-15",
+                "primarySource": true
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Immunization/immunization-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "MedicationDispense",
+                "id": "medicationdispense-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationdispense"
+                    ]
+                },
+                "status": "completed",
+                "medicationCodeableConcept": {
+                    "coding": [
+                        {
+                            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                            "code": "197517",
+                            "display": "Penicillin G 375 MG Injection"
+                        }
+                    ],
+                    "text": "Penicillin"
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "performer": [
+                    {
+                        "actor": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ],
+                "type": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                            "code": "RFP",
+                            "display": "Refill - Part Fill"
+                        }
+                    ]
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "MedicationDispense/medicationdispense-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "MedicationRequest",
+                "id": "medicationrequest-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationrequest"
+                    ]
+                },
+                "status": "active",
+                "intent": "order",
+                "medicationCodeableConcept": {
+                    "coding": [
+                        {
+                            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                            "code": "860975",
+                            "display": "Metoprolol Tartrate 25 MG Oral Tablet"
+                        }
+                    ],
+                    "text": "Metoprolol Tartrate 25 MG"
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "requester": {
+                    "reference": "Practitioner/practitioner-1"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "MedicationRequest/medicationrequest-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "obs-lab-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab"
+                    ]
+                },
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "laboratory",
+                                "display": "Laboratory"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "2345-7",
+                            "display": "Glucose [Mass/volume] in Serum or Plasma"
+                        }
+                    ],
+                    "text": "Glucose"
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "effectiveDateTime": "2024-01-01T10:05:00Z",
+                "valueQuantity": {
+                    "value": 95,
+                    "unit": "mg/dL",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "mg/dL"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/obs-lab-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "obs-pregnancy-status-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-pregnancy-status"
+                    ]
+                },
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "82810-3",
+                            "display": "Pregnancy status"
+                        }
+                    ],
+                    "text": "Pregnancy Status"
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "effectiveDateTime": "2024-01-01T10:00:00Z",
+                "valueCodeableConcept": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "60001007",
+                            "display": "Not pregnant"
+                        }
+                    ]
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/obs-pregnancy-status-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "obs-pregnancy-intent-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-pregnancy-intent"
+                    ]
+                },
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "86645-1",
+                            "display": "Pregnancy intention in the next year"
+                        }
+                    ],
+                    "text": "Pregnancy Intent"
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "effectiveDateTime": "2024-01-01T10:00:00Z",
+                "valueCodeableConcept": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "LA26439-2",
+                            "display": "Not sure"
+                        }
+                    ]
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/obs-pregnancy-intent-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "obs-occupation-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-occupation"
+                    ]
+                },
+                "status": "final",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "11341-5",
+                            "display": "Occupation"
+                        }
+                    ],
+                    "text": "Occupation"
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "effectivePeriod": {
+                    "start": "2020-01-01"
+                },
+                "valueCodeableConcept": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v3-Occupation",
+                            "code": "PROE",
+                            "display": "Engineer"
+                        }
+                    ]
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/obs-occupation-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "obs-respiratory-rate-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/StructureDefinition/resprate"
+                    ]
+                },
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "vital-signs"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "9279-1",
+                            "display": "Respiratory rate"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "effectiveDateTime": "2024-01-01T10:00:00Z",
+                "valueQuantity": {
+                    "value": 18,
+                    "unit": "/min",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "/min"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/obs-respiratory-rate-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "obs-heart-rate-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/StructureDefinition/heartrate"
+                    ]
+                },
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "vital-signs"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "8867-4",
+                            "display": "Heart rate"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "effectiveDateTime": "2024-01-01T10:00:00Z",
+                "valueQuantity": {
+                    "value": 72,
+                    "unit": "/min",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "/min"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/obs-heart-rate-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "obs-body-temp-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/StructureDefinition/bodytemp"
+                    ]
+                },
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "vital-signs"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "8310-5",
+                            "display": "Body temperature"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "effectiveDateTime": "2024-01-01T10:00:00Z",
+                "valueQuantity": {
+                    "value": 37,
+                    "unit": "Cel",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "Cel"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/obs-body-temp-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "obs-pediatric-weight-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/StructureDefinition/bodyweight"
+                    ]
+                },
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "vital-signs"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "29463-7",
+                            "display": "Body Weight"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "effectiveDateTime": "2024-01-01T10:00:00Z",
+                "valueQuantity": {
+                    "value": 70,
+                    "unit": "kg",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "kg"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/obs-pediatric-weight-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "obs-pulse-ox-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-pulse-oximetry"
+                    ]
+                },
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "vital-signs"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "2708-6",
+                            "display": "Oxygen saturation in Arterial blood"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "effectiveDateTime": "2024-01-01T10:00:00Z",
+                "valueQuantity": {
+                    "value": 98,
+                    "unit": "%",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "%"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/obs-pulse-ox-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "obs-smoking-status-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-smokingstatus"
+                    ]
+                },
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "social-history"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "72166-2",
+                            "display": "Tobacco smoking status"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "effectiveDateTime": "2024-01-01T10:00:00Z",
+                "valueCodeableConcept": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "449868002",
+                            "display": "Current every day smoker"
+                        }
+                    ]
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/obs-smoking-status-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "obs-head-circumference-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-head-circumference"
+                    ]
+                },
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "vital-signs"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "9843-4",
+                            "display": "Head Occipital-frontal circumference"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "effectiveDateTime": "2024-01-01T10:00:00Z",
+                "valueQuantity": {
+                    "value": 50,
+                    "unit": "cm",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "cm"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/obs-head-circumference-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "obs-body-height-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/StructureDefinition/bodyheight"
+                    ]
+                },
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "vital-signs"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "8302-2",
+                            "display": "Body height"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "effectiveDateTime": "2024-01-01T10:00:00Z",
+                "valueQuantity": {
+                    "value": 170,
+                    "unit": "cm",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "cm"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/obs-body-height-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "obs-bmi-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/StructureDefinition/bmi"
+                    ]
+                },
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "vital-signs"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "39156-5",
+                            "display": "Body mass index (BMI) [Ratio]"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "effectiveDateTime": "2024-01-01T10:00:00Z",
+                "valueQuantity": {
+                    "value": 24.2,
+                    "unit": "kg/m2",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "kg/m2"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/obs-bmi-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "obs-screening-assessment-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-screening-assessment"
+                    ]
+                },
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "survey"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "76527-3",
+                            "display": "Housing insecurity and quality of housing panel"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "effectiveDateTime": "2024-01-01T10:00:00Z",
+                "valueCodeableConcept": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "LA30190-5",
+                            "display": "I do not have housing"
+                        }
+                    ]
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/obs-screening-assessment-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "obs-blood-pressure-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/StructureDefinition/bp"
+                    ]
+                },
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "vital-signs"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "85354-9",
+                            "display": "Blood pressure panel with all children optional"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "effectiveDateTime": "2024-01-01T10:00:00Z",
+                "component": [
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "http://loinc.org",
+                                    "code": "8480-6",
+                                    "display": "Systolic blood pressure"
+                                }
+                            ]
+                        },
+                        "valueQuantity": {
+                            "value": 120,
+                            "unit": "mm[Hg]",
+                            "system": "http://unitsofmeasure.org",
+                            "code": "mm[Hg]"
+                        }
+                    },
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "http://loinc.org",
+                                    "code": "8462-4",
+                                    "display": "Diastolic blood pressure"
+                                }
+                            ]
+                        },
+                        "valueQuantity": {
+                            "value": 80,
+                            "unit": "mm[Hg]",
+                            "system": "http://unitsofmeasure.org",
+                            "code": "mm[Hg]"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/obs-blood-pressure-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "obs-clinical-result-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-clinical-result"
+                    ]
+                },
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "exam"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "29463-7",
+                            "display": "Body Weight"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "effectiveDateTime": "2024-01-01T10:00:00Z",
+                "valueQuantity": {
+                    "value": 70,
+                    "unit": "kg",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "kg"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/obs-clinical-result-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "obs-pediatric-bmi-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/pediatric-bmi-for-age"
+                    ]
+                },
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "vital-signs"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "59576-9",
+                            "display": "Body mass index (BMI) [Percentile] Per age and gender"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "effectiveDateTime": "2024-01-01T10:00:00Z",
+                "valueQuantity": {
+                    "value": 85,
+                    "unit": "%",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "%"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/obs-pediatric-bmi-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "obs-head-circumference-percentile-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/head-occipital-frontal-circumference-percentile"
+                    ]
+                },
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "vital-signs"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "8289-1",
+                            "display": "Head Occipital-frontal circumferencePercentile"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "effectiveDateTime": "2024-01-01T10:00:00Z",
+                "valueQuantity": {
+                    "value": 50,
+                    "unit": "%",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "%"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/obs-head-circumference-percentile-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Observation",
+                "id": "obs-body-weight-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/StructureDefinition/bodyweight"
+                    ]
+                },
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "vital-signs"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "29463-7",
+                            "display": "Body Weight"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "effectiveDateTime": "2024-01-01T10:00:00Z",
+                "valueQuantity": {
+                    "value": 150,
+                    "unit": "lbs",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "[lb_av]"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/obs-body-weight-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Procedure",
+                "id": "procedure-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"
+                    ]
+                },
+                "status": "completed",
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "230040009",
+                            "display": "Airway suctioning"
+                        }
+                    ],
+                    "text": "Airway suctioning"
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "performedDateTime": "2024-01-01T10:00:00Z"
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Procedure/procedure-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "ServiceRequest",
+                "id": "servicerequest-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-servicerequest"
+                    ]
+                },
+                "status": "active",
+                "intent": "order",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://snomed.info/sct",
+                                "code": "108252007",
+                                "display": "Laboratory procedure"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "2345-7",
+                            "display": "Glucose [Mass/volume] in Serum or Plasma"
+                        }
+                    ],
+                    "text": "Glucose"
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "requester": {
+                    "reference": "Practitioner/practitioner-1"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "ServiceRequest/servicerequest-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Organization",
+                "id": "organization-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"
+                    ]
+                },
+                "active": true,
+                "name": "Smart Health",
+                "telecom": [
+                    {
+                        "system": "phone",
+                        "value": "(555) 555-5555"
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Organization/organization-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Practitioner",
+                "id": "practitioner-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+                    ]
+                },
+                "identifier": [
+                    {
+                        "system": "http://hl7.org/fhir/sid/us-npi",
+                        "value": "9999999999"
+                    }
+                ],
+                "active": true,
+                "name": [
+                    {
+                        "family": "Doctor",
+                        "given": [
+                            "Dr."
+                        ]
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Practitioner/practitioner-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Patient/patient-9099"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "RelatedPerson",
+                "id": "relatedperson-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-relatedperson"
+                    ]
+                },
+                "active": true,
+                "patient": {
+                    "reference": "Patient/patient-9099"
+                },
+                "relationship": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                                "code": "FAMMEMB"
+                            }
+                        ]
+                    }
+                ],
+                "name": [
+                    {
+                        "family": "Relative",
+                        "given": [
+                            "Sam"
+                        ]
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "RelatedPerson/relatedperson-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Specimen",
+                "id": "specimen-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-specimen"
+                    ]
+                },
+                "type": {
+                    "coding": [
+                        {
+                            "system": "http://snomed.info/sct",
+                            "code": "119297000",
+                            "display": "Blood specimen"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "collection": {
+                    "collectedDateTime": "2024-01-01T10:00:00Z"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Specimen/specimen-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "DocumentReference",
+                "id": "documentreference-clinical-note-1",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference"
+                    ]
+                },
+                "status": "current",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "18842-5",
+                            "display": "Discharge summary note"
+                        }
+                    ],
+                    "text": "Discharge summary note"
+                },
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category",
+                                "code": "clinical-note",
+                                "display": "Clinical Note"
+                            }
+                        ]
+                    }
+                ],
+                "subject": {
+                    "reference": "Patient/patient-9099"
+                },
+                "content": [
+                    {
+                        "attachment": {
+                            "contentType": "text/plain",
+                            "data": "RGlzY2hhcmdlIFN1bW1hcnk="
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "DocumentReference/documentreference-clinical-note-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-patient-9099",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Patient/patient-9099"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-patient-9099"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-allergy-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "AllergyIntolerance/allergy-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-allergy-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-careplan-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "CarePlan/careplan-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-careplan-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-careteam-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "CareTeam/careteam-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-careteam-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-condition-encounter-diagnosis-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Condition/condition-encounter-diagnosis-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-condition-encounter-diagnosis-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-condition-problem-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Condition/condition-problem-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-condition-problem-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-coverage-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Coverage/coverage-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-coverage-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-device-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Device/device-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-device-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-diagnosticreport-note-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "DiagnosticReport/diagnosticreport-note-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-diagnosticreport-note-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-diagnosticreport-lab-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "DiagnosticReport/diagnosticreport-lab-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-diagnosticreport-lab-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-documentreference-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "DocumentReference/documentreference-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-documentreference-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-encounter-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Encounter/encounter-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-encounter-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-goal-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Goal/goal-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-goal-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-immunization-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Immunization/immunization-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-immunization-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-medicationdispense-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "MedicationDispense/medicationdispense-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-medicationdispense-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-medicationrequest-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "MedicationRequest/medicationrequest-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-medicationrequest-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-obs-lab-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Observation/obs-lab-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-obs-lab-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-obs-pregnancy-status-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Observation/obs-pregnancy-status-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-obs-pregnancy-status-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-obs-pregnancy-intent-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Observation/obs-pregnancy-intent-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-obs-pregnancy-intent-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-obs-occupation-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Observation/obs-occupation-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-obs-occupation-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-obs-respiratory-rate-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Observation/obs-respiratory-rate-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-obs-respiratory-rate-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-obs-heart-rate-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Observation/obs-heart-rate-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-obs-heart-rate-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-obs-body-temp-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Observation/obs-body-temp-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-obs-body-temp-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-obs-pediatric-weight-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Observation/obs-pediatric-weight-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-obs-pediatric-weight-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-obs-pulse-ox-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Observation/obs-pulse-ox-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-obs-pulse-ox-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-obs-smoking-status-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Observation/obs-smoking-status-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-obs-smoking-status-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-obs-head-circumference-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Observation/obs-head-circumference-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-obs-head-circumference-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-obs-body-height-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Observation/obs-body-height-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-obs-body-height-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-obs-bmi-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Observation/obs-bmi-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-obs-bmi-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-obs-screening-assessment-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Observation/obs-screening-assessment-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-obs-screening-assessment-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-obs-blood-pressure-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Observation/obs-blood-pressure-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-obs-blood-pressure-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-obs-clinical-result-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Observation/obs-clinical-result-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-obs-clinical-result-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-obs-pediatric-bmi-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Observation/obs-pediatric-bmi-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-obs-pediatric-bmi-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-obs-head-circumference-percentile-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Observation/obs-head-circumference-percentile-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-obs-head-circumference-percentile-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-obs-body-weight-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Observation/obs-body-weight-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-obs-body-weight-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-procedure-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Procedure/procedure-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-procedure-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-servicerequest-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "ServiceRequest/servicerequest-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-servicerequest-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-organization-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Organization/organization-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-organization-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-practitioner-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Practitioner/practitioner-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-practitioner-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-relatedperson-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "RelatedPerson/relatedperson-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-relatedperson-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-specimen-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "Specimen/specimen-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-specimen-1"
+            }
+        },
+        {
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "provenance-documentreference-clinical-note-1",
+                "meta": {
+                    "versionId": "1",
+                    "lastUpdated": "2026-02-17T12:06:43Z",
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance"
+                    ]
+                },
+                "target": [
+                    {
+                        "reference": "DocumentReference/documentreference-clinical-note-1"
+                    }
+                ],
+                "recorded": "2024-01-01T10:00:00Z",
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "performer",
+                                    "display": "Performer"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "reference": "Practitioner/practitioner-1"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Provenance/provenance-documentreference-clinical-note-1"
+            }
+        }
+    ]
+}

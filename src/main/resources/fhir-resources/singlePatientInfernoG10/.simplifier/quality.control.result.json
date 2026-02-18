@@ -1,0 +1,22 @@
+{
+  "Timestamp": "2026-02-17T16:00:57.6717057+00:00",
+  "Series": "free",
+  "Type": "Simplifier",
+  "Files": [
+    {
+      "Issues": [
+        {
+          "Location": null,
+          "Severity": 0,
+          "System": "https://simplifier.net/qc/errors/evaluation",
+          "Code": "FHIRPATH",
+          "Message": "Resource singlePatientInfernoG10.json must have an id"
+        }
+      ],
+      "Tag": null,
+      "Length": 131975,
+      "Hash": "18033945CEDDB951AA4D887C4BD5654C",
+      "FilePath": "singlePatientInfernoG10.json"
+    }
+  ]
+}

@@ -116,8 +116,8 @@ public class AuthService {
                     .audience(authData.getClientId())
                     .expirationTime(Date.from(now.toInstant().plusSeconds(3600)))
                     .issueTime(Date.from(now.toInstant()))
-                    .claim("fhirUser", issuer + "/Practitioner/example") // Hardcoded for certification
-                    .claim("profile", "Practitioner/example")
+                    .claim("fhirUser", issuer + "/Practitioner/practitioner-1") // Hardcoded for certification
+                    .claim("profile", "Practitioner/practitioner-1")
                     .build();
 
             SignedJWT idToken = signJWT(idClaims);

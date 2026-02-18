@@ -66,13 +66,13 @@ public class ConsentController {
                 // treat as standalone?
                 // But getting patient context is critical for EHR launch.
                 // Let's set a default just in case for testing if launch context missing?
-                data.setPatientId("123");
+                data.setPatientId("mof-85");
             }
         } else {
             // Standalone Launch - create default context or select via UI
             // For now, hardcode patient 123
-            data.setPatientId("patient-123");
-            data.setEncounterId("456");
+            data.setPatientId("mof-85");
+            data.setEncounterId("8c42de09-10d9-4dff-8042-708a3899ae10");
         }
 
         String code = authService.generateAuthorizationCode(data);

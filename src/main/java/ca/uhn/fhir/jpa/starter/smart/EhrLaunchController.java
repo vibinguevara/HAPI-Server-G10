@@ -19,7 +19,7 @@ public class EhrLaunchController {
 
         // 1. Validate inputs
         if (patientId == null || patientId.isEmpty()) {
-            patientId = "patient-123"; // Default for testing
+            patientId = "mof-85"; // Default for testing
         }
 
         // 2. Generate Launch Token (Context)

@@ -19,7 +19,7 @@ public class OidcConfigurationController {
         config.put("jwks_uri", issuer + "/auth/jwks");
         config.put("authorization_endpoint", issuer + "/auth/authorize");
         config.put("token_endpoint", issuer + "/auth/token");
-        config.put("userinfo_endpoint", issuer + "/Practitioner/123"); // Assuming fhirUser as userinfo for now
+        config.put("userinfo_endpoint", issuer + "/Practitioner/example-1"); // Assuming fhirUser as userinfo for now
 
         config.put("id_token_signing_alg_values_supported", Arrays.asList("RS256"));
         config.put("response_types_supported", Arrays.asList("code"));
