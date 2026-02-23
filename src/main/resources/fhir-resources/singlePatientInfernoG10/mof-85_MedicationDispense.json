@@ -1,0 +1,271 @@
+{
+    "resourceType": "Bundle",
+    "type": "transaction",
+    "entry": [{
+            "resource": {
+                "code": {
+                    "text": "10 ML Furosemide 10 MG/ML Injection",
+                    "coding": [{
+                        "code": "1719286",
+                        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                        "display": "10 ML Furosemide 10 MG/ML Injection"
+                    }]
+                },
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medication"
+                    ],
+                    "lastUpdated": "2026-02-04T05:38:29.079937Z",
+                    "versionId": "49",
+                    "extension": [{
+                        "url": "https://fhir.aidbox.app/fhir/StructureDefinition/created-at",
+                        "valueInstant": "2026-02-04T05:38:29.079937Z"
+                    }]
+                },
+                "status": "active",
+                "id": "58f7a300-f288-6094-a82f-e1e64086902b",
+                "resourceType": "Medication"
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Medication/58f7a300-f288-6094-a82f-e1e64086902b"
+            }
+        },
+        {
+            "resource": {
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationrequest"
+                    ],
+                    "lastUpdated": "2026-02-04T05:38:29.059958Z",
+                    "versionId": "34",
+                    "extension": [{
+                        "url": "https://fhir.aidbox.app/fhir/StructureDefinition/created-at",
+                        "valueInstant": "2026-02-04T05:38:29.059958Z"
+                    }]
+                },
+                "encounter": {
+                    "reference": "Encounter/73d083ce-bf6a-8a3a-d56b-2349f23049bc"
+                },
+                "authoredOn": "1975-04-07T02:51:45-04:00",
+                "resourceType": "MedicationRequest",
+                "status": "active",
+                "id": "3722c630-7ccd-b25e-316d-78fd30a4ff30",
+                "intent": "order",
+                "medicationReference": {
+                    "reference": "Medication/58f7a300-f288-6094-a82f-e1e64086902b"
+                },
+                "subject": {
+                    "reference": "Patient/mof-85"
+                },
+                "reasonReference": [{
+                    "reference": "Condition/543a4968-5d7a-e63b-d0f3-426545d4b774"
+                }]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "MedicationRequest/3722c630-7ccd-b25e-316d-78fd30a4ff30"
+            }
+        },
+        {
+            "resource": {
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationrequest"
+                    ],
+                    "lastUpdated": "2026-02-04T05:38:29.059958Z",
+                    "versionId": "34",
+                    "extension": [{
+                        "url": "https://fhir.aidbox.app/fhir/StructureDefinition/created-at",
+                        "valueInstant": "2026-02-04T05:38:29.059958Z"
+                    }]
+                },
+                "encounter": {
+                    "reference": "Encounter/6ddb7da9-ea34-8bed-1b3d-ca7014f62d79"
+                },
+                "medicationCodeableConcept": {
+                    "text": "Furosemide 40 MG Oral Tablet",
+                    "coding": [{
+                        "code": "313988",
+                        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                        "display": "Furosemide 40 MG Oral Tablet"
+                    }]
+                },
+                "authoredOn": "1977-05-13T01:11:45-04:00",
+                "resourceType": "MedicationRequest",
+                "status": "active",
+                "id": "c98ce29f-de0d-377b-db87-bccbd618d7e3",
+                "dosageInstruction": [{
+                    "text": "Take as needed.",
+                    "asNeededBoolean": true,
+                    "sequence": 1
+                }],
+                "intent": "order",
+                "subject": {
+                    "reference": "Patient/mof-85"
+                },
+                "reasonReference": [{
+                    "reference": "Condition/543a4968-5d7a-e63b-d0f3-426545d4b774"
+                }]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "MedicationRequest/c98ce29f-de0d-377b-db87-bccbd618d7e3"
+            }
+        },
+        {
+            "resource": {
+                "dosageInstruction": [{
+                    "text": "10 mL bid",
+                    "route": {
+                        "coding": [{
+                            "code": "26643006",
+                            "system": "http://snomed.info/sct",
+                            "display": "Oral route"
+                        }]
+                    },
+                    "timing": {
+                        "repeat": {
+                            "boundsPeriod": {
+                                "start": "2008-04-05"
+                            },
+                            "period": 1,
+                            "frequency": 2,
+                            "periodUnit": "d"
+                        }
+                    },
+                    "doseAndRate": [{
+                        "doseQuantity": {
+                            "code": "mL",
+                            "unit": "ml",
+                            "value": 10,
+                            "system": "http://unitsofmeasure.org"
+                        }
+                    }]
+                }],
+                "medicationCodeableConcept": {
+                    "text": "Furosemide 40 MG Oral Tablet",
+                    "coding": [{
+                        "code": "313988",
+                        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                        "display": "Furosemide 40 MG Oral Tablet"
+                    }]
+                },
+                "id": "17991da0-97b0-447c-bb49-185eb104a160",
+                "authorizingPrescription": [{
+                    "display": "Furosemide 40 MG Oral Tablet",
+                    "reference": "MedicationRequest/c98ce29f-de0d-377b-db87-bccbd618d7e3"
+                }],
+                "quantity": {
+                    "code": "mL",
+                    "unit": "mL",
+                    "value": 480,
+                    "system": "http://unitsofmeasure.org"
+                },
+                "whenHandedOver": "2016-12-08T06:38:52Z",
+                "context": {
+                    "reference": "Encounter/09775519-5327-3bbf-cb95-66313dde54ee"
+                },
+                "status": "completed",
+                "identifier": [{
+                    "value": "17991da0-97b0-447c-bb49-185eb104a160",
+                    "system": "https://github.com/inferno-framework/us-core-test-kit"
+                }],
+                "subject": {
+                    "reference": "Patient/mof-85"
+                },
+                "type": {
+                    "coding": [{
+                        "code": "FFC",
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                        "display": "First Fill - Complete"
+                    }]
+                },
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationdispense"
+                    ],
+                    "lastUpdated": "2026-02-04T05:38:29.085599Z",
+                    "versionId": "54",
+                    "extension": [{
+                        "url": "https://fhir.aidbox.app/fhir/StructureDefinition/created-at",
+                        "valueInstant": "2026-02-04T05:38:29.085599Z"
+                    }]
+                },
+                "resourceType": "MedicationDispense",
+                "performer": [{
+                        "actor": {
+                            "display": "Dr. Melvin857 Torp761",
+                            "reference": "Practitioner/c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb"
+                        }
+                    },
+                    {
+                        "actor": {
+                            "reference": "PractitionerRole/9482b2d2-b99e-f930-06bd-6129c921328f"
+                        }
+                    },
+                    {
+                        "actor": {
+                            "display": "PCP87052",
+                            "reference": "Organization/56090ab7-1f97-37ff-a434-194f9c6e5510"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "MedicationDispense/17991da0-97b0-447c-bb49-185eb104a160"
+            }
+        },
+        {
+            "resource": {
+                "id": "1bc16d93-9ac8-4dc7-ad90-e649c01f8b19",
+                "authorizingPrescription": [{
+                    "display": "10 ML Furosemide 10 MG/ML Injection",
+                    "reference": "MedicationRequest/3722c630-7ccd-b25e-316d-78fd30a4ff30"
+                }],
+                "whenHandedOver": "1975-04-07T02:51:45-04:00",
+                "status": "completed",
+                "identifier": [{
+                    "value": "1bc16d93-9ac8-4dc7-ad90-e649c01f8b19",
+                    "system": "https://github.com/inferno-framework/us-core-test-kit"
+                }],
+                "subject": {
+                    "reference": "Patient/mof-85"
+                },
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationdispense"
+                    ],
+                    "lastUpdated": "2026-02-04T05:38:29.085599Z",
+                    "versionId": "54",
+                    "extension": [{
+                        "url": "https://fhir.aidbox.app/fhir/StructureDefinition/created-at",
+                        "valueInstant": "2026-02-04T05:38:29.085599Z"
+                    }]
+                },
+                "resourceType": "MedicationDispense",
+                "medicationReference": {
+                    "display": "10 ML Furosemide 10 MG/ML Injection",
+                    "reference": "Medication/58f7a300-f288-6094-a82f-e1e64086902b"
+                },
+                "performer": [{
+                        "actor": {
+                            "display": "Dr. Willena258 Oberbrunner298",
+                            "reference": "Practitioner/c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb"
+                        }
+                    },
+                    {
+                        "actor": {
+                            "reference": "PractitionerRole/8e81b028-5271-9eda-b6c0-0e308770ee50"
+                        }
+                    }
+                ]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "MedicationDispense/1bc16d93-9ac8-4dc7-ad90-e649c01f8b19"
+            }
+        }
+    ]
+}

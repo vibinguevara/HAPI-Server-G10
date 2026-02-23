@@ -15,7 +15,18 @@ REDIRECT_URI = "http://localhost:8080/"
 CLIENT_ID = "my-client"
 BUNDLE_DIR = r"c:\Labs\hwsafe\Analysis\sl-implementation-g10\hapi-fhir-jpaserver-starter-master\hapi-fhir-jpaserver-starter-master\src\main\resources\fhir-resources\singlePatientInfernoG10"
 FILES_TO_IMPORT = [
-    "single_patient_fhir_85_write.json"
+
+    "mof-85_Organization.json",
+    
+    "mof-85_Practitioner.json",
+    
+    "mof-85_Patient.json",
+    
+    "mof-85_DeviceImplantation.json",
+    
+    "mof-85_DocumentReferenceResource.json",
+    
+    "mof-85_ServiceRequest.json"
 ]
 
 # SSL Context

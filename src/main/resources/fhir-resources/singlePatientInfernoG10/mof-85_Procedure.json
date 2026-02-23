@@ -1,0 +1,50 @@
+{
+    "resourceType": "Bundle",
+    "type": "transaction",
+    "entry": [{
+
+        "resource": {
+            "performedPeriod": {
+                "end": "1977-03-29T02:48:45-05:00",
+                "start": "1977-03-29T02:33:45-05:00"
+            },
+            "id": "75864cda-b45a-860a-f08f-e9acf605fd74",
+            "encounter": {
+                "reference": "Encounter/373c3332-146c-d375-3fbb-4f9085948cfd"
+            },
+            "location": {
+                "display": "LOWELL GENERAL HOSPITAL",
+                "reference": "Location/8944e7cf-1482-b552-11a3-d3063d712d51"
+            },
+            "status": "completed",
+            "subject": {
+                "reference": "Patient/mof-85"
+            },
+            "meta": {
+                "profile": [
+                    "http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure"
+                ],
+                "lastUpdated": "2026-02-04T05:38:29.058127Z",
+                "versionId": "32",
+                "extension": [{
+                    "url": "https://fhir.aidbox.app/fhir/StructureDefinition/created-at",
+                    "valueInstant": "2026-02-04T05:38:29.058127Z"
+                }]
+            },
+            "resourceType": "Procedure",
+            "code": {
+                "text": "Placing subject in prone position (procedure)",
+                "coding": [{
+                    "code": "431182000",
+                    "system": "http://snomed.info/sct",
+                    "display": "Placing subject in prone position (procedure)"
+                }]
+            }
+        },
+        "request": {
+            "method": "PUT",
+            "url": "Procedure/75864cda-b45a-860a-f08f-e9acf605fd74"
+        }
+
+    }]
+}

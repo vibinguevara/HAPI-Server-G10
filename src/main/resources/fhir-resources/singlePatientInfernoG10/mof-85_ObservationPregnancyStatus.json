@@ -1,0 +1,61 @@
+{
+    "resourceType": "Bundle",
+    "type": "transaction",
+    "entry": [{
+        "resource": {
+            "effectiveDateTime": "2022-08-24T10:39:52Z",
+            "id": "ea0ff093-87f5-4335-a220-cc82ab0cb49e",
+            "status": "final",
+            "identifier": [{
+                "value": "ea0ff093-87f5-4335-a220-cc82ab0cb49e",
+                "system": "https://github.com/inferno-framework/us-core-test-kit"
+            }],
+            "subject": {
+                "reference": "Patient/mof-85"
+            },
+            "valueCodeableConcept": {
+                "text": "Not pregnant (finding)",
+                "coding": [{
+                    "code": "60001007",
+                    "system": "http://snomed.info/sct",
+                    "display": "Not pregnant (finding)"
+                }]
+            },
+            "meta": {
+                "profile": [
+                    "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-pregnancystatus"
+                ],
+                "lastUpdated": "2026-02-04T05:38:29.064424Z",
+                "versionId": "38",
+                "extension": [{
+                    "url": "https://fhir.aidbox.app/fhir/StructureDefinition/created-at",
+                    "valueInstant": "2026-02-04T05:38:29.064424Z"
+                }]
+            },
+            "category": [{
+                "text": "Social History",
+                "coding": [{
+                    "code": "social-history",
+                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                    "display": "Social History"
+                }]
+            }],
+            "resourceType": "Observation",
+            "code": {
+                "text": "Pregnancy Status",
+                "coding": [{
+                    "code": "82810-3",
+                    "system": "http://loinc.org",
+                    "display": "Pregnancy status"
+                }]
+            },
+            "performer": [{
+                "reference": "Patient/mof-85"
+            }]
+        },
+        "request": {
+            "method": "PUT",
+            "url": "Observation/ea0ff093-87f5-4335-a220-cc82ab0cb49e"
+        }
+    }]
+}

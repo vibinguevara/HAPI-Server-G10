@@ -1,0 +1,146 @@
+{
+    "resourceType": "Bundle",
+    "type": "transaction",
+    "entry": [{
+            "resource": {
+                "id": "c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+                "gender": "female",
+                "name": [{
+                    "given": [
+                        "Melvin857"
+                    ],
+                    "family": "Torp761",
+                    "prefix": [
+                        "Dr."
+                    ]
+                }],
+                "address": [{
+                    "city": "DRACUT",
+                    "line": [
+                        "1540 BRIDGE ST"
+                    ],
+                    "state": "MA",
+                    "country": "US",
+                    "postalCode": "01826-2611"
+                }],
+                "identifier": [{
+                        "value": "c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb",
+                        "system": "https://github.com/synthetichealth/synthea"
+                    },
+                    {
+                        "value": "9941339100",
+                        "system": "http://hl7.org/fhir/sid/us-npi"
+                    }
+                ],
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+                    ],
+                    "lastUpdated": "2026-02-04T05:38:29.073029Z",
+                    "versionId": "43",
+                    "extension": [{
+                        "url": "https://fhir.aidbox.app/fhir/StructureDefinition/created-at",
+                        "valueInstant": "2026-02-04T05:38:29.073029Z"
+                    }]
+                },
+                "telecom": [{
+                    "use": "work",
+                    "value": "Melvin857.Torp761@example.com",
+                    "system": "email",
+                    "extension": [{
+                        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-direct",
+                        "valueBoolean": true
+                    }]
+                }],
+                "active": true,
+                "resourceType": "Practitioner"
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Practitioner/c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb"
+            }
+        },
+        {
+            "resource": {
+
+                "specialty": [{
+                    "text": "General Practice Physician",
+                    "coding": [{
+                        "code": "208D00000X",
+                        "system": "http://nucc.org/provider-taxonomy",
+                        "display": "General Practice Physician"
+                    }]
+                }],
+                "practitioner": {
+                    "display": "Dr. Melvin857 Torp761",
+                    "reference": "Practitioner/c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb"
+                },
+                "id": "9482b2d2-b99e-f930-06bd-6129c921328f",
+                "location": [{
+                    "display": "PCP87052",
+                    "reference": "Location/690866aa-d2fd-8074-b448-3b7b0f1c84ad"
+                }],
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole"
+                    ],
+                    "lastUpdated": "2026-02-04T05:38:29.082480Z",
+                    "versionId": "52",
+                    "extension": [{
+                        "url": "https://fhir.aidbox.app/fhir/StructureDefinition/created-at",
+                        "valueInstant": "2026-02-04T05:38:29.082480Z"
+                    }]
+                },
+                "endpoint": [{
+                    "type": "Endpoint",
+                    "reference": "#endpoint"
+                }],
+                "telecom": [{
+                    "use": "work",
+                    "value": "Melvin857.Torp761@example.com",
+                    "system": "email",
+                    "extension": [{
+                        "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-direct",
+                        "valueBoolean": true
+                    }]
+                }],
+                "resourceType": "PractitionerRole",
+                "organization": {
+                    "display": "PCP87052",
+                    "reference": "Organization/56090ab7-1f97-37ff-a434-194f9c6e5510"
+                },
+                "code": [{
+                    "text": "General Practice Physician",
+                    "coding": [{
+                        "code": "208D00000X",
+                        "system": "http://nucc.org/provider-taxonomy",
+                        "display": "General Practice Physician"
+                    }]
+                }],
+                "contained": [{
+                    "id": "endpoint",
+                    "status": "active",
+                    "address": "mailto:Melvin857.Torp761@example.com",
+                    "payloadType": [{
+                        "text": "Any",
+                        "coding": [{
+                            "code": "any",
+                            "system": "http://terminology.hl7.org/CodeSystem/endpoint-payload-type",
+                            "display": "Any"
+                        }]
+                    }],
+                    "resourceType": "Endpoint",
+                    "connectionType": {
+                        "code": "direct-project",
+                        "system": "http://terminology.hl7.org/CodeSystem/endpoint-connection-type",
+                        "display": "Direct Project"
+                    }
+                }]
+            },
+            "request": {
+                "method": "PUT",
+                "url": "PractitionerRole/9482b2d2-b99e-f930-06bd-6129c921328f"
+            }
+        }
+    ]
+}

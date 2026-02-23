@@ -1,0 +1,76 @@
+{
+    "resourceType": "Bundle",
+    "type": "transaction",
+    "entry": [{
+        "resource": {
+            "effectivePeriod": {
+                "start": "2015-04-24"
+            },
+            "component": [{
+                "code": {
+                    "coding": [{
+                        "code": "86188-0",
+                        "system": "http://loinc.org",
+                        "display": "History of Occupation Industry"
+                    }]
+                },
+                "valueCodeableConcept": {
+                    "coding": [{
+                        "code": "621610.008495",
+                        "system": "http://terminology.hl7.org/CodeSystem/PHOccupationalDataForHealthODH",
+                        "display": "Home nursing services"
+                    }]
+                }
+            }],
+            "id": "8bef174a-00eb-41d6-9cfd-27945c91a43a",
+            "status": "final",
+            "identifier": [{
+                "value": "8bef174a-00eb-41d6-9cfd-27945c91a43a",
+                "system": "https://github.com/inferno-framework/us-core-test-kit"
+            }],
+            "subject": {
+                "reference": "Patient/mof-85"
+            },
+            "valueCodeableConcept": {
+                "coding": [{
+                    "code": "31-1014.00.007136",
+                    "system": "http://terminology.hl7.org/CodeSystem/PHOccupationalDataForHealthODH",
+                    "display": "Certified Nursing Assistant (CNA) [Nursing Assistants]"
+                }]
+            },
+            "meta": {
+                "profile": [
+                    "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-occupation"
+                ],
+                "lastUpdated": "2026-02-04T05:38:29.064424Z",
+                "versionId": "38",
+                "extension": [{
+                    "url": "https://fhir.aidbox.app/fhir/StructureDefinition/created-at",
+                    "valueInstant": "2026-02-04T05:38:29.064424Z"
+                }]
+            },
+            "category": [{
+                "coding": [{
+                    "code": "social-history",
+                    "system": "http://terminology.hl7.org/CodeSystem/observation-category"
+                }]
+            }],
+            "resourceType": "Observation",
+            "code": {
+                "coding": [{
+                    "code": "11341-5",
+                    "system": "http://loinc.org",
+                    "display": "History of Occupation"
+                }]
+            },
+            "performer": [{
+                "reference": "Patient/mof-85"
+            }]
+        },
+        "request": {
+            "method": "PUT",
+            "url": "Observation/8bef174a-00eb-41d6-9cfd-27945c91a43a"
+        }
+    }]
+
+}

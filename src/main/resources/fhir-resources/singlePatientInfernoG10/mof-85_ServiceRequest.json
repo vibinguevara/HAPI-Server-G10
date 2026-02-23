@@ -1,0 +1,144 @@
+{
+	"resourceType": "Bundle",
+	"type": "transaction",
+	"entry": [
+		{
+			"resource": {
+				"authoredOn": "2015-03-30",
+				"requester": {
+					"reference": "Practitioner/c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb"
+				},
+				"id": "ba89c2af-ce2b-405d-8eff-793eabe1c38d",
+				"encounter": {
+					"reference": "Encounter/90a74c6c-a0e0-0cb3-157a-e38f35ca66b3"
+				},
+				"status": "completed",
+				"identifier": [
+					{
+						"value": "ba89c2af-ce2b-405d-8eff-793eabe1c38d",
+						"system": "https://github.com/inferno-framework/us-core-test-kit"
+					}
+				],
+				"subject": {
+					"reference": "Patient/mof-85"
+				},
+				"intent": "order",
+				"meta": {
+					"profile": [
+						"http://hl7.org/fhir/us/core/StructureDefinition/us-core-servicerequest"
+					],
+					"lastUpdated": "2026-02-04T05:38:29.074485Z",
+					"versionId": "45",
+					"extension": [
+						{
+							"url": "https://fhir.aidbox.app/fhir/StructureDefinition/created-at",
+							"valueInstant": "2026-02-04T05:38:29.074485Z"
+						}
+					]
+				},
+				"reasonCode": [
+					{
+						"text": "Bradycardia",
+						"coding": [
+							{
+								"code": "71908006",
+								"system": "http://snomed.info/sct",
+								"display": "Ventricular fibrillation (disorder)"
+							}
+						]
+					}
+				],
+				"category": [
+					{
+						"text": "Surgical procedure",
+						"coding": [
+							{
+								"code": "387713003",
+								"system": "http://snomed.info/sct",
+								"display": "Surgical procedure"
+							}
+						]
+					}
+				],
+				"resourceType": "ServiceRequest",
+				"code": {
+					"coding": [
+						{
+							"code": "233169004",
+							"system": "http://snomed.info/sct",
+							"display": "Automatic defibrillator procedure (procedure)"
+						}
+					]
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"url": "ServiceRequest/ba89c2af-ce2b-405d-8eff-793eabe1c38d"
+			}
+		},
+		{
+			"resource": {
+				"authoredOn": "2021-11-12T10:59:38-08:00",
+				"requester": {
+					"reference": "Practitioner/c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb"
+				},
+				"id": "706eb626-2e3a-4f23-bb58-dd11cde7da98",
+				"status": "active",
+				"identifier": [
+					{
+						"value": "706eb626-2e3a-4f23-bb58-dd11cde7da98",
+						"system": "https://github.com/inferno-framework/us-core-test-kit"
+					}
+				],
+				"subject": {
+					"reference": "Patient/mof-85"
+				},
+				"occurrencePeriod": {
+					"end": "2021-12-04",
+					"start": "2021-11-20"
+				},
+				"intent": "order",
+				"meta": {
+					"profile": [
+						"http://hl7.org/fhir/us/core/StructureDefinition/us-core-servicerequest"
+					],
+					"lastUpdated": "2026-02-04T05:38:29.074485Z",
+					"versionId": "45",
+					"extension": [
+						{
+							"url": "https://fhir.aidbox.app/fhir/StructureDefinition/created-at",
+							"valueInstant": "2026-02-04T05:38:29.074485Z"
+						}
+					]
+				},
+				"category": [
+					{
+						"text": "Social Determinants Of Health",
+						"coding": [
+							{
+								"code": "410606002",
+								"system": "http://snomed.info/sct",
+								"display": "Social Service Procedure"
+							}
+						]
+					}
+				],
+				"resourceType": "ServiceRequest",
+				"code": {
+					"text": "Alcohol rehabilitation",
+					"coding": [
+						{
+							"code": "24165007",
+							"system": "http://snomed.info/sct",
+							"display": "Alcoholism counseling"
+						}
+					]
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"url": "ServiceRequest/706eb626-2e3a-4f23-bb58-dd11cde7da98"
+			}
+		}
+	]
+}

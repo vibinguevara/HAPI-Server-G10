@@ -1,0 +1,114 @@
+{
+	"resourceType": "Bundle",
+	"type": "transaction",
+	"entry": [
+		{
+			"resource": {
+				"deviceName": [
+					{
+						"name": "Implantable defibrillator, device (physical object)",
+						"type": "user-friendly-name"
+					}
+				],
+				"id": "592f034c-9680-b3f2-b73d-50c743ffd096",
+				"udiCarrier": [
+					{
+						"carrierHRF": "(01)43069338026389(11)000302(17)250317(10)1134(21)842026117977",
+						"deviceIdentifier": "43069338026389"
+					}
+				],
+				"manufactureDate": "2000-03-02T18:33:18-05:00",
+				"distinctIdentifier": "43069338026389",
+				"status": "active",
+				"lotNumber": "1134",
+				"type": {
+					"text": "Implantable defibrillator, device (physical object)",
+					"coding": [
+						{
+							"code": "72506001",
+							"system": "http://snomed.info/sct",
+							"display": "Implantable defibrillator, device (physical object)"
+						}
+					]
+				},
+				"meta": {
+					"profile": [
+						"http://hl7.org/fhir/us/core/StructureDefinition/us-core-implantable-device"
+					],
+					"lastUpdated": "2026-02-04T05:38:29.060996Z",
+					"versionId": "35",
+					"extension": [
+						{
+							"url": "https://fhir.aidbox.app/fhir/StructureDefinition/created-at",
+							"valueInstant": "2026-02-04T05:38:29.060996Z"
+						}
+					]
+				},
+				"expirationDate": "2025-03-17T19:33:18-04:00",
+				"patient": {
+					"reference": "Patient/mof-85"
+				},
+				"resourceType": "Device",
+				"serialNumber": "842026117977"
+			},
+			"request": {
+				"method": "PUT",
+				"url": "DocumentReference/104e0c66-cd96-2d6f-0ad8-def79dcd64f4"
+			}
+		},
+		{
+			"resource": {
+				"deviceName": [
+					{
+						"name": "Implantable defibrillator, device (physical object)",
+						"type": "user-friendly-name"
+					}
+				],
+				"id": "8e1d371f-2fb8-4a2f-ae5b-9ed492fd8a79",
+				"udiCarrier": [
+					{
+						"carrierAIDC": "iVBORw0KGgoAAAANSUhEUgAAAioAAAB2CAIAAABpgS9BAAADHUlEQVR42u3a\nXY+iMBiAUbrZ//+XuxcmpunXvkABNedczahAReWZdkxbIee8bVtK6f3zS3tL\naXTv6/b5nttHtuMZHaW8JXJvu8/4GNp72+NGxhN5jvPnHn8tInubn4fIfiKj\nHZ35+fth1bM49g4/dpaOfWrOnMk7X829449/ciOfzcjrFX/FV73f4sfdexWd\nv8fOvB9G17T4FW/+WkfOw8ufDQBuJz8AyA8A8gMA8gOA/ACA/AAgPwAgPwDI\nDwDIDwDyA4D8AID8ACA/ACA/AMgPAMgPAPIDAPIDgPwAID8AID8AyA8AyA8A\n8gMA8gOA/ACA/AAgPwDIDwDIDwDyAwDyA4D8AID8ACA/ACA/AMgPAPIDAPID\ngPwAgPwAID8AID8AyA8AyA8A8gOA/ACA/AAgPwAgPwDIDwDIDwDyAwDyA4D8\nACA/ACA/AMgPAMgPAPIDAPIDgPwAgPwAID8AyA8AyA8A8gMA8gOA/ACA/AAg\nPwAgPwDIDwDyAwDyA4D8AID8ACA/ACA/AMgPAMgPAPIDgPw4BQDIDwDyAwDy\nA4D8AID8ACA/ACA/AMgPAMgPAPIDgPwAgPwAID8AID8AfJuUc3YWADD7AUB+\nAOACf50CrpBSqm65dJn3dbgDhyjHeWaEKS1bx141pAefAsgPT7rzWpZzboO3\nd5yfc/39wCHBchbfYGXDPmdIYPYDW/dv+fev3eWm93pa+bDycjy/4p9cwhoN\nafRzdZTJM9o1pPYo5eajExI/evdkPrX6h/zAstgEO9FtUtmeqkDdDYP7PJPJ\n4Bylu/mufXaLMip39Zj40bttO3nqQH54XnvZ6oZk19XtGy+FB8bcVme0k//u\nPHh0q3zID7/fpPlS1fK518LN29nY1UOqgn1Pm3UI+eEHtbOfdrXnqTnH1dOs\nhV/svrQQVtu4h2++8UB7tqOrPccuu8GtRnOa6l/xB/6TtHxIVzx3MyHMfvid\n2ET+pp53qNpq/kWv97Jetc/gd+RGaQxuPj/62iHN5y7Bo1cns/yqoZkQd1wi\nvL34xskT8O0svgFg9gOA2Q8AyA8Av+MfJjJq5w+06kcAAAAASUVORK5CYII=\n",
+						"deviceIdentifier": "43069338026389"
+					}
+				],
+				"manufactureDate": "2000-03-02T18:33:18-05:00",
+				"distinctIdentifier": "43069338026389",
+				"status": "active",
+				"lotNumber": "1134",
+				"type": {
+					"text": "Implantable defibrillator, device (physical object)",
+					"coding": [
+						{
+							"code": "72506001",
+							"system": "http://snomed.info/sct",
+							"display": "Implantable defibrillator, device (physical object)"
+						}
+					]
+				},
+				"meta": {
+					"profile": [
+						"http://hl7.org/fhir/us/core/StructureDefinition/us-core-implantable-device"
+					],
+					"lastUpdated": "2026-02-04T05:38:29.060996Z",
+					"versionId": "35",
+					"extension": [
+						{
+							"url": "https://fhir.aidbox.app/fhir/StructureDefinition/created-at",
+							"valueInstant": "2026-02-04T05:38:29.060996Z"
+						}
+					]
+				},
+				"expirationDate": "2025-03-17T19:33:18-04:00",
+				"patient": {
+					"reference": "Patient/mof-85"
+				},
+				"resourceType": "Device",
+				"serialNumber": "842026117977"
+			},
+			"request": {
+				"method": "PUT",
+				"url": "DocumentReference/104e0c66-cd96-2d6f-0ad8-def79dcd64f4"
+			}
+		}
+	]
+}
