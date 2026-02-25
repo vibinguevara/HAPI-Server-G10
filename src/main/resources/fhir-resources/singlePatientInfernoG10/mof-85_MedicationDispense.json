@@ -3,36 +3,20 @@
     "type": "transaction",
     "entry": [{
             "resource": {
-                "code": {
-                    "text": "10 ML Furosemide 10 MG/ML Injection",
-                    "coding": [{
-                        "code": "1719286",
-                        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-                        "display": "10 ML Furosemide 10 MG/ML Injection"
-                    }]
+                "authoredOn": "1975-04-07T02:51:45-04:00",
+                "requester": {
+                    "display": "Dr. Willena258 Oberbrunner298",
+                    "reference": "Practitioner/c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb"
                 },
-                "meta": {
-                    "profile": [
-                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medication"
-                    ],
-                    "lastUpdated": "2026-02-04T05:38:29.079937Z",
-                    "versionId": "49",
-                    "extension": [{
-                        "url": "https://fhir.aidbox.app/fhir/StructureDefinition/created-at",
-                        "valueInstant": "2026-02-04T05:38:29.079937Z"
-                    }]
+                "id": "3722c630-7ccd-b25e-316d-78fd30a4ff30",
+                "encounter": {
+                    "reference": "Encounter/73d083ce-bf6a-8a3a-d56b-2349f23049bc"
                 },
                 "status": "active",
-                "id": "58f7a300-f288-6094-a82f-e1e64086902b",
-                "resourceType": "Medication"
-            },
-            "request": {
-                "method": "PUT",
-                "url": "Medication/58f7a300-f288-6094-a82f-e1e64086902b"
-            }
-        },
-        {
-            "resource": {
+                "subject": {
+                    "reference": "Patient/mof-85"
+                },
+                "intent": "order",
                 "meta": {
                     "profile": [
                         "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationrequest"
@@ -44,19 +28,9 @@
                         "valueInstant": "2026-02-04T05:38:29.059958Z"
                     }]
                 },
-                "encounter": {
-                    "reference": "Encounter/73d083ce-bf6a-8a3a-d56b-2349f23049bc"
-                },
-                "authoredOn": "1975-04-07T02:51:45-04:00",
                 "resourceType": "MedicationRequest",
-                "status": "active",
-                "id": "3722c630-7ccd-b25e-316d-78fd30a4ff30",
-                "intent": "order",
                 "medicationReference": {
                     "reference": "Medication/58f7a300-f288-6094-a82f-e1e64086902b"
-                },
-                "subject": {
-                    "reference": "Patient/mof-85"
                 },
                 "reasonReference": [{
                     "reference": "Condition/543a4968-5d7a-e63b-d0f3-426545d4b774"
@@ -66,9 +40,35 @@
                 "method": "PUT",
                 "url": "MedicationRequest/3722c630-7ccd-b25e-316d-78fd30a4ff30"
             }
-        },
-        {
+        }, {
             "resource": {
+                "authoredOn": "1977-05-13T01:11:45-04:00",
+                "dosageInstruction": [{
+                    "text": "Take as needed.",
+                    "asNeededBoolean": true,
+                    "sequence": 1
+                }],
+                "requester": {
+                    "display": "Dr. Melvin857 Torp761",
+                    "reference": "Practitioner/c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb"
+                },
+                "medicationCodeableConcept": {
+                    "text": "Furosemide 40 MG Oral Tablet",
+                    "coding": [{
+                        "code": "313988",
+                        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                        "display": "Furosemide 40 MG Oral Tablet"
+                    }]
+                },
+                "id": "c98ce29f-de0d-377b-db87-bccbd618d7e3",
+                "encounter": {
+                    "reference": "Encounter/6ddb7da9-ea34-8bed-1b3d-ca7014f62d79"
+                },
+                "status": "active",
+                "subject": {
+                    "reference": "Patient/mof-85"
+                },
+                "intent": "order",
                 "meta": {
                     "profile": [
                         "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationrequest"
@@ -80,30 +80,7 @@
                         "valueInstant": "2026-02-04T05:38:29.059958Z"
                     }]
                 },
-                "encounter": {
-                    "reference": "Encounter/6ddb7da9-ea34-8bed-1b3d-ca7014f62d79"
-                },
-                "medicationCodeableConcept": {
-                    "text": "Furosemide 40 MG Oral Tablet",
-                    "coding": [{
-                        "code": "313988",
-                        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
-                        "display": "Furosemide 40 MG Oral Tablet"
-                    }]
-                },
-                "authoredOn": "1977-05-13T01:11:45-04:00",
                 "resourceType": "MedicationRequest",
-                "status": "active",
-                "id": "c98ce29f-de0d-377b-db87-bccbd618d7e3",
-                "dosageInstruction": [{
-                    "text": "Take as needed.",
-                    "asNeededBoolean": true,
-                    "sequence": 1
-                }],
-                "intent": "order",
-                "subject": {
-                    "reference": "Patient/mof-85"
-                },
                 "reasonReference": [{
                     "reference": "Condition/543a4968-5d7a-e63b-d0f3-426545d4b774"
                 }]
@@ -217,6 +194,7 @@
                 "url": "MedicationDispense/17991da0-97b0-447c-bb49-185eb104a160"
             }
         },
+
         {
             "resource": {
                 "id": "1bc16d93-9ac8-4dc7-ad90-e649c01f8b19",
@@ -252,7 +230,7 @@
                 "performer": [{
                         "actor": {
                             "display": "Dr. Willena258 Oberbrunner298",
-                            "reference": "Practitioner/c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb"
+                            "reference": "Practitioner/8bee2ee3-d401-3728-9791-d235cfa01ab9"
                         }
                     },
                     {

@@ -12,10 +12,6 @@
             "encounter": {
                 "reference": "Encounter/373c3332-146c-d375-3fbb-4f9085948cfd"
             },
-            "location": {
-                "display": "LOWELL GENERAL HOSPITAL",
-                "reference": "Location/8944e7cf-1482-b552-11a3-d3063d712d51"
-            },
             "status": "completed",
             "subject": {
                 "reference": "Patient/mof-85"

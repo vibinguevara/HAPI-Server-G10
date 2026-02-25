@@ -76,10 +76,6 @@
                     "reference": "Practitioner/c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb"
                 },
                 "id": "9482b2d2-b99e-f930-06bd-6129c921328f",
-                "location": [{
-                    "display": "PCP87052",
-                    "reference": "Location/690866aa-d2fd-8074-b448-3b7b0f1c84ad"
-                }],
                 "meta": {
                     "profile": [
                         "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole"
