@@ -92,14 +92,15 @@ public class AuthService {
 
     public Map<String, Object> generateTokens(AuthData authData) {
         try {
-            String issuer = "https://digressingly-auriferous-lee.ngrok-free.dev/fhir"; //"https://localhost:8080/fhir";
+            String issuer = "https://digressingly-auriferous-lee.ngrok-free.dev/fhir"; // "https://localhost:8080/fhir";
             Date now = new Date();
             Date exp = new Date(now.getTime() + 300 * 1000); // 5 minutes
 
             // Create Access Token
             JWTClaimsSet accessClaims = new JWTClaimsSet.Builder()
                     .subject(
-                            authData.getPatientId() != null ? "Patient/" + authData.getPatientId() : "Practitioner/123")
+                            authData.getPatientId() != null ? "Patient/" + authData.getPatientId()
+                                    : "Practitioner/c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb")
                     .issuer(issuer)
                     .expirationTime(exp)
                     .issueTime(now)
@@ -116,8 +117,9 @@ public class AuthService {
                     .audience(authData.getClientId())
                     .expirationTime(Date.from(now.toInstant().plusSeconds(3600)))
                     .issueTime(Date.from(now.toInstant()))
-                    .claim("fhirUser", issuer + "/Practitioner/practitioner-1") // Hardcoded for certification
-                    .claim("profile", "Practitioner/practitioner-1")
+                    .claim("fhirUser", issuer + "/Practitioner/c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb") // Hardcoded for
+                                                                                                      // certification
+                    .claim("profile", "Practitioner/c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb")
                     .build();
 
             SignedJWT idToken = signJWT(idClaims);
@@ -134,11 +136,19 @@ public class AuthService {
             response.put("refresh_token", refreshToken);
 
             // Add context fields
+            response.put("smart_style_url", issuer + "/smart-style.json");
+            response.put("need_patient_banner", true);
+
             if (authData.getPatientId() != null) {
                 response.put("patient", authData.getPatientId());
             }
             if (authData.getEncounterId() != null) {
                 response.put("encounter", authData.getEncounterId());
+                response.put("ehr_encounter_id", authData.getEncounterId());
+            } else {
+                // Hardcoded fallback for Inferno testing
+                response.put("encounter", "7c13ad71-94b0-83e4-db57-1b466f8140c0");
+                response.put("ehr_encounter_id", "7c13ad71-94b0-83e4-db57-1b466f8140c0");
             }
             if (authData.getCodeChallenge() != null) {
                 // Technically we should check code verifier here but let's assume valid for now

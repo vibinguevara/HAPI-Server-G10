@@ -13,7 +13,7 @@ public class OidcConfigurationController {
     @GetMapping("/.well-known/openid-configuration")
     public Map<String, Object> getOidcConfiguration() {
         Map<String, Object> config = new HashMap<>();
-        String issuer = "https://digressingly-auriferous-lee.ngrok-free.dev/fhir";//"https://localhost:8080/fhir";
+        String issuer = "https://digressingly-auriferous-lee.ngrok-free.dev/fhir";// "https://localhost:8080/fhir";
 
         config.put("issuer", issuer);
         config.put("jwks_uri", issuer + "/auth/jwks");
@@ -31,5 +31,24 @@ public class OidcConfigurationController {
         config.put("response_modes_supported", Arrays.asList("query"));
 
         return config;
+    }
+
+    @GetMapping("/smart-style.json")
+    public Map<String, Object> getSmartStyle() {
+        Map<String, Object> style = new HashMap<>();
+        style.put("color_background", "#ffffff");
+        style.put("color_error", "#b22222");
+        style.put("color_highlight", "#ffff00");
+        style.put("color_modal_backdrop", "#000000");
+        style.put("color_success", "#008000");
+        style.put("color_text", "#000000");
+        style.put("dim_border_radius", "0");
+        style.put("dim_font_size", "14px");
+        style.put("dim_spacing_large", "24px");
+        style.put("dim_spacing_medium", "16px");
+        style.put("dim_spacing_small", "8px");
+        style.put("font_family_body", "sans-serif");
+        style.put("font_family_heading", "sans-serif");
+        return style;
     }
 }
