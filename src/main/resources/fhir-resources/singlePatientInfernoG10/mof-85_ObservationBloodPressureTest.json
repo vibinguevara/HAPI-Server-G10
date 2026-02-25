@@ -1,0 +1,448 @@
+{
+  "resourceType": "Bundle",
+  "type": "transaction",
+  "entry": [
+    {
+      "resource": {
+        "issued": "1994-05-19T19:33:18.715-04:00",
+        "effectivePeriod": {
+          "end": "1994-05-19T20:33:18-04:00",
+          "start": "1994-05-19T19:33:18-04:00"
+        },
+        "component": [
+          {
+            "code": {
+              "text": "Diastolic Blood Pressure",
+              "coding": [
+                {
+                  "code": "8462-4",
+                  "system": "http://loinc.org",
+                  "display": "Diastolic Blood Pressure"
+                },
+                {
+                  "code": "96609-3",
+                  "system": "http://loinc.org",
+                  "display": "Diastolic blood pressure mean"
+                }
+              ]
+            },
+            "dataAbsentReason": {
+              "text": "Unknown",
+              "coding": [
+                {
+                  "code": "unknown",
+                  "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                  "display": "Unknown"
+                }
+              ]
+            }
+          },
+          {
+            "code": {
+              "text": "Systolic Blood Pressure",
+              "coding": [
+                {
+                  "code": "8480-6",
+                  "system": "http://loinc.org",
+                  "display": "Systolic Blood Pressure"
+                },
+                {
+                  "code": "96608-5",
+                  "system": "http://loinc.org",
+                  "display": "Systolic blood pressure mean"
+                }
+              ]
+            },
+            "dataAbsentReason": {
+              "text": "Unknown",
+              "coding": [
+                {
+                  "code": "unknown",
+                  "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                  "display": "Unknown"
+                }
+              ]
+            }
+          }
+        ],
+        "id": "3c766796-d8a0-480f-8215-f1e7e3afab21",
+        "encounter": {
+          "reference": "Encounter/9030cedd-7de1-9f69-89c5-9968cc4c2789"
+        },
+        "status": "final",
+        "subject": {
+          "reference": "Patient/85"
+        },
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/StructureDefinition/bp",
+            "http://hl7.org/fhir/StructureDefinition/vitalsigns"
+          ],
+          "lastUpdated": "2026-02-04T05:38:29.064424Z",
+          "versionId": "38",
+          "extension": [
+            {
+              "url": "https://fhir.aidbox.app/fhir/StructureDefinition/created-at",
+              "valueInstant": "2026-02-04T05:38:29.064424Z"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "vital-signs",
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "display": "Vital Signs"
+              }
+            ]
+          }
+        ],
+        "resourceType": "Observation",
+        "code": {
+          "text": "Blood pressure panel with all children optional",
+          "coding": [
+            {
+              "code": "85354-9",
+              "system": "http://loinc.org",
+              "display": "Blood pressure panel with all children optional"
+            },
+            {
+              "code": "96607-7",
+              "system": "http://loinc.org",
+              "display": "Blood pressure panel mean systolic and mean diastolic"
+            }
+          ]
+        },
+        "performer": [
+          {
+            "display": "Dr. Blossom971 Christiansen251",
+            "reference": "Practitioner/618787f5-2588-3dca-b90e-5e8fd27b1a36"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/3c766796-d8a0-480f-8215-f1e7e3afab21"
+      }
+    },
+    {
+      "resource": {
+        "effectiveDateTime": "1994-05-19T19:33:18-04:00",
+        "issued": "1994-05-19T19:33:18.715-04:00",
+        "component": [
+          {
+            "code": {
+              "text": "Diastolic Blood Pressure",
+              "coding": [
+                {
+                  "code": "8462-4",
+                  "system": "http://loinc.org",
+                  "display": "Diastolic Blood Pressure"
+                },
+                {
+                  "code": "96609-3",
+                  "system": "http://loinc.org",
+                  "display": "Diastolic blood pressure mean"
+                }
+              ]
+            },
+            "valueQuantity": {
+              "code": "mm[Hg]",
+              "unit": "mm[Hg]",
+              "value": 85,
+              "system": "http://unitsofmeasure.org"
+            }
+          },
+          {
+            "code": {
+              "text": "Systolic Blood Pressure",
+              "coding": [
+                {
+                  "code": "8480-6",
+                  "system": "http://loinc.org",
+                  "display": "Systolic Blood Pressure"
+                },
+                {
+                  "code": "96608-5",
+                  "system": "http://loinc.org",
+                  "display": "Systolic blood pressure mean"
+                }
+              ]
+            },
+            "valueQuantity": {
+              "code": "mm[Hg]",
+              "unit": "mm[Hg]",
+              "value": 129,
+              "system": "http://unitsofmeasure.org"
+            }
+          }
+        ],
+        "id": "a26ed0f6-0537-f9aa-da9a-a7f0a7af58a7",
+        "encounter": {
+          "reference": "Encounter/9030cedd-7de1-9f69-89c5-9968cc4c2789"
+        },
+        "status": "final",
+        "subject": {
+          "reference": "Patient/85"
+        },
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/StructureDefinition/bp",
+            "http://hl7.org/fhir/StructureDefinition/vitalsigns"
+          ],
+          "lastUpdated": "2026-02-04T05:38:29.064424Z",
+          "versionId": "38",
+          "extension": [
+            {
+              "url": "https://fhir.aidbox.app/fhir/StructureDefinition/created-at",
+              "valueInstant": "2026-02-04T05:38:29.064424Z"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "vital-signs",
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "display": "Vital Signs"
+              }
+            ]
+          }
+        ],
+        "resourceType": "Observation",
+        "code": {
+          "text": "Blood pressure panel with all children optional",
+          "coding": [
+            {
+              "code": "85354-9",
+              "system": "http://loinc.org",
+              "display": "Blood pressure panel with all children optional"
+            },
+            {
+              "code": "96607-7",
+              "system": "http://loinc.org",
+              "display": "Blood pressure panel mean systolic and mean diastolic"
+            }
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/a26ed0f6-0537-f9aa-da9a-a7f0a7af58a7"
+      }
+    },
+    {
+      "resource": {
+        "effectiveDateTime": "1994-05-19T19:33:18-04:00",
+        "issued": "1994-05-19T19:33:18.715-04:00",
+        "dataAbsentReason": {
+          "text": "Unknown",
+          "coding": [
+            {
+              "code": "unknown",
+              "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+              "display": "Unknown"
+            }
+          ]
+        },
+        "component": [
+          {
+            "code": {
+              "text": "Diastolic Blood Pressure",
+              "coding": [
+                {
+                  "code": "8462-4",
+                  "system": "http://loinc.org",
+                  "display": "Diastolic Blood Pressure"
+                }
+              ]
+            },
+            "dataAbsentReason": {
+              "text": "Unknown",
+              "coding": [
+                {
+                  "code": "unknown",
+                  "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                  "display": "Unknown"
+                }
+              ]
+            }
+          },
+          {
+            "code": {
+              "text": "Systolic Blood Pressure",
+              "coding": [
+                {
+                  "code": "8480-6",
+                  "system": "http://loinc.org",
+                  "display": "Systolic Blood Pressure"
+                }
+              ]
+            },
+            "dataAbsentReason": {
+              "text": "Unknown",
+              "coding": [
+                {
+                  "code": "unknown",
+                  "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                  "display": "Unknown"
+                }
+              ]
+            }
+          }
+        ],
+        "id": "a2aac674-32dc-4dc2-9b7b-859aa8cec704",
+        "encounter": {
+          "reference": "Encounter/9030cedd-7de1-9f69-89c5-9968cc4c2789"
+        },
+        "status": "final",
+        "subject": {
+          "reference": "Patient/85"
+        },
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/StructureDefinition/bp",
+            "http://hl7.org/fhir/StructureDefinition/vitalsigns"
+          ],
+          "lastUpdated": "2026-02-04T05:38:29.064424Z",
+          "versionId": "38",
+          "extension": [
+            {
+              "url": "https://fhir.aidbox.app/fhir/StructureDefinition/created-at",
+              "valueInstant": "2026-02-04T05:38:29.064424Z"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "vital-signs",
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "display": "Vital Signs"
+              }
+            ]
+          }
+        ],
+        "resourceType": "Observation",
+        "code": {
+          "text": "Blood pressure panel with all children optional",
+          "coding": [
+            {
+              "code": "85354-9",
+              "system": "http://loinc.org",
+              "display": "Blood pressure panel with all children optional"
+            }
+          ]
+        },
+        "performer": [
+          {
+            "display": "Dr. Blossom971 Christiansen251",
+            "reference": "Practitioner/618787f5-2588-3dca-b90e-5e8fd27b1a36"
+          }
+        ]
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/a2aac674-32dc-4dc2-9b7b-859aa8cec704"
+      }
+    },
+    {
+      "resource": {
+        "issued": "1994-05-19T19:33:18.715-04:00",
+        "effectivePeriod": {
+          "end": "1994-05-19T20:33:18-04:00",
+          "start": "1994-05-19T19:33:18-04:00"
+        },
+        "component": [
+          {
+            "code": {
+              "text": "Diastolic Blood Pressure",
+              "coding": [
+                {
+                  "code": "8462-4",
+                  "system": "http://loinc.org",
+                  "display": "Diastolic Blood Pressure"
+                }
+              ]
+            },
+            "valueQuantity": {
+              "code": "mm[Hg]",
+              "unit": "mm[Hg]",
+              "value": 85,
+              "system": "http://unitsofmeasure.org"
+            }
+          },
+          {
+            "code": {
+              "text": "Systolic Blood Pressure",
+              "coding": [
+                {
+                  "code": "8480-6",
+                  "system": "http://loinc.org",
+                  "display": "Systolic Blood Pressure"
+                }
+              ]
+            },
+            "valueQuantity": {
+              "code": "mm[Hg]",
+              "unit": "mm[Hg]",
+              "value": 129,
+              "system": "http://unitsofmeasure.org"
+            }
+          }
+        ],
+        "id": "c1982068-d5bf-408c-8809-ff7ecc23e46d",
+        "encounter": {
+          "reference": "Encounter/9030cedd-7de1-9f69-89c5-9968cc4c2789"
+        },
+        "status": "final",
+        "subject": {
+          "reference": "Patient/85"
+        },
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/StructureDefinition/bp",
+            "http://hl7.org/fhir/StructureDefinition/vitalsigns"
+          ],
+          "lastUpdated": "2026-02-04T05:38:29.064424Z",
+          "versionId": "38",
+          "extension": [
+            {
+              "url": "https://fhir.aidbox.app/fhir/StructureDefinition/created-at",
+              "valueInstant": "2026-02-04T05:38:29.064424Z"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "code": "vital-signs",
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "display": "Vital Signs"
+              }
+            ]
+          }
+        ],
+        "resourceType": "Observation",
+        "code": {
+          "text": "Blood pressure panel with all children optional",
+          "coding": [
+            {
+              "code": "85354-9",
+              "system": "http://loinc.org",
+              "display": "Blood pressure panel with all children optional"
+            }
+          ]
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Observation/c1982068-d5bf-408c-8809-ff7ecc23e46d"
+      }
+    }
+  ]
+}
