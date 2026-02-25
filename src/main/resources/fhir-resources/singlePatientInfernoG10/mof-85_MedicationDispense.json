@@ -3,6 +3,36 @@
     "type": "transaction",
     "entry": [{
             "resource": {
+                "code": {
+                    "text": "10 ML Furosemide 10 MG/ML Injection",
+                    "coding": [{
+                        "code": "1719286",
+                        "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                        "display": "10 ML Furosemide 10 MG/ML Injection"
+                    }]
+                },
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medication"
+                    ],
+                    "lastUpdated": "2026-02-04T05:38:29.079937Z",
+                    "versionId": "49",
+                    "extension": [{
+                        "url": "https://fhir.aidbox.app/fhir/StructureDefinition/created-at",
+                        "valueInstant": "2026-02-04T05:38:29.079937Z"
+                    }]
+                },
+                "status": "active",
+                "id": "58f7a300-f288-6094-a82f-e1e64086902b",
+                "resourceType": "Medication"
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Medication/58f7a300-f288-6094-a82f-e1e64086902b"
+            }
+        },
+        {
+            "resource": {
                 "authoredOn": "1975-04-07T02:51:45-04:00",
                 "requester": {
                     "display": "Dr. Willena258 Oberbrunner298",
