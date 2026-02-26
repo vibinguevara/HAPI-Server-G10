@@ -39,6 +39,11 @@ public class SmartSecurityInterceptor {
             return;
         }
 
+        // Allow smart-style.json endpoint
+        if (theRequestDetails.getRequestPath().equals("smart-style.json")) {
+            return;
+        }
+
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new AuthenticationException("Missing or invalid Authorization header");
         }
