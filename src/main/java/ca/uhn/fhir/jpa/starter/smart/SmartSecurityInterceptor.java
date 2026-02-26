@@ -9,6 +9,8 @@ import ca.uhn.fhir.rest.server.exceptions.ForbiddenOperationException;
 import com.nimbusds.jwt.SignedJWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import java.util.Optional;
+import ca.uhn.fhir.jpa.model.entity.SmartAppToken;
 
 @Component
 @Interceptor
@@ -16,6 +18,9 @@ public class SmartSecurityInterceptor {
 
     @Autowired
     private AuthService authService;
+
+    @Autowired
+    private SmartAppTokenRepository tokenRepository;
 
     @Hook(Pointcut.SERVER_INCOMING_REQUEST_PRE_HANDLED)
     public void incomingRequestPreHandled(RequestDetails theRequestDetails,
@@ -62,6 +67,19 @@ public class SmartSecurityInterceptor {
 
             if (signedJWT.getJWTClaimsSet().getExpirationTime().before(new java.util.Date())) {
                 throw new AuthenticationException("Token expired");
+            }
+
+            // Database revocation check
+            String jwtId = signedJWT.getJWTClaimsSet().getJWTID();
+            if (jwtId == null) {
+                throw new AuthenticationException("Token missing JWT ID");
+            }
+            Optional<SmartAppToken> dbToken = tokenRepository.findById(jwtId);
+            if (dbToken.isEmpty()) {
+                throw new AuthenticationException("Token not found in persistent storage");
+            }
+            if (dbToken.get().isRevoked()) {
+                throw new AuthenticationException("Token has been revoked");
             }
 
             // Scope Validation

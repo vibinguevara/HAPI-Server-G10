@@ -14,12 +14,24 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Base64;
 import java.util.Map;
+import java.util.List;
+import java.util.Optional;
+import java.time.Instant;
+import com.nimbusds.jwt.SignedJWT;
+import ca.uhn.fhir.jpa.model.entity.SmartAppToken;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 public class TokenController {
 
+    private static final Logger ourLog = LoggerFactory.getLogger(TokenController.class);
+
     @Autowired
     private AuthService authService;
+
+    @Autowired
+    private SmartAppTokenRepository tokenRepository;
 
     @PostMapping(value = "/auth/token", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<?> token(
@@ -68,7 +80,8 @@ public class TokenController {
             }
             AuthService.AuthData authData = authService.consumeRefreshToken(refreshToken);
             if (authData == null) {
-                return ResponseEntity.badRequest()
+                ourLog.warn("Refresh token request failed: Invalid or revoked refresh token");
+                return ResponseEntity.status(401)
                         .body(Map.of("error", "invalid_grant", "error_description", "Invalid refresh token"));
             }
 
@@ -98,5 +111,71 @@ public class TokenController {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @PostMapping(value = "/auth/revoke", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity<?> revokeToken(
+            @RequestParam MultiValueMap<String, String> body) {
+        ourLog.info("Received request to /auth/revoke with body: {}", body);
+        String token = body.getFirst("token");
+        if (token == null) {
+            ourLog.warn("Revoke request failed: token is missing");
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", "invalid_request", "error_description", "token is required"));
+        }
+
+        String clientId = null;
+        String patientId = null;
+
+        try {
+            // Check if it's a JWT (Access Token)
+            SignedJWT jwt = SignedJWT.parse(token);
+            String jwtId = jwt.getJWTClaimsSet().getJWTID();
+            Optional<SmartAppToken> dbToken = tokenRepository.findById(jwtId);
+            if (dbToken.isPresent()) {
+                clientId = dbToken.get().getClientId();
+                patientId = dbToken.get().getPatientId();
+            }
+        } catch (Exception e) {
+            // Not a valid JWT, maybe a refresh token. Let's look up in the tokenRepository
+            // if we saved it?
+            // Wait, we didn't save refresh tokens in the DB.
+            // But we can check if it matches client_id and patient_id optionally provided?
+            AuthService.AuthData rtData = authService.getRefreshTokenData(token);
+            if (rtData != null) {
+                clientId = rtData.getClientId();
+                patientId = rtData.getPatientId();
+            }
+            ourLog.info(
+                    "Token appears to be a refresh token, looking up by patient and client. Found clientId: {}, patientId: {}",
+                    clientId, patientId);
+        }
+
+        // Check if the user passed client_id and patient_id directly (fallback if not
+        // in token)
+        if (clientId == null) {
+            clientId = body.getFirst("client_id");
+            patientId = body.getFirst("patient_id");
+        }
+
+        if (clientId != null) {
+
+            authService.revokeRefreshTokens(clientId, patientId);
+            ourLog.info("Revoked refresh tokens for client_id: {} and patient_id: {}", clientId, patientId);
+
+            if (patientId != null) {
+                List<SmartAppToken> activeTokens = tokenRepository.findByClientIdAndPatientId(clientId, patientId);
+                for (SmartAppToken t : activeTokens) {
+                    t.setRevoked(true);
+                    t.setRevokedAt(Instant.now());
+                    ourLog.info("Revoked access token for client_id: {} and patient_id: {}", clientId, patientId);
+                }
+                tokenRepository.saveAll(activeTokens);
+            }
+        }
+
+        ourLog.info("Revoke request completed for token");
+        // Return 200 OK as per RFC 7009 even if token not found
+        return ResponseEntity.ok().build();
     }
 }

@@ -17,10 +17,15 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.concurrent.ConcurrentHashMap;
+import ca.uhn.fhir.jpa.model.entity.SmartAppToken;
 
 @Service
 public class AuthService {
+
+    @Autowired
+    private SmartAppTokenRepository tokenRepository;
 
     private final Map<String, AuthData> authCodeStore = new ConcurrentHashMap<>();
     private final Map<String, AuthData> refreshTokenStore = new ConcurrentHashMap<>();
@@ -70,6 +75,24 @@ public class AuthService {
         return data;
     }
 
+    public AuthData getRefreshTokenData(String refreshToken) {
+        return refreshTokenStore.get(refreshToken);
+    }
+
+    public void revokeRefreshTokens(String clientId, String patientId) {
+        if (clientId == null)
+            return;
+
+        // Remove all refresh tokens matching the criteria
+        refreshTokenStore.entrySet().removeIf(entry -> {
+            AuthData data = entry.getValue();
+            boolean clientMatch = clientId.equals(data.getClientId());
+            boolean patientMatch = (patientId == null && data.getPatientId() == null) ||
+                    (patientId != null && patientId.equals(data.getPatientId()));
+            return clientMatch && patientMatch;
+        });
+    }
+
     public String generateLaunchContext(String patientId) {
         String launchToken = UUID.randomUUID().toString();
         AuthData data = new AuthData();
@@ -109,6 +132,24 @@ public class AuthService {
                     .build();
 
             SignedJWT accessToken = signJWT(accessClaims);
+
+            // Save token metadata to database for revocation mapping
+            try {
+                String jwtId = accessClaims.getJWTID();
+                SmartAppToken tokenEntity = new SmartAppToken();
+                tokenEntity.setJwtId(jwtId);
+                tokenEntity.setClientId(authData.getClientId());
+                tokenEntity.setPatientId(authData.getPatientId());
+                tokenEntity.setScope(authData.getScope());
+                tokenEntity.setIssuedAt(now.toInstant());
+                tokenEntity.setExpiresAt(exp.toInstant());
+                tokenEntity.setRevoked(false);
+                tokenRepository.save(tokenEntity);
+            } catch (Exception e) {
+                // Log and ignore to prevent token generation failure due to DB issues (or throw
+                // depending on strictness)
+                e.printStackTrace();
+            }
 
             // ID Token
             JWTClaimsSet idClaims = new JWTClaimsSet.Builder()
