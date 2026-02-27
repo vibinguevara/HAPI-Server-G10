@@ -8,6 +8,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.nio.charset.StandardCharsets;
@@ -35,6 +36,7 @@ public class TokenController {
 
     @PostMapping(value = "/auth/token", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<?> token(
+            @RequestHeader(value = "Authorization", required = false) String authHeader,
             @RequestParam MultiValueMap<String, String> body // Capture all params
     ) {
         String grantType = body.getFirst("grant_type");
@@ -42,10 +44,34 @@ public class TokenController {
         String redirectUri = body.getFirst("redirect_uri");
         String codeVerifier = body.getFirst("code_verifier");
 
+        // Extract client_id from body or Basic Auth header
+        String clientId = body.getFirst("client_id");
+        if (clientId == null && authHeader != null && authHeader.startsWith("Basic ")) {
+            try {
+                String base64Credentials = authHeader.substring("Basic ".length()).trim();
+                byte[] credDecoded = Base64.getDecoder().decode(base64Credentials);
+                String credentials = new String(credDecoded, StandardCharsets.UTF_8);
+                // credentials = username:password
+                final String[] values = credentials.split(":", 2);
+                if (values.length > 0) {
+                    clientId = values[0];
+                }
+            } catch (Exception e) {
+                ourLog.warn("Failed to parse Basic Auth header for client_id", e);
+            }
+        }
+
         if ("authorization_code".equals(grantType)) {
             AuthService.AuthData authData = authService.consumeAuthorizationCode(code);
             if (authData == null) {
                 return ResponseEntity.badRequest().body(Map.of("error", "invalid_grant"));
+            }
+
+            if (clientId == null || !clientId.equals(authData.getClientId())) {
+                ourLog.warn("Token exchange failed: client_id mismatch. Expected: {}, Got: {}", authData.getClientId(),
+                        clientId);
+                return ResponseEntity.status(401)
+                        .body(Map.of("error", "invalid_client", "error_description", "Invalid client credentials"));
             }
 
             if (redirectUri != null && !redirectUri.equals(authData.getRedirectUri())) {
@@ -83,6 +109,13 @@ public class TokenController {
                 ourLog.warn("Refresh token request failed: Invalid or revoked refresh token");
                 return ResponseEntity.status(401)
                         .body(Map.of("error", "invalid_grant", "error_description", "Invalid refresh token"));
+            }
+
+            if (clientId == null || !clientId.equals(authData.getClientId())) {
+                ourLog.warn("Refresh token exchange failed: client_id mismatch. Expected: {}, Got: {}",
+                        authData.getClientId(), clientId);
+                return ResponseEntity.status(401)
+                        .body(Map.of("error", "invalid_client", "error_description", "Invalid client credentials"));
             }
 
             // Handle scope if provided
