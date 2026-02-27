@@ -211,4 +211,107 @@ public class TokenController {
         // Return 200 OK as per RFC 7009 even if token not found
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping(value = "/auth/introspect", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity<?> introspectToken(
+            @RequestHeader(value = "Authorization", required = false) String authHeader,
+            @RequestParam MultiValueMap<String, String> body) {
+        ourLog.info("Received request to /auth/introspect");
+
+        // Authenticate the client using Basic Auth or Form POST (confidential client)
+        String clientId = body.getFirst("client_id");
+        if (clientId == null && authHeader != null && authHeader.startsWith("Basic ")) {
+            try {
+                String base64Credentials = authHeader.substring("Basic ".length()).trim();
+                byte[] credDecoded = Base64.getDecoder().decode(base64Credentials);
+                String credentials = new String(credDecoded, StandardCharsets.UTF_8);
+                // credentials = username:password
+                final String[] values = credentials.split(":", 2);
+                if (values.length > 0) {
+                    clientId = values[0];
+                }
+            } catch (Exception e) {
+                ourLog.warn("Failed to parse Basic Auth header for /auth/introspect client_id", e);
+            }
+        }
+
+        if (clientId == null) {
+            ourLog.warn("Introspect request failed: Missing or invalid client authentication");
+            return ResponseEntity.status(401)
+                    .body(Map.of("error", "invalid_client", "error_description", "Client authentication required"));
+        }
+
+        String token = body.getFirst("token");
+        if (token == null) {
+            ourLog.warn("Introspect request failed: token is missing");
+            return ResponseEntity.ok().body(Map.of("active", false)); // 200 OK for proper auth but missing token
+        }
+
+        try {
+            // First, try to parse it as a JWT to see if it's an access token
+            SignedJWT jwt = SignedJWT.parse(token);
+            String jwtId = jwt.getJWTClaimsSet().getJWTID();
+
+            Optional<SmartAppToken> dbToken = tokenRepository.findById(jwtId);
+
+            if (dbToken.isPresent() && !dbToken.get().isRevoked() &&
+                    Instant.now().isBefore(dbToken.get().getExpiresAt())) {
+
+                SmartAppToken activeToken = dbToken.get();
+                // Ensure the client introspecting is the one who the token was issued to, if
+                // required.
+                if (!clientId.equals(activeToken.getClientId())) {
+                    ourLog.warn("Introspect request failed: client_id mismatch. Expected: {}, Got: {}",
+                            activeToken.getClientId(), clientId);
+                    return ResponseEntity.ok().body(Map.of("active", false)); // If wrong client, act as if not active.
+                }
+
+                long exp = jwt.getJWTClaimsSet().getExpirationTime() != null
+                        ? jwt.getJWTClaimsSet().getExpirationTime().toInstant().getEpochSecond()
+                        : activeToken.getExpiresAt().getEpochSecond();
+
+                long iat = jwt.getJWTClaimsSet().getIssueTime() != null
+                        ? jwt.getJWTClaimsSet().getIssueTime().toInstant().getEpochSecond()
+                        : activeToken.getIssuedAt().getEpochSecond();
+
+                String sub = jwt.getJWTClaimsSet().getSubject() != null ? jwt.getJWTClaimsSet().getSubject()
+                        : (activeToken.getPatientId() != null ? "Patient/" + activeToken.getPatientId() : "");
+
+                Map<String, Object> responseMap = new java.util.HashMap<>();
+                responseMap.put("active", true);
+                responseMap.put("scope", activeToken.getScope() != null ? activeToken.getScope() : "");
+                responseMap.put("client_id", activeToken.getClientId());
+                responseMap.put("exp", exp);
+                responseMap.put("iat", iat);
+
+                if (jwt.getJWTClaimsSet().getIssuer() != null) {
+                    responseMap.put("iss", jwt.getJWTClaimsSet().getIssuer());
+                }
+
+                if (jwt.getJWTClaimsSet().getClaim("id_token_sub") != null) {
+                    responseMap.put("sub", jwt.getJWTClaimsSet().getStringClaim("id_token_sub"));
+                } else if (!sub.isEmpty()) {
+                    responseMap.put("sub", sub);
+                }
+
+                if (jwt.getJWTClaimsSet().getClaim("fhirUser") != null) {
+                    responseMap.put("fhirUser", jwt.getJWTClaimsSet().getStringClaim("fhirUser"));
+                }
+                if (jwt.getJWTClaimsSet().getClaim("patient") != null) {
+                    responseMap.put("patient", jwt.getJWTClaimsSet().getStringClaim("patient"));
+                }
+                if (jwt.getJWTClaimsSet().getClaim("encounter") != null) {
+                    responseMap.put("encounter", jwt.getJWTClaimsSet().getStringClaim("encounter"));
+                }
+
+                return ResponseEntity.ok().body(responseMap);
+            }
+        } catch (Exception e) {
+            // Not a valid JWT, or parsing failed.
+            ourLog.debug("Token parsing or lookup failed during introspection", e);
+        }
+
+        // Token is invalid, expired, revoked, or not found.
+        return ResponseEntity.ok().body(Map.of("active", false));
+    }
 }

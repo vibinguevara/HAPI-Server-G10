@@ -119,8 +119,12 @@ public class AuthService {
             Date now = new Date();
             Date exp = new Date(now.getTime() + 300 * 1000); // 5 minutes
 
-            // Create Access Token
-            JWTClaimsSet accessClaims = new JWTClaimsSet.Builder()
+            String idTokenSub = authData.getPatientId() != null ? authData.getPatientId() : "123";
+            String fhirUser = issuer + "/Practitioner/c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb";
+            String encounterId = authData.getEncounterId() != null ? authData.getEncounterId()
+                    : "7c13ad71-94b0-83e4-db57-1b466f8140c0";
+
+            JWTClaimsSet.Builder accessClaimsBuilder = new JWTClaimsSet.Builder()
                     .subject(
                             authData.getPatientId() != null ? "Patient/" + authData.getPatientId()
                                     : "Practitioner/c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb")
@@ -129,7 +133,15 @@ public class AuthService {
                     .issueTime(now)
                     .jwtID(UUID.randomUUID().toString())
                     .claim("scope", authData.getScope())
-                    .build();
+                    .claim("id_token_sub", idTokenSub)
+                    .claim("fhirUser", fhirUser)
+                    .claim("encounter", encounterId);
+
+            if (authData.getPatientId() != null) {
+                accessClaimsBuilder.claim("patient", authData.getPatientId());
+            }
+
+            JWTClaimsSet accessClaims = accessClaimsBuilder.build();
 
             SignedJWT accessToken = signJWT(accessClaims);
 
