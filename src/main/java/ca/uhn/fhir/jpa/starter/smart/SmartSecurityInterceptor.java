@@ -124,21 +124,29 @@ public class SmartSecurityInterceptor {
                 continue;
             scopesFound.append(scope).append(" ");
 
-            // Skip non-resource scopes
-            if (!scope.contains(".") || !scope.contains("/")) {
+            // Parse SMART v1 and v2 granular scopes
+            // format: {patient|user|system}/{Resource|*}.{read|write|*|c|r|u|d|s}[?params]
+
+            int firstSlash = scope.indexOf('/');
+            if (firstSlash == -1)
+                continue;
+
+            String scopePrefix = scope.substring(0, firstSlash);
+            String rest = scope.substring(firstSlash + 1);
+
+            int firstDot = rest.indexOf('.');
+            if (firstDot == -1) {
+                // Not a granular scope like patient/Observation.read
                 continue;
             }
 
-            String[] parts = scope.split("/");
-            if (parts.length != 2)
-                continue;
+            String scopeResource = rest.substring(0, firstDot);
+            String accessAndParams = rest.substring(firstDot + 1);
 
-            String[] resourceAndAccess = parts[1].split("\\.");
-            if (resourceAndAccess.length != 2)
-                continue;
-
-            String scopeResource = resourceAndAccess[0];
-            String scopeAccess = resourceAndAccess[1];
+            int firstQuestionMark = accessAndParams.indexOf('?');
+            String scopeAccess = firstQuestionMark != -1
+                    ? accessAndParams.substring(0, firstQuestionMark)
+                    : accessAndParams;
 
             // Check if scope covers this resource/access
             boolean resourceMatch = scopeResource.equals("*") || scopeResource.equals(resource);
@@ -150,10 +158,6 @@ public class SmartSecurityInterceptor {
                 accessMatch = true;
             } else if (scopeAccess.length() > 0 && !scopeAccess.equals("read") && !scopeAccess.equals("write")) {
                 // Granular scope check (c, r, u, d, s)
-                // c=create, r=read, u=update, d=delete, s=search
-                // read access requires 'r' or 's' (for search)
-                // write access requires 'c', 'u', or 'd'
-
                 if ("read".equals(requiredAccess)) {
                     accessMatch = scopeAccess.contains("r") || scopeAccess.contains("s");
                 } else if ("write".equals(requiredAccess)) {

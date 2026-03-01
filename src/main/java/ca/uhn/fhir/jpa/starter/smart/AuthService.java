@@ -2,6 +2,8 @@ package ca.uhn.fhir.jpa.starter.smart;
 
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.RSASSASigner;
+import com.nimbusds.jose.crypto.RSASSAVerifier;
+import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jwt.JWTClaimsSet;
@@ -212,6 +214,164 @@ public class AuthService {
 
         } catch (Exception e) {
             throw new RuntimeException("Error generating tokens", e);
+        }
+    }
+
+    public String validateClientAssertion(String clientAssertion, String tokenEndpointUrl) {
+        try {
+            SignedJWT jwt = SignedJWT.parse(clientAssertion);
+
+            // 1. Extract Header Fields
+            com.nimbusds.jose.JWSHeader header = jwt.getHeader();
+            String alg = header.getAlgorithm().getName();
+            String kid = header.getKeyID();
+
+            System.out.println("--- JWT CLIENT ASSERTION VALIDATION ---");
+            System.out.println("HEADER alg: " + alg);
+            System.out.println("HEADER kid: " + kid);
+
+            // 2. Extract Payload Fields
+            JWTClaimsSet claims = jwt.getJWTClaimsSet();
+            String iss = claims.getIssuer();
+            String sub = claims.getSubject();
+            java.util.List<String> audList = claims.getAudience();
+            Date exp = claims.getExpirationTime();
+            String jti = claims.getJWTID();
+
+            System.out.println("PAYLOAD iss: " + iss);
+            System.out.println("PAYLOAD sub: " + sub);
+            System.out.println("PAYLOAD aud: " + audList);
+            System.out.println("PAYLOAD exp: " + exp);
+            System.out.println("PAYLOAD jti: " + jti);
+
+            // 3. Verify Client Registration
+            // Since there is no DB mapping for clients, we are hardcoding a known client
+            // IDs
+            if (!"inferno_bulk_client".equals(iss) && !"test-backend-client".equals(iss)
+                    && !"tdavis751076".equals(iss)) {
+                System.out.println("iss does not match any registered bulk client: " + iss);
+                return null;
+            }
+
+            // 4. Verify iss and sub Match
+            if (iss == null || !iss.equals(sub)) {
+                System.out.println("iss and sub must match exactly");
+                return null;
+            }
+
+            // 5. Verify Audience Exact Match
+            // Because the local server might be behind ngrok, the Servlet string might be
+            // localhost or ngrok.
+            // We should just check if the intended ngrok token endpoint is precisely in the
+            // requested audience.
+            String expectedAud = "https://digressingly-auriferous-lee.ngrok-free.dev/fhir/auth/token";
+            if (audList == null || !audList.contains(expectedAud) && !audList.contains(tokenEndpointUrl)) {
+                System.out.println("aud must EXACTLY MATCH the token endpoint. Expected: " + expectedAud + " or "
+                        + tokenEndpointUrl + ", Got: " + audList);
+                return null;
+            }
+
+            // 6. Verify JWT Expiration
+            if (exp == null || exp.before(new Date())) {
+                System.out.println("Token is expired (exp: " + exp + ")");
+                return null;
+            }
+
+            // 7. Extract the JWK Set URL to perform Cryptographic checks
+            String jku = (String) header.getCustomParam("jku");
+            if (jku == null) {
+                java.net.URI jkuUri = header.getJWKURL();
+                if (jkuUri != null)
+                    jku = jkuUri.toString();
+            }
+
+            if (jku == null) {
+                // Inferno might not supply a jku header, so we check commonly known test
+                // endpoints
+                if ("tdavis751076".equals(iss) || "inferno_bulk_client".equals(iss)) {
+                    jku = "https://inferno.healthit.gov/suites/custom/g10_certification/.well-known/jwks.json";
+                    System.out.println("Fallback: Using Inferno JWKS endpoint -> " + jku);
+                } else {
+                    System.out.println("client_assertion missing jku header, unable to fetch key to verify signature");
+                    return null;
+                }
+            }
+
+            JWKSet jwkSet = JWKSet.load(new java.net.URL(jku));
+            JWK jwk = null;
+            if (kid != null) {
+                jwk = jwkSet.getKeyByKeyId(kid);
+            } else if (!jwkSet.getKeys().isEmpty()) {
+                jwk = jwkSet.getKeys().get(0);
+            }
+
+            if (jwk == null || !(jwk instanceof RSAKey)) {
+                System.out.println("No matching RSA key found in JWKS");
+                return null;
+            }
+
+            // Nimbus natively supports RS256, RS384, RS512 dynamically based on the header
+            // through this verifier class
+            com.nimbusds.jose.crypto.RSASSAVerifier verifier = new com.nimbusds.jose.crypto.RSASSAVerifier(
+                    ((RSAKey) jwk).toRSAPublicKey());
+            if (!jwt.verify(verifier)) {
+                System.out.println(
+                        "Signature verification failed using RSASSAVerifier (handles RS256, RS384, RS512)");
+                return null;
+            }
+
+            System.out.println("--- VALIDATION SUCCESSFUL ---");
+            return sub; // client_id
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Map<String, Object> generateSystemTokens(String clientId, String scope) {
+        try {
+            String issuer = "https://digressingly-auriferous-lee.ngrok-free.dev/fhir";
+            Date now = new Date();
+            Date exp = new Date(now.getTime() + 300 * 1000); // 5 minutes
+
+            JWTClaimsSet accessClaims = new JWTClaimsSet.Builder()
+                    .subject(clientId)
+                    .issuer(issuer)
+                    .expirationTime(exp)
+                    .issueTime(now)
+                    .jwtID(UUID.randomUUID().toString())
+                    .claim("scope", scope)
+                    .build();
+
+            SignedJWT accessToken = signJWT(accessClaims);
+
+            try {
+                String jwtId = accessClaims.getJWTID();
+                SmartAppToken tokenEntity = new SmartAppToken();
+                tokenEntity.setJwtId(jwtId);
+                tokenEntity.setClientId(clientId);
+                // System level tokens have no patient ID
+                tokenEntity.setScope(scope);
+                tokenEntity.setIssuedAt(now.toInstant());
+                tokenEntity.setExpiresAt(exp.toInstant());
+                tokenEntity.setRevoked(false);
+                tokenRepository.save(tokenEntity);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            Map<String, Object> response = new ConcurrentHashMap<>();
+            response.put("access_token", accessToken.serialize());
+            response.put("token_type", "Bearer");
+            response.put("expires_in", 300);
+            response.put("scope", scope);
+            response.put("smart_style_url", issuer + "/smart-style.json");
+
+            return response;
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error generating system tokens", e);
         }
     }
 

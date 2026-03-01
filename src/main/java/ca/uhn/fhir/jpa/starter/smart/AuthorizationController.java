@@ -6,13 +6,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import java.net.URI;
+
 @Controller
 public class AuthorizationController {
 
+    private static final String TRUSTED_AUD = "https://digressingly-auriferous-lee.ngrok-free.dev/fhir";
+
     @RequestMapping(value = "/auth/authorize", method = { RequestMethod.GET,
-            RequestMethod.POST }, produces = "text/html")
-    @ResponseBody
-    public String authorize(
+            RequestMethod.POST })
+    public ResponseEntity<String> authorize(
             @RequestParam("response_type") String responseType,
             @RequestParam("client_id") String clientId,
             @RequestParam("redirect_uri") String redirectUri,
@@ -22,13 +29,25 @@ public class AuthorizationController {
             @RequestParam(value = "launch", required = false) String launch,
             @RequestParam("code_challenge") String codeChallenge,
             @RequestParam("code_challenge_method") String codeChallengeMethod) throws java.io.IOException {
+        // Validate AUD Parameter strictly
+        if (aud == null || !TRUSTED_AUD.equals(aud)) {
+            String errorJson = "{\"error\": \"invalid_request\", \"error_description\": \"Invalid or missing aud parameter. Must match the trusted FHIR base URL exactly.\"}";
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(errorJson);
+        }
+
         // Validate mandatory parameters
         if (!"code".equals(responseType)) {
-            return "redirect:" + redirectUri + "?error=unsupported_response_type&state=" + state;
+            HttpHeaders headers = new HttpHeaders();
+            headers.setLocation(URI.create(redirectUri + "?error=unsupported_response_type&state=" + state));
+            return new ResponseEntity<>(headers, HttpStatus.FOUND);
         }
         if (!"S256".equals(codeChallengeMethod)) {
-            return "redirect:" + redirectUri + "?error=invalid_request&error_description=Only+S256+allowed&state="
-                    + state;
+            HttpHeaders headers = new HttpHeaders();
+            headers.setLocation(URI
+                    .create(redirectUri + "?error=invalid_request&error_description=Only+S256+allowed&state=" + state));
+            return new ResponseEntity<>(headers, HttpStatus.FOUND);
         }
 
         // Load the HTML template
@@ -56,6 +75,8 @@ public class AuthorizationController {
         }
         html = html.replace("{{scopes_list}}", scopesHtml.toString());
 
-        return html;
+        return ResponseEntity.ok()
+                .contentType(MediaType.TEXT_HTML)
+                .body(html);
     }
 }

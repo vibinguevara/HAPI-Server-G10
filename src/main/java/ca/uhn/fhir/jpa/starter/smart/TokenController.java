@@ -130,6 +130,38 @@ public class TokenController {
                     .cacheControl(CacheControl.noStore())
                     .header("Pragma", "no-cache")
                     .body(tokenResponse);
+        } else if ("client_credentials".equals(grantType)) {
+            String clientAssertionType = body.getFirst("client_assertion_type");
+            String clientAssertion = body.getFirst("client_assertion");
+            String scope = body.getFirst("scope");
+
+            if (!"urn:ietf:params:oauth:client-assertion-type:jwt-bearer".equals(clientAssertionType)) {
+                return ResponseEntity.badRequest()
+                        .body(Map.of("error", "invalid_request", "error_description", "Invalid client_assertion_type"));
+            }
+
+            if (clientAssertion == null) {
+                return ResponseEntity.status(401)
+                        .body(Map.of("error", "invalid_client", "error_description", "client_assertion required"));
+            }
+
+            String tokenEndpointUrl = org.springframework.web.servlet.support.ServletUriComponentsBuilder
+                    .fromCurrentRequest().toUriString();
+            clientId = authService.validateClientAssertion(clientAssertion, tokenEndpointUrl);
+
+            if (clientId == null) {
+                return ResponseEntity.status(401)
+                        .body(Map.of("error", "invalid_client", "error_description",
+                                "Invalid client assertion signature or claims"));
+            }
+
+            Map<String, Object> tokenResponse = authService.generateSystemTokens(clientId,
+                    scope != null ? scope : "system/*.read");
+
+            return ResponseEntity.ok()
+                    .cacheControl(CacheControl.noStore())
+                    .header("Pragma", "no-cache")
+                    .body(tokenResponse);
         } else {
             return ResponseEntity.badRequest().body(Map.of("error", "unsupported_grant_type"));
         }

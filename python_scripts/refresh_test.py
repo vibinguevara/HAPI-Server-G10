@@ -44,6 +44,6 @@ if __name__ == '__main__':
     
     args = parser.parse_args([
     '--url', 'https://digressingly-auriferous-lee.ngrok-free.dev/fhir/auth/revoke',
-    '--token', '3fbf4207-36c6-42dd-b69a-36b69c9b93bd'
+    '--token', '5d74d2cb-588d-4653-857e-55f3a8f1628b'
 ])
     refresh_token(args.url, args.token)
