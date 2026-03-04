@@ -335,7 +335,8 @@ public class StarterJpaConfig {
 			ApplicationContext appContext,
 			Optional<IpsOperationProvider> theIpsOperationProvider,
 			Optional<IImplementationGuideOperationProvider> implementationGuideOperationProvider,
-			DiffProvider diffProvider) {
+			DiffProvider diffProvider,
+			ca.uhn.fhir.jpa.starter.smart.CustomBulkExportProvider customBulkExportProvider) {
 		RestfulServer fhirServer = new RestfulServer(fhirSystemDao.getContext());
 
 		List<String> supportedResourceTypes = appProperties.getSupported_resource_types();
@@ -495,6 +496,8 @@ public class StarterJpaConfig {
 		// Bulk Export
 		if (appProperties.getBulk_export_enabled()) {
 			fhirServer.registerProvider(bulkDataExportProvider);
+		} else {
+			fhirServer.registerProvider(customBulkExportProvider);
 		}
 
 		// Bulk Import

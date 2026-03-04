@@ -4,12 +4,11 @@ import string
 import random
 import base64
 import hashlib
+from urllib.parse import urlparse, parse_qs
 import json
 import sys
-import os
 import urllib3
 import urllib.parse
-from urllib.parse import urlparse, parse_qs
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -102,17 +101,14 @@ def execute_query(url, access_token):
                 print(f"    [+] Success! Status Code: {res.status_code}. Found {entries} entries (total: {total}).")
             else:
                 print(f"    [+] Success! Status Code: {res.status_code}. Retrieved single resource {data.get('resourceType')}/{data.get('id')}.")
-            return data
         else:
             print(f"    [-] Failed. Status Code: {res.status_code}")
             try:
                 print(f"    {json.dumps(res.json(), indent=2)}")
             except:
                 print(f"    {res.text}")
-            return None
     except Exception as e:
         print(f"    [-] Request failed: {e}")
-        return None
 
 def main():
     parser = argparse.ArgumentParser(description="Execute Condition Queries")
@@ -132,23 +128,14 @@ def main():
         
     # 2. Execute queries
     queries = [
-        f"{base_url}/Condition?category=encounter-diagnosis&patient=mof-85"
+        f"{base_url}/DiagnosticReport?patient=mof-85"
        # f"{base_url}/Condition?category=encounter-diagnosis&patient=Patient/mof-85",
        # f"{base_url}/Condition?category=http://terminology.hl7.org/CodeSystem/condition-category|encounter-diagnosis&patient=mof-85",
        # f"{base_url}/Condition/118c7c21-e66b-2d06-554f-cc424af10f3c"
     ]
     
-    all_responses = []
     for query in queries:
-        data = execute_query(query, access_token)
-        if data:
-            all_responses.append({"query": query, "response": data})
-
-    if all_responses:
-        output_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "granular_scopes.json")
-        with open(output_file, 'w') as f:
-            json.dump(all_responses, f, indent=2)
-        print(f"\n[+] Wrote {len(all_responses)} response(s) to {output_file}")
+        execute_query(query, access_token)
 
 if __name__ == "__main__":
     main()
