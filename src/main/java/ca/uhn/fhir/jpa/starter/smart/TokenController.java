@@ -61,6 +61,16 @@ public class TokenController {
             }
         }
 
+        // If client authenticate using client_assertion (asymmetric client)
+        String clientAssertionType = body.getFirst("client_assertion_type");
+        String clientAssertion = body.getFirst("client_assertion");
+        if (clientId == null && "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".equals(clientAssertionType)
+                && clientAssertion != null) {
+            String tokenEndpointUrl = org.springframework.web.servlet.support.ServletUriComponentsBuilder
+                    .fromCurrentRequest().toUriString();
+            clientId = authService.validateClientAssertion(clientAssertion, tokenEndpointUrl);
+        }
+
         if ("authorization_code".equals(grantType)) {
             AuthService.AuthData authData = authService.consumeAuthorizationCode(code);
             if (authData == null) {
@@ -107,7 +117,7 @@ public class TokenController {
             AuthService.AuthData authData = authService.consumeRefreshToken(refreshToken);
             if (authData == null) {
                 ourLog.warn("Refresh token request failed: Invalid or revoked refresh token");
-                return ResponseEntity.status(401)
+                return ResponseEntity.badRequest()
                         .body(Map.of("error", "invalid_grant", "error_description", "Invalid refresh token"));
             }
 
@@ -131,23 +141,13 @@ public class TokenController {
                     .header("Pragma", "no-cache")
                     .body(tokenResponse);
         } else if ("client_credentials".equals(grantType)) {
-            String clientAssertionType = body.getFirst("client_assertion_type");
-            String clientAssertion = body.getFirst("client_assertion");
             String scope = body.getFirst("scope");
 
-            if (!"urn:ietf:params:oauth:client-assertion-type:jwt-bearer".equals(clientAssertionType)) {
+            if (clientAssertionType != null
+                    && !"urn:ietf:params:oauth:client-assertion-type:jwt-bearer".equals(clientAssertionType)) {
                 return ResponseEntity.badRequest()
                         .body(Map.of("error", "invalid_request", "error_description", "Invalid client_assertion_type"));
             }
-
-            if (clientAssertion == null) {
-                return ResponseEntity.status(401)
-                        .body(Map.of("error", "invalid_client", "error_description", "client_assertion required"));
-            }
-
-            String tokenEndpointUrl = org.springframework.web.servlet.support.ServletUriComponentsBuilder
-                    .fromCurrentRequest().toUriString();
-            clientId = authService.validateClientAssertion(clientAssertion, tokenEndpointUrl);
 
             if (clientId == null) {
                 return ResponseEntity.status(401)
