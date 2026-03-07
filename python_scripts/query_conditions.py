@@ -142,7 +142,7 @@ def main():
     # 2. Execute queries
     queries = [
         # https://digressingly-auriferous-lee.ngrok-free.dev/fhir/Condition?category=problem-list-item&patient=mof-85
-        f"{base_url}/Condition?category=problem-list-item&patient=mof-85"
+        f"{base_url}/Condition?patient=mof-85"
        # f"{base_url}/Condition?category=encounter-diagnosis&patient=Patient/mof-85",
        # f"{base_url}/Condition?category=http://terminology.hl7.org/CodeSystem/condition-category|encounter-diagnosis&patient=mof-85",
        # f"{base_url}/Condition/118c7c21-e66b-2d06-554f-cc424af10f3c"

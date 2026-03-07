@@ -43,6 +43,26 @@
             color: white;
             border: none;
         }
+
+        .sub-scope-container {
+            margin-left: 2rem;
+            margin-top: 0.5rem;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-left: 3px solid #007bff;
+            display: none;
+        }
+
+        .filter-btn {
+            margin-left: 10px;
+            font-size: 0.8rem;
+            padding: 2px 6px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -68,6 +88,100 @@
             <button type="submit" name="decision" value="deny" class="deny">Deny</button>
         </div>
     </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const conditionCategories = [
+                "http://terminology.hl7.org/CodeSystem/condition-category|encounter-diagnosis",
+                "http://terminology.hl7.org/CodeSystem/condition-category|problem-list-item",
+                "http://hl7.org/fhir/us/core/CodeSystem/condition-category|health-concern"
+            ];
+
+            const observationCategories = [
+                "http://terminology.hl7.org/CodeSystem/observation-category|exam",
+                "http://terminology.hl7.org/CodeSystem/observation-category|imaging",
+                "http://terminology.hl7.org/CodeSystem/observation-category|procedure",
+                "http://terminology.hl7.org/CodeSystem/observation-category|social-history",
+                "http://hl7.org/fhir/us/core/CodeSystem/us-core-category|sdoh",
+                "http://terminology.hl7.org/CodeSystem/observation-category|survey",
+                "http://terminology.hl7.org/CodeSystem/observation-category|vital-signs"
+            ];
+
+            const scopeItems = document.querySelectorAll('.scope-item');
+
+            scopeItems.forEach(item => {
+                const checkbox = item.querySelector('input[type="checkbox"]');
+                const labelText = item.querySelector('span').innerText.trim();
+
+                // Only target Condition and Observation resource-level scopes without existing categories
+                if ((labelText.includes('Condition.') || labelText.includes('Observation.')) && !labelText.includes('?category=')) {
+
+                    const isCondition = labelText.includes('Condition.');
+                    const categories = isCondition ? conditionCategories : observationCategories;
+                    const baseScope = labelText;
+
+                    const filterBtn = document.createElement('button');
+                    filterBtn.className = 'filter-btn';
+                    filterBtn.innerText = 'Add filter';
+                    filterBtn.type = 'button';
+                    item.appendChild(filterBtn);
+
+                    const subScopeContainer = document.createElement('div');
+                    subScopeContainer.className = 'sub-scope-container';
+
+                    categories.forEach(category => {
+                        const subScopeId = baseScope + "?category=" + category;
+
+                        const subDiv = document.createElement('div');
+                        subDiv.className = 'scope-item';
+
+                        const subLabel = document.createElement('label');
+                        const subCheckbox = document.createElement('input');
+                        subCheckbox.type = 'checkbox';
+                        subCheckbox.name = 'approved_scopes';
+                        subCheckbox.value = subScopeId;
+                        subCheckbox.checked = true; // Auto check subcategories by default when revealed
+
+                        const subSpan = document.createElement('span');
+                        subSpan.innerText = " " + subScopeId;
+
+                        subLabel.appendChild(subCheckbox);
+                        subLabel.appendChild(subSpan);
+                        subDiv.appendChild(subLabel);
+                        subScopeContainer.appendChild(subDiv);
+                    });
+
+                    item.after(subScopeContainer);
+
+                    filterBtn.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        if (subScopeContainer.style.display === 'block') {
+                            subScopeContainer.style.display = 'none';
+                            filterBtn.innerText = 'Add filter';
+                            checkbox.disabled = false;
+                            checkbox.checked = true;
+                            // Remove sub-checkboxes from form submission
+                            const subChecks = subScopeContainer.querySelectorAll('input[type="checkbox"]');
+                            subChecks.forEach(cb => cb.disabled = true);
+                        } else {
+                            subScopeContainer.style.display = 'block';
+                            filterBtn.innerText = 'Remove filter';
+                            checkbox.disabled = true; // Disable parent to prevent resource-level scope submission
+                            checkbox.checked = false;
+
+                            // Enable sub-checkboxes for form submission
+                            const subChecks = subScopeContainer.querySelectorAll('input[type="checkbox"]');
+                            subChecks.forEach(cb => cb.disabled = false);
+                        }
+                    });
+
+                    // Initial state for injected inputs
+                    const subChecks = subScopeContainer.querySelectorAll('input[type="checkbox"]');
+                    subChecks.forEach(cb => cb.disabled = true);
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
