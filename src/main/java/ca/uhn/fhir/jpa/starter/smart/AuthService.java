@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.concurrent.ConcurrentHashMap;
+import ca.uhn.fhir.jpa.model.entity.SmartAppRegistration;
+import java.util.Optional;
 import ca.uhn.fhir.jpa.model.entity.SmartAppToken;
 
 @Service
@@ -28,6 +30,9 @@ public class AuthService {
 
     @Autowired
     private SmartAppTokenRepository tokenRepository;
+
+    @Autowired
+    private SmartAppRegistrationRepository registrationRepository;
 
     private final Map<String, AuthData> authCodeStore = new ConcurrentHashMap<>();
     private final Map<String, AuthData> refreshTokenStore = new ConcurrentHashMap<>();
@@ -245,11 +250,11 @@ public class AuthService {
             System.out.println("PAYLOAD jti: " + jti);
 
             // 3. Verify Client Registration
-            // Since there is no DB mapping for clients, we are hardcoding a known client
-            // IDs
-            if (!"inferno_bulk_client".equals(iss) && !"test-backend-client".equals(iss)
+            // Check if client exists in DB or is one of the hardcoded test clients
+            Optional<SmartAppRegistration> optionalApp = registrationRepository.findById(iss);
+            if (optionalApp.isEmpty() && !"inferno_bulk_client".equals(iss) && !"test-backend-client".equals(iss)
                     && !"tdavis751076".equals(iss)) {
-                System.out.println("iss does not match any registered bulk client: " + iss);
+                System.out.println("iss does not match any registered client: " + iss);
                 return null;
             }
 
@@ -345,6 +350,15 @@ public class AuthService {
                     .build();
 
             SignedJWT accessToken = signJWT(accessClaims);
+
+            // Single-patient apps must not get system scopes by default
+            Optional<SmartAppRegistration> optionalApp = registrationRepository.findById(clientId);
+            if (optionalApp.isPresent() && scope.contains("system/")) {
+                SmartAppRegistration app = optionalApp.get();
+                if (app.getAllowedScopes() == null || !app.getAllowedScopes().contains(scope)) {
+                    throw new RuntimeException("System scopes are not permitted for this client_id");
+                }
+            }
 
             try {
                 String jwtId = accessClaims.getJWTID();
