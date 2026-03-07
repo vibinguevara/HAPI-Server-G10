@@ -9,6 +9,7 @@ import json
 import sys
 import urllib3
 import urllib.parse
+import os
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -93,6 +94,18 @@ def execute_query(url, access_token):
     
     try:
         res = requests.get(url, headers=headers, verify=False)
+        
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        troubleshoot_file = os.path.join(script_dir, "granular_scope_troubleshoot.txt")
+        try:
+            with open(troubleshoot_file, "w", encoding="utf-8") as f:
+                try:
+                    f.write(json.dumps(res.json(), indent=2))
+                except:
+                    f.write(res.text)
+        except Exception as e:
+            print(f"    [-] Failed to write to troubleshoot file: {e}")
+
         if res.status_code == 200:
             data = res.json()
             if data.get('resourceType') == 'Bundle':
@@ -128,7 +141,8 @@ def main():
         
     # 2. Execute queries
     queries = [
-        f"{base_url}/DiagnosticReport?patient=mof-85"
+        # https://digressingly-auriferous-lee.ngrok-free.dev/fhir/Condition?category=problem-list-item&patient=mof-85
+        f"{base_url}/Condition?category=problem-list-item&patient=mof-85"
        # f"{base_url}/Condition?category=encounter-diagnosis&patient=Patient/mof-85",
        # f"{base_url}/Condition?category=http://terminology.hl7.org/CodeSystem/condition-category|encounter-diagnosis&patient=mof-85",
        # f"{base_url}/Condition/118c7c21-e66b-2d06-554f-cc424af10f3c"

@@ -7,10 +7,6 @@ import hashlib
 from urllib.parse import urlparse, parse_qs
 import json
 import sys
-import urllib3
-
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
 
 def generate_pkce_pair():
     # Generate verifier
@@ -62,7 +58,7 @@ def main():
     consent_url = f"{base_url}/auth/consent"
     
     try:
-        response = requests.post(consent_url, data=consent_data, allow_redirects=False, verify=False)
+        response = requests.post(consent_url, data=consent_data, allow_redirects=False)
         
         if response.status_code not in (301, 302, 303, 307, 308):
             print(f"[-] Failed to get redirect from consent endpoint. Status: {response.status_code}")
@@ -106,7 +102,7 @@ def main():
     }
     
     try:
-        token_res = requests.post(token_url, data=token_data, verify=False)
+        token_res = requests.post(token_url, data=token_data)
         if token_res.status_code != 200:
             print(f"[-] Token exchange failed. Status: {token_res.status_code}")
             print(token_res.text)
@@ -135,7 +131,7 @@ def main():
     }
     
     try:
-        res = requests.get(query_url, headers=headers, verify=False)
+        res = requests.get(query_url, headers=headers)
         if res.status_code == 200:
             print(f"\n[+] Successfully retrieved {resource_name}/{resource_id}:")
             print(json.dumps(res.json(), indent=2))
