@@ -155,13 +155,22 @@ public class TokenController {
                                 "Invalid client assertion signature or claims"));
             }
 
-            Map<String, Object> tokenResponse = authService.generateSystemTokens(clientId,
-                    scope != null ? scope : "system/*.read");
+            try {
+                Map<String, Object> tokenResponse = authService.generateSystemTokens(clientId,
+                        scope != null ? scope : "system/*.read");
 
-            return ResponseEntity.ok()
-                    .cacheControl(CacheControl.noStore())
-                    .header("Pragma", "no-cache")
-                    .body(tokenResponse);
+                return ResponseEntity.ok()
+                        .cacheControl(CacheControl.noStore())
+                        .header("Pragma", "no-cache")
+                        .body(tokenResponse);
+            } catch (IllegalArgumentException e) {
+                if ("invalid_scope".equals(e.getMessage())) {
+                    return ResponseEntity.status(400)
+                            .body(Map.of("error", "invalid_scope", "error_description",
+                                    "Requested scopes are not permitted"));
+                }
+                throw e;
+            }
         } else {
             return ResponseEntity.badRequest().body(Map.of("error", "unsupported_grant_type"));
         }

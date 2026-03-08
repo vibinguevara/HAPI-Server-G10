@@ -98,8 +98,22 @@ public class SmartSecurityInterceptor {
 
             theRequestDetails.getUserData().put("smart_scopes", scope);
 
-            if (resourceName != null && operationType != null) {
-                validateScopes(scope, resourceName, operationType);
+            if (theRequestDetails.getRequestPath() != null && theRequestDetails.getRequestPath().endsWith("$export")) {
+                if (scope == null || !(scope.contains("system/*.read") || scope.contains("system/*.*")
+                        || scope.contains("system/*.rs") || scope.contains("system/*.r"))) {
+                    throw new ForbiddenOperationException("insufficient_scope");
+                }
+            } else if (resourceName != null && operationType != null) {
+                boolean isSinglePatientRequest = false;
+                if (theRequestDetails.getId() != null) {
+                    isSinglePatientRequest = true;
+                } else if (theRequestDetails.getParameters() != null &&
+                        (theRequestDetails.getParameters().containsKey("patient") ||
+                                theRequestDetails.getParameters().containsKey("subject") ||
+                                theRequestDetails.getParameters().containsKey("_id"))) {
+                    isSinglePatientRequest = true;
+                }
+                validateScopes(scope, resourceName, operationType, isSinglePatientRequest);
             }
 
         } catch (AuthenticationException | ForbiddenOperationException e) {
@@ -111,7 +125,7 @@ public class SmartSecurityInterceptor {
     }
 
     private void validateScopes(String scopes, String resource,
-            ca.uhn.fhir.rest.api.RestOperationTypeEnum operationType) {
+            ca.uhn.fhir.rest.api.RestOperationTypeEnum operationType, boolean isSinglePatientRequest) {
         if (scopes == null || scopes.isBlank()) {
             throw new ForbiddenOperationException("No scopes found provided in token");
         }
@@ -168,13 +182,19 @@ public class SmartSecurityInterceptor {
             }
 
             if (resourceMatch && accessMatch) {
-                return; // Authorized
+                if (!isSinglePatientRequest) {
+                    if ("system".equals(scopePrefix)) {
+                        return; // Authorized
+                    }
+                } else {
+                    if ("system".equals(scopePrefix) || "patient".equals(scopePrefix) || "user".equals(scopePrefix)) {
+                        return; // Authorized
+                    }
+                }
             }
         }
 
-        throw new ForbiddenOperationException(
-                "Insufficient scope for resource: " + resource + " during " + operationType + ". Required: "
-                        + requiredAccess + ". Scopes found: [" + scopesFound.toString().trim() + "]");
+        throw new ForbiddenOperationException("insufficient_scope");
     }
 
     private String getAccessType(ca.uhn.fhir.rest.api.RestOperationTypeEnum operationType) {
