@@ -29,7 +29,12 @@ public class SmartSecurityInterceptor {
         String authHeader = theRequestDetails.getHeader("Authorization");
 
         // Allow metadata without auth
-        if (theRequestDetails.getRequestPath().equals("metadata")) {
+        if ("metadata".equals(theRequestDetails.getRequestPath())) {
+            return;
+        }
+
+        // Allow API Documentation without auth
+        if ("docs".equals(theRequestDetails.getRequestPath())) {
             return;
         }
 
