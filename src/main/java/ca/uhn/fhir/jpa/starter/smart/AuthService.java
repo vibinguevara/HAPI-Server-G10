@@ -10,6 +10,7 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
+import java.time.temporal.*;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -24,6 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import ca.uhn.fhir.jpa.model.entity.SmartAppRegistration;
 import java.util.Optional;
 import ca.uhn.fhir.jpa.model.entity.SmartAppToken;
+import ca.uhn.fhir.jpa.model.entity.SystemConfiguration;
 
 @Service
 public class AuthService {
@@ -33,6 +35,9 @@ public class AuthService {
 
     @Autowired
     private SmartAppRegistrationRepository registrationRepository;
+
+    @Autowired
+    private SystemConfigurationRepository configRepository;
 
     private final Map<String, AuthData> authCodeStore = new ConcurrentHashMap<>();
     private final Map<String, AuthData> refreshTokenStore = new ConcurrentHashMap<>();
@@ -79,6 +84,13 @@ public class AuthService {
     public AuthData consumeRefreshToken(String refreshToken) {
         AuthData data = refreshTokenStore.get(refreshToken);
         // data might be null if token doesn't exist or was removed
+        if (data == null) {
+            return null;
+        }
+        if (data.getRefreshTokenExpiresAt() != null && Instant.now().isAfter(data.getRefreshTokenExpiresAt())) {
+            refreshTokenStore.remove(refreshToken);
+            return null; // Token is expired
+        }
         return data;
     }
 
@@ -186,6 +198,22 @@ public class AuthService {
 
             Map<String, Object> response = new ConcurrentHashMap<>();
             String refreshToken = UUID.randomUUID().toString();
+
+            // Set refresh token expiration
+            Optional<SystemConfiguration> optionalConfig = configRepository
+                    .findById(AdminConfigController.REFRESH_TOKEN_LIFESPAN_KEY);
+            int lifespanDays = 0;
+            if (optionalConfig.isPresent()) {
+                try {
+                    lifespanDays = Integer.parseInt(optionalConfig.get().getConfigValue());
+                } catch (NumberFormatException e) {
+                    lifespanDays = 0;
+                }
+            }
+            if (lifespanDays > 0) {
+                authData.setRefreshTokenExpiresAt(Instant.now().plusSeconds((long) lifespanDays * 24 * 60 * 60));
+            }
+
             refreshTokenStore.put(refreshToken, authData);
 
             response.put("access_token", accessToken.serialize());
@@ -508,6 +536,16 @@ public class AuthService {
 
         public void setEncounterId(String encounterId) {
             this.encounterId = encounterId;
+        }
+
+        private Instant refreshTokenExpiresAt;
+
+        public Instant getRefreshTokenExpiresAt() {
+            return refreshTokenExpiresAt;
+        }
+
+        public void setRefreshTokenExpiresAt(Instant refreshTokenExpiresAt) {
+            this.refreshTokenExpiresAt = refreshTokenExpiresAt;
         }
     }
 }

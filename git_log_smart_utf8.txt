@@ -1,0 +1,246 @@
+commit 7ca4e55d69ceaaa0ed532e4ef8c4027b06bdf7fb
+Author: vibinernesto <vibinernesto@gmail.com>
+Date:   Sun Mar 8 12:52:48 2026 +0530
+
+    Added documentation API public page
+
+diff --git a/src/main/java/ca/uhn/fhir/jpa/starter/smart/SmartSecurityInterceptor.java b/src/main/java/ca/uhn/fhir/jpa/starter/smart/SmartSecurityInterceptor.java
+index 6f6cfe9..2c7688b 100644
+--- a/src/main/java/ca/uhn/fhir/jpa/starter/smart/SmartSecurityInterceptor.java
++++ b/src/main/java/ca/uhn/fhir/jpa/starter/smart/SmartSecurityInterceptor.java
+@@ -29,7 +29,12 @@ public class SmartSecurityInterceptor {
+         String authHeader = theRequestDetails.getHeader("Authorization");
+ 
+         // Allow metadata without auth
+-        if (theRequestDetails.getRequestPath().equals("metadata")) {
++        if ("metadata".equals(theRequestDetails.getRequestPath())) {
++            return;
++        }
++
++        // Allow API Documentation without auth
++        if ("docs".equals(theRequestDetails.getRequestPath())) {
+             return;
+         }
+ 
+
+commit 3978a36ff4639cdc1456f564d0110fec6181df6c
+Author: vibinernesto <vibinernesto@gmail.com>
+Date:   Sun Mar 8 10:59:58 2026 +0530
+
+    single patient registration and multi patient registration are completed for visual attestation process
+
+diff --git a/src/main/java/ca/uhn/fhir/jpa/starter/smart/SmartSecurityInterceptor.java b/src/main/java/ca/uhn/fhir/jpa/starter/smart/SmartSecurityInterceptor.java
+index 54f8228..6f6cfe9 100644
+--- a/src/main/java/ca/uhn/fhir/jpa/starter/smart/SmartSecurityInterceptor.java
++++ b/src/main/java/ca/uhn/fhir/jpa/starter/smart/SmartSecurityInterceptor.java
+@@ -98,8 +98,22 @@ public class SmartSecurityInterceptor {
+ 
+             theRequestDetails.getUserData().put("smart_scopes", scope);
+ 
+-            if (resourceName != null && operationType != null) {
+-                validateScopes(scope, resourceName, operationType);
++            if (theRequestDetails.getRequestPath() != null && theRequestDetails.getRequestPath().endsWith("$export")) {
++                if (scope == null || !(scope.contains("system/*.read") || scope.contains("system/*.*")
++                        || scope.contains("system/*.rs") || scope.contains("system/*.r"))) {
++                    throw new ForbiddenOperationException("insufficient_scope");
++                }
++            } else if (resourceName != null && operationType != null) {
++                boolean isSinglePatientRequest = false;
++                if (theRequestDetails.getId() != null) {
++                    isSinglePatientRequest = true;
++                } else if (theRequestDetails.getParameters() != null &&
++                        (theRequestDetails.getParameters().containsKey("patient") ||
++                                theRequestDetails.getParameters().containsKey("subject") ||
++                                theRequestDetails.getParameters().containsKey("_id"))) {
++                    isSinglePatientRequest = true;
++                }
++                validateScopes(scope, resourceName, operationType, isSinglePatientRequest);
+             }
+ 
+         } catch (AuthenticationException | ForbiddenOperationException e) {
+@@ -111,7 +125,7 @@ public class SmartSecurityInterceptor {
+     }
+ 
+     private void validateScopes(String scopes, String resource,
+-            ca.uhn.fhir.rest.api.RestOperationTypeEnum operationType) {
++            ca.uhn.fhir.rest.api.RestOperationTypeEnum operationType, boolean isSinglePatientRequest) {
+         if (scopes == null || scopes.isBlank()) {
+             throw new ForbiddenOperationException("No scopes found provided in token");
+         }
+@@ -168,13 +182,19 @@ public class SmartSecurityInterceptor {
+             }
+ 
+             if (resourceMatch && accessMatch) {
+-                return; // Authorized
++                if (!isSinglePatientRequest) {
++                    if ("system".equals(scopePrefix)) {
++                        return; // Authorized
++                    }
++                } else {
++                    if ("system".equals(scopePrefix) || "patient".equals(scopePrefix) || "user".equals(scopePrefix)) {
++                        return; // Authorized
++                    }
++                }
+             }
+         }
+ 
+-        throw new ForbiddenOperationException(
+-                "Insufficient scope for resource: " + resource + " during " + operationType + ". Required: "
+-                        + requiredAccess + ". Scopes found: [" + scopesFound.toString().trim() + "]");
++        throw new ForbiddenOperationException("insufficient_scope");
+     }
+ 
+     private String getAccessType(ca.uhn.fhir.rest.api.RestOperationTypeEnum operationType) {
+
+commit e1d53c0d57842a41e3b80a288701258c1872a7b8
+Author: vibinernesto <vibinernesto@gmail.com>
+Date:   Sat Mar 7 17:47:50 2026 +0530
+
+    Granular scopes fixed
+
+diff --git a/src/main/java/ca/uhn/fhir/jpa/starter/smart/SmartSecurityInterceptor.java b/src/main/java/ca/uhn/fhir/jpa/starter/smart/SmartSecurityInterceptor.java
+index 04a6cd1..54f8228 100644
+--- a/src/main/java/ca/uhn/fhir/jpa/starter/smart/SmartSecurityInterceptor.java
++++ b/src/main/java/ca/uhn/fhir/jpa/starter/smart/SmartSecurityInterceptor.java
+@@ -96,6 +96,8 @@ public class SmartSecurityInterceptor {
+                 scope = String.join(" ", (java.util.List<String>) scopeObj);
+             }
+ 
++            theRequestDetails.getUserData().put("smart_scopes", scope);
++
+             if (resourceName != null && operationType != null) {
+                 validateScopes(scope, resourceName, operationType);
+             }
+@@ -196,8 +198,131 @@ public class SmartSecurityInterceptor {
+             default:
+                 // For EXTENDED_OPERATION_SERVER, EXTENDED_OPERATION_TYPE, etc. it depends.
+                 // Safest to default to 'read' or require specific handling?
+-                // Let's assume read for now.
+                 return "read";
+         }
+     }
++
++    @Hook(Pointcut.SERVER_OUTGOING_RESPONSE)
++    public boolean outgoingResponse(RequestDetails theRequestDetails,
++            ca.uhn.fhir.rest.api.server.ResponseDetails theResponseDetails) {
++        org.hl7.fhir.instance.model.api.IBaseResource theResponse = theResponseDetails.getResponseResource();
++        if (theResponse == null)
++            return true;
++
++        String scopes = (String) theRequestDetails.getUserData().get("smart_scopes");
++        if (scopes == null)
++            return true;
++
++        boolean modified = false;
++        if (theResponse instanceof org.hl7.fhir.r4.model.Bundle) {
++            org.hl7.fhir.r4.model.Bundle bundle = (org.hl7.fhir.r4.model.Bundle) theResponse;
++            java.util.Iterator<org.hl7.fhir.r4.model.Bundle.BundleEntryComponent> it = bundle.getEntry().iterator();
++            while (it.hasNext()) {
++                org.hl7.fhir.r4.model.Bundle.BundleEntryComponent entry = it.next();
++                if (entry.getResource() != null) {
++                    if (!isResourceAllowedByScopes(entry.getResource(), scopes)) {
++                        it.remove();
++                        modified = true;
++                    }
++                }
++            }
++            if (modified) {
++                bundle.setTotal(bundle.getEntry().size());
++            }
++        } else if (theResponse instanceof org.hl7.fhir.r4.model.Condition
++                || theResponse instanceof org.hl7.fhir.r4.model.Observation) {
++            if (!isResourceAllowedByScopes(theResponse, scopes)) {
++                // Return explicitly a forbidden operation exception for read operations on a
++                // completely unauthorized resource
++                throw new ForbiddenOperationException("Resource not permitted by granular scope");
++            }
++        }
++
++        return true;
++    }
++
++    private boolean isResourceAllowedByScopes(org.hl7.fhir.instance.model.api.IBaseResource resource, String scopes) {
++        if (resource instanceof org.hl7.fhir.r4.model.Condition) {
++            org.hl7.fhir.r4.model.Condition cond = (org.hl7.fhir.r4.model.Condition) resource;
++            boolean hasConditionGranular = false;
++            boolean granularMatch = false;
++
++            for (String scope : scopes.split(" ")) {
++                if (scope.contains("Condition.") && scope.contains("?category=")) {
++                    hasConditionGranular = true;
++                    String categoryParam = scope.substring(scope.indexOf("?category=") + 10);
++
++                    if (cond.getCategory() != null) {
++                        for (org.hl7.fhir.r4.model.CodeableConcept category : cond.getCategory()) {
++                            if (category.getCoding() != null) {
++                                for (org.hl7.fhir.r4.model.Coding coding : category.getCoding()) {
++                                    String resourceCategoryValue = coding.getSystem() + "|" + coding.getCode();
++                                    if (coding.getSystem() == null || coding.getSystem().isBlank()) {
++                                        resourceCategoryValue = coding.getCode();
++                                    }
++                                    if (categoryParam.equals(resourceCategoryValue)) {
++                                        granularMatch = true;
++                                        break;
++                                    }
++                                }
++                            }
++                        }
++                    }
++                } else if (scope.contains("Condition.rs") && !scope.contains("?")) {
++                    return true;
++                } else if (scope.startsWith("user/*.") || scope.startsWith("patient/*.")
++                        || scope.startsWith("system/*.")) {
++                    if (scope.contains("*") || scope.contains("read") || scope.contains("rs")) {
++                        return true;
++                    }
++                }
++            }
++
++            if (hasConditionGranular) {
++                return granularMatch;
++            }
++            return true;
++        } else if (resource instanceof org.hl7.fhir.r4.model.Observation) {
++            org.hl7.fhir.r4.model.Observation obs = (org.hl7.fhir.r4.model.Observation) resource;
++            boolean hasObservationGranular = false;
++            boolean granularMatch = false;
++
++            for (String scope : scopes.split(" ")) {
++                if (scope.contains("Observation.") && scope.contains("?category=")) {
++                    hasObservationGranular = true;
++                    String categoryParam = scope.substring(scope.indexOf("?category=") + 10);
++
++                    if (obs.getCategory() != null) {
++                        for (org.hl7.fhir.r4.model.CodeableConcept category : obs.getCategory()) {
++                            if (category.getCoding() != null) {
++                                for (org.hl7.fhir.r4.model.Coding coding : category.getCoding()) {
++                                    String resourceCategoryValue = coding.getSystem() + "|" + coding.getCode();
++                                    if (coding.getSystem() == null || coding.getSystem().isBlank()) {
++                                        resourceCategoryValue = coding.getCode();
++                                    }
++                                    if (categoryParam.equals(resourceCategoryValue)) {
++                                        granularMatch = true;
++                                        break;
++                                    }
++                                }
++                            }
++                        }
++                    }
++                } else if (scope.contains("Observation.rs") && !scope.contains("?")) {
++                    return true;
++                } else if (scope.startsWith("user/*.") || scope.startsWith("patient/*.")
++                        || scope.startsWith("system/*.")) {
++                    if (scope.contains("*") || scope.contains("read") || scope.contains("rs")) {
++                        return true;
++                    }
++                }
++            }
++            if (hasObservationGranular) {
++                return granularMatch;
++            }
++            return true;
++        }
++
++        return true;
++    }
+ }

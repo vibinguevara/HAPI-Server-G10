@@ -117,6 +117,13 @@ public class SmartSecurityInterceptor {
                                 theRequestDetails.getParameters().containsKey("subject") ||
                                 theRequestDetails.getParameters().containsKey("_id"))) {
                     isSinglePatientRequest = true;
+                } else if ("Patient".equals(resourceName)
+                        && operationType == ca.uhn.fhir.rest.api.RestOperationTypeEnum.SEARCH_TYPE) {
+                    if (theRequestDetails.getParameters() != null &&
+                            (theRequestDetails.getParameters().containsKey("identifier") ||
+                                    theRequestDetails.getParameters().containsKey("_id"))) {
+                        isSinglePatientRequest = true;
+                    }
                 }
                 validateScopes(scope, resourceName, operationType, isSinglePatientRequest);
             }
@@ -136,6 +143,15 @@ public class SmartSecurityInterceptor {
         }
 
         String requiredAccess = getAccessType(operationType);
+        try {
+            java.nio.file.Files.writeString(
+                    java.nio.file.Paths.get("debug_scopes.txt"),
+                    "DEBUG validateScopes: scopes='" + scopes + "', resource='" + resource + "', operationType='"
+                            + operationType + "', requiredAccess='" + requiredAccess + "', isSinglePatientRequest="
+                            + isSinglePatientRequest + "\n",
+                    java.nio.file.StandardOpenOption.CREATE, java.nio.file.StandardOpenOption.APPEND);
+        } catch (Exception e) {
+        }
 
         // Debug info construction
         StringBuilder scopesFound = new StringBuilder();
@@ -186,20 +202,30 @@ public class SmartSecurityInterceptor {
                 }
             }
 
+            try {
+                java.nio.file.Files.writeString(
+                        java.nio.file.Paths.get("debug_scopes.txt"),
+                        "DEBUG scope loop: prefix='" + scopePrefix + "', scopeResource='" + scopeResource
+                                + "', scopeAccess='" + scopeAccess + "', resourceMatch=" + resourceMatch
+                                + ", accessMatch=" + accessMatch + "\n",
+                        java.nio.file.StandardOpenOption.CREATE, java.nio.file.StandardOpenOption.APPEND);
+            } catch (Exception e) {
+            }
             if (resourceMatch && accessMatch) {
-                if (!isSinglePatientRequest) {
-                    if ("system".equals(scopePrefix)) {
-                        return; // Authorized
+                if ("system".equals(scopePrefix) || "patient".equals(scopePrefix) || "user".equals(scopePrefix)) {
+                    try {
+                        java.nio.file.Files.writeString(java.nio.file.Paths.get("debug_scopes.txt"),
+                                "DEBUG Authorized (system/patient/user scope)\n",
+                                java.nio.file.StandardOpenOption.CREATE, java.nio.file.StandardOpenOption.APPEND);
+                    } catch (Exception e) {
                     }
-                } else {
-                    if ("system".equals(scopePrefix) || "patient".equals(scopePrefix) || "user".equals(scopePrefix)) {
-                        return; // Authorized
-                    }
+                    return; // Authorized
                 }
             }
         }
-
-        throw new ForbiddenOperationException("insufficient_scope");
+        throw new ForbiddenOperationException(
+                "insufficient_scope: expected system/patient/user with " + requiredAccess + " access to " + resource
+                        + ", but got scopes=[" + scopes + "], isSinglePatient=" + isSinglePatientRequest);
     }
 
     private String getAccessType(ca.uhn.fhir.rest.api.RestOperationTypeEnum operationType) {
@@ -225,6 +251,7 @@ public class SmartSecurityInterceptor {
                 // Safest to default to 'read' or require specific handling?
                 return "read";
         }
+
     }
 
     @Hook(Pointcut.SERVER_OUTGOING_RESPONSE)

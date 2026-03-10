@@ -84,6 +84,9 @@ public class AppRegistrationController {
                 html.append("</head>\n");
                 html.append("<body>\n");
                 html.append("    <div class=\"container\">\n");
+                html.append("        <div style=\"text-align: center; margin-bottom: 20px;\">\n");
+                html.append("            <img src=\"https://api-uat.healthwealthsafe.link/images/mof_logo.png\" alt=\"Health Wealth Safe Logo\" style=\"max-width: 200px; height: auto;\">\n");
+                html.append("        </div>\n");
                 html.append("        <h2>Register SMART Application</h2>\n");
 
                 if (success) {
