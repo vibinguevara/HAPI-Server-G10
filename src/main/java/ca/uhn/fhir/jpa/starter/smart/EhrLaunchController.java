@@ -27,7 +27,7 @@ public class EhrLaunchController {
 
         // 3. Construct Redirect URL
         // iss should be the FHIR base URL
-        String iss = "https://digressingly-auriferous-lee.ngrok-free.dev/fhir";//"https://localhost:8080/fhir";//
+        String iss = "https://mofapi.medicalofficeforce.co/fhir";//"https://digressingly-auriferous-lee.ngrok-free.dev/fhir";//"https://localhost:8080/fhir";//
 
         String redirect = launchUrl + (launchUrl.contains("?") ? "&" : "?") +
                 "iss=" + iss +

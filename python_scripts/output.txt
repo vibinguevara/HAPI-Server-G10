@@ -1,0 +1,25 @@
+=== HAPI FHIR Server Authorization ===
+
+Timestamp: Mon Mar 16 12:07:53 2026
+Client ID: 73582bd3-d1ab-4817-b124-a013b0e835df
+Requested Scopes: system/*.rs
+
+--- TOKEN RESPONSE ---
+Access Token:  eyJraWQiOiIwMzc4NDIyNC04Y2M3LTQyNGItOTUxYi05OTRjNzkzNDkwN2EiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczovL2RpZ3Jlc3NpbmdseS1hdXJpZmVyb3VzLWxlZS5uZ3Jvay1mcmVlLmRldi9maGlyIiwic3ViIjoiNzM1ODJiZDMtZDFhYi00ODE3LWIxMjQtYTAxM2IwZTgzNWRmIiwiZXhwIjoxNzczNjQzMzczLCJpYXQiOjE3NzM2NDMwNzMsImp0aSI6IjFkODhmZjcwLWY3YjktNDFlOS1iOWJjLTk1YTU5N2YwNmNjNyIsInNjb3BlIjoic3lzdGVtLyoucnMifQ.ZXO1kmFwr-kEAYC1Xpsb9_ZQe_Vz_btD7iWkhmt1pZtfrom2XwGl0u0erk_r3t8xGcrARFQKsoXv1hyjPZ_u8YTbUTwggeHw0e9aa0-Ey11u0HGLu24L2uKRIALbKWsAUZnawbHPVgacLd8Cly_Upy5bqztkfU1fjf8XtSIFUAmVi4hS_cx7mpL_s5iWUZbISHpLyyzt1NggThb54CFAUrwLZXiLWhDgZnHI60iM31U-c8fIrDn2dT1zpySr2vAstz0VNtAYL58xP-LK7oEspWHaEE1TM3HOKfjqmjW7TLmMf288y2sSHMz0YogefjOZQHrZRm_c_PCMV8x8_Sh_kw
+
+Refresh Token: N/A
+
+ID Token:      N/A
+
+Granted Scope: system/*.rs
+Expires In:    300 seconds
+Token Type:    Bearer
+
+--- FULL JSON RESPONSE ---
+{
+  "access_token": "eyJraWQiOiIwMzc4NDIyNC04Y2M3LTQyNGItOTUxYi05OTRjNzkzNDkwN2EiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJodHRwczovL2RpZ3Jlc3NpbmdseS1hdXJpZmVyb3VzLWxlZS5uZ3Jvay1mcmVlLmRldi9maGlyIiwic3ViIjoiNzM1ODJiZDMtZDFhYi00ODE3LWIxMjQtYTAxM2IwZTgzNWRmIiwiZXhwIjoxNzczNjQzMzczLCJpYXQiOjE3NzM2NDMwNzMsImp0aSI6IjFkODhmZjcwLWY3YjktNDFlOS1iOWJjLTk1YTU5N2YwNmNjNyIsInNjb3BlIjoic3lzdGVtLyoucnMifQ.ZXO1kmFwr-kEAYC1Xpsb9_ZQe_Vz_btD7iWkhmt1pZtfrom2XwGl0u0erk_r3t8xGcrARFQKsoXv1hyjPZ_u8YTbUTwggeHw0e9aa0-Ey11u0HGLu24L2uKRIALbKWsAUZnawbHPVgacLd8Cly_Upy5bqztkfU1fjf8XtSIFUAmVi4hS_cx7mpL_s5iWUZbISHpLyyzt1NggThb54CFAUrwLZXiLWhDgZnHI60iM31U-c8fIrDn2dT1zpySr2vAstz0VNtAYL58xP-LK7oEspWHaEE1TM3HOKfjqmjW7TLmMf288y2sSHMz0YogefjOZQHrZRm_c_PCMV8x8_Sh_kw",
+  "scope": "system/*.rs",
+  "smart_style_url": "https://digressingly-auriferous-lee.ngrok-free.dev/fhir/smart-style.json",
+  "token_type": "Bearer",
+  "expires_in": 300
+}

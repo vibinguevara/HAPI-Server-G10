@@ -13,23 +13,23 @@ public class SmartConfigurationController {
         @GetMapping("/.well-known/smart-configuration")
         public Map<String, Object> getSmartConfiguration() {
                 Map<String, Object> config = new HashMap<>();
-                String baseUrl = "https://digressingly-auriferous-lee.ngrok-free.dev";
+                String baseUrl = "https://mofapi.medicalofficeforce.co/";//"https://digressingly-auriferous-lee.ngrok-free.dev";
                 // "https://localhost:8080";
                 // "https://digressingly-auriferous-lee.ngrok-free.dev";
                 // "https://localhost:8080";
                 // Using HTTPS as requested
 
                 config.put("authorization_endpoint",
-                                "https://digressingly-auriferous-lee.ngrok-free.dev/fhir/auth/authorize");
+                                "https://mofapi.medicalofficeforce.co/fhir/auth/authorize");
                 // config.put("authorization_endpoint",
                 // "https://localhost:8080/fhir/auth/authorize");
-                config.put("token_endpoint", "https://digressingly-auriferous-lee.ngrok-free.dev/fhir/auth/token");
+                config.put("token_endpoint", "https://mofapi.medicalofficeforce.co/fhir/auth/token");
                 // config.put("token_endpoint", "https://localhost:8080/fhir/auth/token");
                 config.put("introspection_endpoint",
-                                "https://digressingly-auriferous-lee.ngrok-free.dev/fhir/auth/introspect");
-                config.put("issuer", "https://digressingly-auriferous-lee.ngrok-free.dev/fhir");
+                                "https://mofapi.medicalofficeforce.co/fhir/auth/introspect");
+                config.put("issuer", "https://mofapi.medicalofficeforce.co/fhir");
                 // config.put("issuer", "https://localhost:8080/fhir");
-                config.put("jwks_uri", "https://digressingly-auriferous-lee.ngrok-free.dev/fhir/auth/jwks");
+                config.put("jwks_uri", "https://mofapi.medicalofficeforce.co/fhir/auth/jwks");
                 // config.put("jwks_uri", "https://localhost:8080/fhir/auth/jwks");
                 config.put("response_types_supported", Arrays.asList("code"));
                 config.put("grant_types_supported", Arrays.asList("authorization_code"));

@@ -6,11 +6,14 @@ server:
   # servlet:
   #   context-path: /example/path
   port: 8080
+  forward-headers-strategy: framework
   tomcat:
+    remote-ip-header: x-forwarded-for
+    protocol-header: x-forwarded-proto
     # allow | as a separator in URLs
     relaxed-query-chars: "|"
   ssl:
-    enabled: true
+    enabled: false
     key-store: classpath:keystore.p12
     key-store-password: changeit
     key-store-type: PKCS12

@@ -15,7 +15,7 @@ REDIRECT_URI = "http://localhost:8080/"
 CLIENT_ID = "my-client"
 BUNDLE_DIR = r"c:\Labs\hwsafe\Analysis\sl-implementation-g10\hapi-fhir-jpaserver-starter-master\hapi-fhir-jpaserver-starter-master\src\main\resources\fhir-resources\singlePatientInfernoG10"
 FILES_TO_IMPORT = [
-    "mof-85_condition_granular_scope-1.json"
+    "endpointResource.json"
 ]
 
 # SSL Context

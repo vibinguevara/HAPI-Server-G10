@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Controller
 public class AuthorizationController {
 
-    private static final String TRUSTED_AUD = "https://digressingly-auriferous-lee.ngrok-free.dev/fhir";
+    private static final String TRUSTED_AUD = "https://mofapi.medicalofficeforce.co/fhir";//"https://digressingly-auriferous-lee.ngrok-free.dev/fhir";
 
     @Autowired
     private SmartAppRegistrationRepository registrationRepository;

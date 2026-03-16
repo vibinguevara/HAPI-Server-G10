@@ -54,6 +54,11 @@ public class SmartSecurityInterceptor {
             return;
         }
 
+        // Allow service-base-url-bundle endpoint
+        if ("service-base-url-bundle".equals(theRequestDetails.getRequestPath())) {
+            return;
+        }
+
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new AuthenticationException("Missing or invalid Authorization header");
         }

@@ -1,0 +1,202 @@
+{
+    "resourceType": "Bundle",
+    "type": "collection",
+    "id": "c1f15734-c13d-2g9c-03fb-054gd5ec71eb",
+    "entry": [{
+        "fullUrl": "https://mofapi.medicalofficeforce.co/fhir/Organization/b0e04623-b02c-3f8b-92ea-943fc4db60da",
+        "resource": {
+            "id": "b0e04623-b02c-3f8b-92ea-943fc4db60da",
+            "name": "LOWELL GENERAL HOSPITAL",
+            "address": [{
+                "city": "LOWELL",
+                "line": [
+                    "295 VARNUM AVENUE"
+                ],
+                "state": "MA",
+                "country": "US",
+                "postalCode": "01854"
+            }],
+            "identifier": [{
+                "value": "b0e04623-b02c-3f8b-92ea-943fc4db60da",
+                "system": "https://github.com/synthetichealth/synthea"
+            }, {
+                "value": "1144221847",
+                "system": "http://hl7.org/fhir/sid/us-npi"
+            }],
+            "type": [{
+                "text": "Healthcare Provider",
+                "coding": [{
+                    "code": "prov",
+                    "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+                    "display": "Healthcare Provider"
+                }]
+            }],
+            "telecom": [{
+                "value": "9789376000",
+                "system": "phone"
+            }],
+            "endpoint": [{
+                "reference": "Endpoint/endpoint-b0e04623-b02c-3f8b-92ea-943fc4db60da-e1"
+            }],
+            "active": true,
+            "resourceType": "Organization"
+        }
+    }, {
+        "fullUrl": "https://mofapi.medicalofficeforce.co/fhir/Organization/c7459800-e42b-3144-a934-59585c9eacff",
+        "resource": {
+            "id": "c7459800-e42b-3144-a934-59585c9eacff",
+            "name": "PCP170967",
+            "address": [{
+                "city": "WEST SPRINGFIELD",
+                "line": [
+                    "1111 ELM ST"
+                ],
+                "state": "MA",
+                "country": "US",
+                "postalCode": "01089-1540"
+            }],
+            "identifier": [{
+                "value": "c7459800-e42b-3144-a934-59585c9eacff",
+                "system": "https://github.com/synthetichealth/synthea"
+            }, {
+                "value": "1144221847",
+                "system": "http://hl7.org/fhir/sid/us-npi"
+            }],
+            "type": [{
+                "text": "Healthcare Provider",
+                "coding": [{
+                    "code": "prov",
+                    "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+                    "display": "Healthcare Provider"
+                }]
+            }],
+            "meta": {
+                "profile": [
+                    "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"
+                ],
+                "lastUpdated": "2026-02-04T05:38:29.073742Z",
+                "versionId": "44",
+                "extension": [{
+                    "url": "https://fhir.aidbox.app/fhir/StructureDefinition/created-at",
+                    "valueInstant": "2026-02-04T05:38:29.073742Z"
+                }]
+            },
+            "telecom": [{
+                "value": "413-221-0546",
+                "system": "phone"
+            }],
+            "endpoint": [{
+                "reference": "Endpoint/endpoint-c7459800-e42b-3144-a934-59585c9eacff-e2"
+            }],
+            "active": true,
+            "resourceType": "Organization"
+        }
+    }, {
+        "fullUrl": "https://mofapi.medicalofficeforce.co/fhir/Organization/5d4b9df1-93ae-3bc9-b680-03249990e558",
+        "resource": {
+            "id": "5d4b9df1-93ae-3bc9-b680-03249990e558",
+            "name": "HOLYOKE MEDICAL CENTER",
+            "address": [{
+                "city": "HOLYOKE",
+                "line": [
+                    "575 BEECH STREET"
+                ],
+                "state": "MA",
+                "country": "US",
+                "postalCode": "01040"
+            }],
+            "identifier": [{
+                "value": "5d4b9df1-93ae-3bc9-b680-03249990e558",
+                "system": "https://github.com/synthetichealth/synthea"
+            }, {
+                "value": "1144221847",
+                "system": "http://hl7.org/fhir/sid/us-npi"
+            }],
+            "type": [{
+                "text": "Healthcare Provider",
+                "coding": [{
+                    "code": "prov",
+                    "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+                    "display": "Healthcare Provider"
+                }]
+            }],
+            "meta": {
+                "profile": [
+                    "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"
+                ],
+                "lastUpdated": "2026-02-04T05:38:29.073742Z",
+                "versionId": "44",
+                "extension": [{
+                    "url": "https://fhir.aidbox.app/fhir/StructureDefinition/created-at",
+                    "valueInstant": "2026-02-04T05:38:29.073742Z"
+                }]
+            },
+            "telecom": [{
+                "value": "4135342500",
+                "system": "phone"
+            }],
+            "endpoint": [{
+                "reference": "Endpoint/endpoint-5d4b9df1-93ae-3bc9-b680-03249990e558-e3"
+            }],
+            "active": true,
+            "resourceType": "Organization"
+        }
+    }, {
+        "fullUrl": "https://mofapi.medicalofficeforce.co/fhir/Endpoint/endpoint-b0e04623-b02c-3f8b-92ea-943fc4db60da-e1",
+        "resource": {
+            "resourceType": "Endpoint",
+            "id": "endpoint-b0e04623-b02c-3f8b-92ea-943fc4db60da-e1",
+            "status": "active",
+            "connectionType": {
+                "system": "http://terminology.hl7.org/CodeSystem/endpoint-connection-type",
+                "code": "hl7-fhir-rest"
+            },
+            "name": "LOWELL GENERAL HOSPITAL FHIR API",
+            "managingOrganization": {
+                "reference": "Organization/b0e04623-b02c-3f8b-92ea-943fc4db60da"
+            },
+            "payloadType": [{
+                "text": "FHIR"
+            }],
+            "address": "https://mofapi.medicalofficeforce.co/fhir/"
+        }
+    }, {
+        "fullUrl": "https://mofapi.medicalofficeforce.co/fhir/Endpoint/endpoint-c7459800-e42b-3144-a934-59585c9eacff-e2",
+        "resource": {
+            "resourceType": "Endpoint",
+            "id": "endpoint-c7459800-e42b-3144-a934-59585c9eacff-e2",
+            "status": "active",
+            "connectionType": {
+                "system": "http://terminology.hl7.org/CodeSystem/endpoint-connection-type",
+                "code": "hl7-fhir-rest"
+            },
+            "name": "PCP170967 FHIR API",
+            "managingOrganization": {
+                "reference": "Organization/c7459800-e42b-3144-a934-59585c9eacff"
+            },
+            "payloadType": [{
+                "text": "FHIR"
+            }],
+            "address": "https://mofapi.medicalofficeforce.co/fhir/"
+        }
+    }, {
+        "fullUrl": "https://mofapi.medicalofficeforce.co/fhir/Endpoint/endpoint-5d4b9df1-93ae-3bc9-b680-03249990e558-e3",
+        "resource": {
+            "resourceType": "Endpoint",
+            "id": "endpoint-5d4b9df1-93ae-3bc9-b680-03249990e558-e3",
+            "status": "active",
+            "connectionType": {
+                "system": "http://terminology.hl7.org/CodeSystem/endpoint-connection-type",
+                "code": "hl7-fhir-rest"
+            },
+            "name": "HOLYOKE MEDICAL CENTER FHIR API",
+            "managingOrganization": {
+                "reference": "Organization/5d4b9df1-93ae-3bc9-b680-03249990e558"
+            },
+            "payloadType": [{
+                "text": "FHIR"
+            }],
+            "address": "https://mofapi.medicalofficeforce.co/fhir/"
+        }
+    }]
+}

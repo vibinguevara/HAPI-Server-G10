@@ -134,7 +134,7 @@ public class AuthService {
 
     public Map<String, Object> generateTokens(AuthData authData) {
         try {
-            String issuer = "https://digressingly-auriferous-lee.ngrok-free.dev/fhir"; // "https://localhost:8080/fhir";
+            String issuer = "https://mofapi.medicalofficeforce.co/fhir";//"https://digressingly-auriferous-lee.ngrok-free.dev/fhir"; // "https://localhost:8080/fhir";
             Date now = new Date();
             Date exp = new Date(now.getTime() + 300 * 1000); // 5 minutes
 
