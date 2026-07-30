@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FHIR API Documentation</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #2c3e50;
+        }
+
+        .header {
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        .section {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+        }
+
+        code,
+        pre {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            background-color: #f1f3f5;
+            color: #e83e8c;
+            border-radius: 4px;
+        }
+
+        code {
+            padding: 2px 6px;
+            font-size: 0.9em;
+        }
+
+        pre {
+            padding: 15px;
+            overflow-x: auto;
+            color: #333;
+            border: 1px solid #dee2e6;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: white;
+            background-color: #17a2b8;
+            border-radius: 12px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+        .method {
+            font-weight: bold;
+            color: #28a745;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>FHIR API Documentation</h1>
+        <p>Welcome to the developer documentation for our SMART on FHIR server. This guide provides information on how
+            to authenticate, connect, and query FHIR resources.</p>
+    </div>
+
+    <div class="section">
+        <h2>1. Basic API Information</h2>
+        <table>
+            <tr>
+                <th style="width: 30%;">FHIR Server Base URL</th>
+                <td><a th:href="${baseUrl}" th:text="${baseUrl}">https://example.com/fhir</a></td>
+            </tr>
+            <tr>
+                <th>FHIR Version</th>
+                <td><strong>FHIR R4</strong> (4.0.1)</td>
+            </tr>
+            <tr>
+                <th>SMART Authorization Endpoint</th>
+                <td><code>/auth/authorize</code> (Relative to Base URL)</td>
+            </tr>
+            <tr>
+                <th>SMART Token Endpoint</th>
+                <td><code>/auth/token</code> (Relative to Base URL)</td>
+            </tr>
+            <tr>
+                <th>Supported OAuth Flows</th>
+                <td>
+                    <span class="badge">Authorization Code</span>
+                    <span class="badge">Client Credentials</span>
+                </td>
+            </tr>
+            <tr>
+                <th>Bulk Data Export</th>
+                <td><code>/$export</code></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>2. Capability & Configuration</h2>
+        <p>Dynamic discovery metadata describing what this server supports and how it is secured.</p>
+
+        <h3>FHIR Capability Statement</h3>
+        <p>Shows supported resources, supported operations, and search parameters.</p>
+        <p><strong>Endpoint:</strong> <span class="method">GET</span> <code>/metadata</code></p>
+        <p><strong>Link:</strong> <a th:href="${baseUrl} + '/metadata'" target="_blank"
+                th:text="${baseUrl} + '/metadata'">/metadata</a></p>
+
+        <h3>SMART Discovery Configuration</h3>
+        <p>Shows supported authorization features, capabilities, and token endpoints.</p>
+        <p><strong>Endpoint:</strong> <span class="method">GET</span> <code>/.well-known/smart-configuration</code></p>
+        <p><strong>Link:</strong> <a th:href="${baseUrl} + '/.well-known/smart-configuration'" target="_blank"
+                th:text="${baseUrl} + '/.well-known/smart-configuration'">/.well-known/smart-configuration</a></p>
+    </div>
+
+    <div class="section">
+        <h2>3. Supported FHIR Resources</h2>
+        <p>We actively support the US Core standard profiles. Primary resources include:</p>
+        <div>
+            <span class="badge" style="background-color: #6c757d;">Patient</span>
+            <span class="badge" style="background-color: #6c757d;">Observation</span>
+            <span class="badge" style="background-color: #6c757d;">Condition</span>
+            <span class="badge" style="background-color: #6c757d;">Encounter</span>
+            <span class="badge" style="background-color: #6c757d;">AllergyIntolerance</span>
+            <span class="badge" style="background-color: #6c757d;">MedicationRequest</span>
+            <span class="badge" style="background-color: #6c757d;">MedicationDispense</span>
+            <span class="badge" style="background-color: #6c757d;">Procedure</span>
+            <span class="badge" style="background-color: #6c757d;">Immunization</span>
+            <span class="badge" style="background-color: #6c757d;">DiagnosticReport</span>
+            <span class="badge" style="background-color: #6c757d;">DocumentReference</span>
+            <span class="badge" style="background-color: #6c757d;">CarePlan</span>
+            <span class="badge" style="background-color: #6c757d;">CareTeam</span>
+            <span class="badge" style="background-color: #6c757d;">Organization</span>
+            <span class="badge" style="background-color: #6c757d;">Practitioner</span>
+        </div>
+        <p style="margin-top: 15px; font-size: 0.9em; color: #666;">Note: Refer to the Capability Statement for the
+            exhaustive list.</p>
+    </div>
+
+    <div class="section">
+        <h2>4. Authorization Example (EHR Launch / Standalone)</h2>
+        <p>To request authorization for a user to access clinical data, direct their browser to the authorization
+            endpoint.</p>
+        <p><strong>Example Authorization URL:</strong></p>
+        <pre>GET /auth/authorize?
+  response_type=code
+  &client_id=example-client-id
+  &scope=launch patient/*.read openid fhirUser
+  &redirect_uri=https://app.example.com/callback
+  &aud=[FHIR_SERVER_BASE_URL]
+  &state=xyz123</pre>
+    </div>
+
+    <div class="section">
+        <h2>5. Token Request Example</h2>
+        <p>Exchange an authorization code for an access token (and conditionally an ID token and refresh token).</p>
+
+        <h3>Example: Authorization Code Grant</h3>
+        <pre>POST /auth/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=authorization_code
+&code=AUTH_CODE_RECEIVED_FROM_CALLBACK
+&client_id=example-client-id
+&client_secret=example-client-secret
+&redirect_uri=https://app.example.com/callback</pre>
+
+        <h3>Example: System/Backend Client Credentials Grant</h3>
+        <p>For headless apps (e.g. bulk export), use asymmetric JWT assertions.</p>
+        <pre>POST /auth/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials
+&scope=system/*.read
+&client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+&client_assertion=eyJhbGci...[JWT_SIGNED_BY_PRIVATE_KEY]...</pre>
+    </div>
+
+</body>
+
+</html>

@@ -11,11 +11,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import java.net.URI;
+import java.util.Optional;
+import ca.uhn.fhir.jpa.model.entity.SmartAppRegistration;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Controller
 public class AuthorizationController {
 
     private static final String TRUSTED_AUD = "https://digressingly-auriferous-lee.ngrok-free.dev/fhir";
+
+    @Autowired
+    private SmartAppRegistrationRepository registrationRepository;
 
     @RequestMapping(value = "/auth/authorize", method = { RequestMethod.GET,
             RequestMethod.POST })
@@ -35,6 +41,32 @@ public class AuthorizationController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(errorJson);
+        }
+
+        // Validate Client ID and Redirect URI against DB
+        Optional<SmartAppRegistration> optionalApp = registrationRepository.findById(clientId);
+        if (optionalApp.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("{\"error\": \"unauthorized_client\", \"error_description\": \"Unknown client_id.\"}");
+        }
+
+        SmartAppRegistration app = optionalApp.get();
+        boolean validRedirectUri = false;
+        if (app.getRedirectUris() != null) {
+            String[] registeredUris = app.getRedirectUris().split(",");
+            for (String uri : registeredUris) {
+                if (uri.trim().equals(redirectUri)) {
+                    validRedirectUri = true;
+                    break;
+                }
+            }
+        }
+
+        if (!validRedirectUri) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body("{\"error\": \"invalid_request\", \"error_description\": \"The provided redirect_uri is not registered for this client.\"}");
         }
 
         // Validate mandatory parameters

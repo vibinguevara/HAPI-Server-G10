@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.concurrent.ConcurrentHashMap;
+import ca.uhn.fhir.jpa.model.entity.SmartAppRegistration;
+import java.util.Optional;
 import ca.uhn.fhir.jpa.model.entity.SmartAppToken;
 
 @Service
@@ -28,6 +30,9 @@ public class AuthService {
 
     @Autowired
     private SmartAppTokenRepository tokenRepository;
+
+    @Autowired
+    private SmartAppRegistrationRepository registrationRepository;
 
     private final Map<String, AuthData> authCodeStore = new ConcurrentHashMap<>();
     private final Map<String, AuthData> refreshTokenStore = new ConcurrentHashMap<>();
@@ -245,11 +250,11 @@ public class AuthService {
             System.out.println("PAYLOAD jti: " + jti);
 
             // 3. Verify Client Registration
-            // Since there is no DB mapping for clients, we are hardcoding a known client
-            // IDs
-            if (!"inferno_bulk_client".equals(iss) && !"test-backend-client".equals(iss)
+            // Check if client exists in DB or is one of the hardcoded test clients
+            Optional<SmartAppRegistration> optionalApp = registrationRepository.findById(iss);
+            if (optionalApp.isEmpty() && !"inferno_bulk_client".equals(iss) && !"test-backend-client".equals(iss)
                     && !"tdavis751076".equals(iss)) {
-                System.out.println("iss does not match any registered bulk client: " + iss);
+                System.out.println("iss does not match any registered client: " + iss);
                 return null;
             }
 
@@ -286,15 +291,11 @@ public class AuthService {
             }
 
             if (jku == null) {
-                // Inferno might not supply a jku header, so we check commonly known test
-                // endpoints
-                if ("tdavis751076".equals(iss) || "inferno_bulk_client".equals(iss)) {
-                    jku = "https://inferno.healthit.gov/suites/custom/g10_certification/.well-known/jwks.json";
-                    System.out.println("Fallback: Using Inferno JWKS endpoint -> " + jku);
-                } else {
-                    System.out.println("client_assertion missing jku header, unable to fetch key to verify signature");
-                    return null;
-                }
+                // Inferno might not supply a jku header, so we fallback to the known Inferno
+                // test endpoint
+                // especially for custom registered clients during bulk testing.
+                jku = "https://inferno.healthit.gov/suites/custom/g10_certification/.well-known/jwks.json";
+                System.out.println("Fallback: Using Inferno JWKS endpoint -> " + jku);
             }
 
             JWKSet jwkSet = JWKSet.load(new java.net.URL(jku));
@@ -331,6 +332,29 @@ public class AuthService {
 
     public Map<String, Object> generateSystemTokens(String clientId, String scope) {
         try {
+            String finalScope = scope;
+            Optional<SmartAppRegistration> optionalApp = registrationRepository.findById(clientId);
+            if (optionalApp.isPresent()) {
+                SmartAppRegistration app = optionalApp.get();
+                if (app.getAllowedScopes() != null) {
+                    java.util.List<String> allowedScopesList = java.util.Arrays
+                            .asList(app.getAllowedScopes().split("\\s+"));
+                    java.util.List<String> requestedScopesList = java.util.Arrays.asList(scope.split("\\s+"));
+                    java.util.List<String> grantedScopes = new java.util.ArrayList<>();
+                    for (String reqScope : requestedScopesList) {
+                        if (allowedScopesList.contains(reqScope)) {
+                            grantedScopes.add(reqScope);
+                        }
+                    }
+                    if (grantedScopes.isEmpty()) {
+                        throw new IllegalArgumentException("invalid_scope");
+                    }
+                    finalScope = String.join(" ", grantedScopes);
+                } else if (scope.contains("system/")) {
+                    throw new IllegalArgumentException("invalid_scope");
+                }
+            }
+
             String issuer = "https://digressingly-auriferous-lee.ngrok-free.dev/fhir";
             Date now = new Date();
             Date exp = new Date(now.getTime() + 300 * 1000); // 5 minutes
@@ -341,7 +365,7 @@ public class AuthService {
                     .expirationTime(exp)
                     .issueTime(now)
                     .jwtID(UUID.randomUUID().toString())
-                    .claim("scope", scope)
+                    .claim("scope", finalScope)
                     .build();
 
             SignedJWT accessToken = signJWT(accessClaims);
@@ -352,7 +376,7 @@ public class AuthService {
                 tokenEntity.setJwtId(jwtId);
                 tokenEntity.setClientId(clientId);
                 // System level tokens have no patient ID
-                tokenEntity.setScope(scope);
+                tokenEntity.setScope(finalScope);
                 tokenEntity.setIssuedAt(now.toInstant());
                 tokenEntity.setExpiresAt(exp.toInstant());
                 tokenEntity.setRevoked(false);
@@ -365,7 +389,7 @@ public class AuthService {
             response.put("access_token", accessToken.serialize());
             response.put("token_type", "Bearer");
             response.put("expires_in", 300);
-            response.put("scope", scope);
+            response.put("scope", finalScope);
             response.put("smart_style_url", issuer + "/smart-style.json");
 
             return response;

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMART App Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #007bff;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .success-box {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .hint {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Register SMART Application</h2>
+
+        <!-- Success Message Block -->
+        {{#if success}}
+        <div class="success-box">
+            <h4>Application Registered Successfully!</h4>
+            <p><strong>App Name:</strong> {{appName}}</p>
+            <p><strong>Client ID:</strong> <code>{{clientId}}</code></p>
+            {{#if clientSecret}}
+            <p><strong>Client Secret:</strong> <code>{{clientSecret}}</code></p>
+            {{/if}}
+            <p style="color: red; font-size: 0.9em;">Please save these credentials. You will not be able to see the
+                secret again.</p>
+        </div>
+        {{/if}}
+
+        <!-- Registration Form -->
+        <form action="/fhir/register-app" method="post">
+            <label for="appName">Application Name:</label>
+            <input type="text" id="appName" name="appName" placeholder="e.g., My SMART Health App" required>
+
+            <label for="appType">Application Type:</label>
+            <select id="appType" name="appType" required>
+                <option value="public">Public (e.g., SPA, Mobile)</option>
+                <option value="confidential">Confidential (e.g., Web Server)</option>
+            </select>
+
+            <label for="redirectUris">Redirect URIs:</label>
+            <span class="hint">Comma-separated list (e.g., http://localhost/callback, https://myapp.com/callback)</span>
+            <input type="text" id="redirectUris" name="redirectUris" placeholder="http://localhost:8080/callback"
+                required>
+
+            <label for="allowedScopes">Allowed Built-in Scopes:</label>
+            <span class="hint">Space-separated list of scopes this app is allowed to request (patient-level
+                only).</span>
+            <input type="text" id="allowedScopes" name="allowedScopes"
+                value="launch launch/patient patient/*.read openid fhirUser profile offline_access" required>
+
+            <button type="submit">Register App</button>
+        </form>
+    </div>
+
+</body>
+
+</html>
