@@ -1,41 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="banner">
-    <div class="row">
-        <div class="col-md-8">
-            <img id="logo" src="img/sample-logo.jpg" width="383" alt="Sample Logo"/>
-        </div>
-        <div class="col-md-4">
-            <img src="img/hapi_fhir_banner_right.png" align="right"/>
+    <div class="custom-hero-banner mb-4">
+        <div class="row align-items-center">
+            <div class="col-md-7 d-flex align-items-center">
+                <div class="brand-logo-wrapper me-3">
+                    <img id="logo" src="img/mog_log.svg" alt="Organization Logo" class="brand-hero-logo" />
+                </div>
+                <div class="brand-text-wrapper">
+                    <h2 class="brand-heading">FHIR Interoperability Portal</h2>
+                    <p class="brand-subheading">Enterprise Health Data &amp; Clinical Integration Services</p>
+                </div>
+            </div>
+            <div class="col-md-5 text-end d-none d-md-block">
+                <div class="server-status-pill">
+                    <span class="status-indicator"></span>
+                    <span class="status-title">FHIR R4 Endpoint Active</span>
+                    <span class="badge bg-primary ms-2">v8.6.1</span>
+                </div>
+            </div>
         </div>
     </div>
 
-    <script>
-        const customlogoImageUrl = "content/custom/logo.jpg"; // Custom logo
-        const defaultLogoImageUrl = "img/sample-logo.jpg"; // Default logo
-        const logoImageElement = document.getElementById("logo");
-
-        // Check if the logo image is available
-        const logoImg = new Image();
-        logoImg.src = customlogoImageUrl;
-
-        logoImg.onload = function() {
-            // Logo image is available
-            logoImageElement.src = customlogoImageUrl;
-        };
-
-        logoImg.onerror = function() {
-            // Logo image is not available, use the default logo image
-            logoImageElement.src = defaultLogoImageUrl;
-        };
-
-
-    </script>
     <!-- Error banner in case anything went wrong -->
-    <div class="alert  alert-danger alert-dismissable" th:if="${errorMsg} != null">
+    <div class="alert alert-danger alert-dismissable" th:if="${errorMsg} != null">
         <strong>Warning!</strong>
         <p th:text="${errorMsg}"></p>
     </div>
-
 </div>
 </html>

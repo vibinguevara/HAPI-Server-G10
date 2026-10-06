@@ -57,78 +57,54 @@ public class AppRegistrationController {
         }
 
         private String getHtmlPage(boolean success, String clientId, String clientSecret, String appName) {
-                StringBuilder html = new StringBuilder();
-                html.append("<!DOCTYPE html>\n");
-                html.append("<html lang=\"en\">\n");
-                html.append("<head>\n");
-                html.append("    <meta charset=\"UTF-8\">\n");
-                html.append("    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n");
-                html.append("    <title>SMART App Registration</title>\n");
-                html.append("    <style>\n");
-                html.append(
-                                "        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f9; color: #333; }\n");
-                html.append(
-                                "        .container { max-width: 600px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }\n");
-                html.append("        h2 { margin-top: 0; color: #007bff; }\n");
-                html.append("        label { display: block; margin: 10px 0 5px; font-weight: bold; }\n");
-                html.append(
-                                "        input, select, button { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }\n");
-                html.append(
-                                "        button { background-color: #007bff; color: white; border: none; cursor: pointer; font-size: 16px; }\n");
-                html.append("        button:hover { background-color: #0056b3; }\n");
-                html.append(
-                                "        .success-box { background-color: #d4edda; color: #155724; padding: 15px; border: 1px solid #c3e6cb; border-radius: 5px; margin-bottom: 20px; }\n");
-                html.append(
-                                "        .hint { font-size: 0.85em; color: #666; margin-top: -10px; margin-bottom: 10px; display: block; }\n");
-                html.append("    </style>\n");
-                html.append("</head>\n");
-                html.append("<body>\n");
-                html.append("    <div class=\"container\">\n");
-                html.append("        <div style=\"text-align: center; margin-bottom: 20px;\">\n");
-                html.append("            <img src=\"https://api-uat.healthwealthsafe.link/images/mof_logo.png\" alt=\"Health Wealth Safe Logo\" style=\"max-width: 200px; height: auto;\">\n");
-                html.append("        </div>\n");
-                html.append("        <h2>Register SMART Application</h2>\n");
+                try {
+                        org.springframework.core.io.Resource resource = new org.springframework.core.io.ClassPathResource("templates/register-app.html");
+                        try (java.io.Reader reader = new java.io.InputStreamReader(resource.getInputStream(), java.nio.charset.StandardCharsets.UTF_8)) {
+                                String html = org.springframework.util.FileCopyUtils.copyToString(reader);
 
-                if (success) {
-                        html.append("        <div class=\"success-box\">\n");
-                        html.append("            <h4>Application Registered Successfully!</h4>\n");
-                        html.append("            <p><strong>App Name:</strong> ").append(appName).append("</p>\n");
-                        html.append("            <p><strong>Client ID:</strong> <code>").append(clientId)
-                                        .append("</code></p>\n");
-                        if (clientSecret != null) {
-                                html.append("            <p><strong>Client Secret:</strong> <code>")
-                                                .append(clientSecret)
-                                                .append("</code></p>\n");
+                                if (success) {
+                                        // Remove {{#if success}} tag
+                                        html = html.replace("{{#if success}}", "");
+                                        
+                                        // Replace variables
+                                        html = html.replace("{{appName}}", appName != null ? appName : "");
+                                        html = html.replace("{{clientId}}", clientId != null ? clientId : "");
+                                        
+                                        // Handle clientSecret conditional
+                                        if (clientSecret != null) {
+                                                html = html.replace("{{#if clientSecret}}", "");
+                                                html = html.replace("{{clientSecret}}", clientSecret);
+                                                int idx = html.indexOf("{{/if}}");
+                                                if (idx != -1) {
+                                                        html = html.substring(0, idx) + html.substring(idx + "{{/if}}".length());
+                                                }
+                                        } else {
+                                                int secStart = html.indexOf("{{#if clientSecret}}");
+                                                int secEnd = html.indexOf("{{/if}}", secStart);
+                                                if (secStart != -1 && secEnd != -1) {
+                                                        html = html.substring(0, secStart) + html.substring(secEnd + "{{/if}}".length());
+                                                }
+                                        }
+                                        
+                                        // Remove remaining {{/if}} from success block
+                                        int idx2 = html.indexOf("{{/if}}");
+                                        if (idx2 != -1) {
+                                                html = html.substring(0, idx2) + html.substring(idx2 + "{{/if}}".length());
+                                        }
+                                        return html;
+                                } else {
+                                        // Remove success block entirely
+                                        int start = html.indexOf("{{#if success}}");
+                                        int end = html.lastIndexOf("{{/if}}");
+                                        if (start != -1 && end != -1) {
+                                                html = html.substring(0, start) + html.substring(end + "{{/if}}".length());
+                                        }
+                                        return html;
+                                }
                         }
-                        html.append(
-                                        "            <p style=\"color: red; font-size: 0.9em;\">Please save these credentials. You will not be able to see the secret again.</p>\n");
-                        html.append("        </div>\n");
+                } catch (Exception e) {
+                        e.printStackTrace();
+                        return "<html><body><h2>Error loading template: " + e.getMessage() + "</h2></body></html>";
                 }
-
-                html.append("        <form action=\"/auth/register-app\" method=\"post\">\n");
-                html.append("            <label for=\"appName\">Application Name:</label>\n");
-                html.append(
-                                "            <input type=\"text\" id=\"appName\" name=\"appName\" placeholder=\"e.g., My SMART Health App\" required>\n");
-                html.append("            <label for=\"appType\">Application Type:</label>\n");
-                html.append("            <select id=\"appType\" name=\"appType\" required>\n");
-                html.append("                <option value=\"public\">Public (e.g., SPA, Mobile)</option>\n");
-                html.append("                <option value=\"confidential\">Confidential (e.g., Web Server)</option>\n");
-                html.append("            </select>\n");
-                html.append("            <label for=\"redirectUris\">Redirect URIs:</label>\n");
-                html.append(
-                                "            <span class=\"hint\">Comma-separated list (e.g., http://localhost/callback, https://myapp.com/callback)</span>\n");
-                html.append(
-                                "            <input type=\"text\" id=\"redirectUris\" name=\"redirectUris\" placeholder=\"http://localhost:8080/callback\" required>\n");
-                html.append("            <label for=\"allowedScopes\">Allowed Built-in Scopes:</label>\n");
-                html.append(
-                                "            <span class=\"hint\">Space-separated list of scopes this app is allowed to request (e.g. <code>patient/*.read</code>, <code>system/*.read</code>).</span>\n");
-                html.append(
-                                "            <input type=\"text\" id=\"allowedScopes\" name=\"allowedScopes\" value=\"launch launch/patient patient/*.read openid fhirUser profile offline_access\" required>\n");
-                html.append("            <button type=\"submit\">Register App</button>\n");
-                html.append("        </form>\n");
-                html.append("    </div>\n");
-                html.append("</body>\n");
-                html.append("</html>\n");
-                return html.toString();
         }
 }

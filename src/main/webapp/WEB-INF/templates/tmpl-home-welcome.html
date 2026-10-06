@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 
-	<div th:fragment="banner" class="well" >
+	<div th:fragment="banner" class="card welcome-card mb-4" >
 		<script>
-			console.log('Hello')
 			// Function to check if a file exists using AJAX
 			function fileExists(filePath, callback) {
 				var xhr = new XMLHttpRequest();
@@ -38,18 +37,15 @@
 				xhr.send();
 			}
 		</script>
-		<div class="panel-body">
+		<div class="card-body">
 			<div id="replacementWelcome">
-				<p>
-					This server provides a complete implementation of the FHIR Specification
-					using a 100% open source software stack.
+				<h4 class="welcome-heading">Welcome to the FHIR Server</h4>
+				<p class="welcome-text">
+					This instance delivers a standards-compliant implementation of the HL7&reg; FHIR&reg; Specification
+					built on top of enterprise-grade clinical interoperability components.
 				</p>
-				<p>
-					This server is built
-					from a number of modules of the
-					<a href="https://github.com/hapifhir/hapi-fhir/">HAPI FHIR</a>
-					project, which is a 100% open-source (Apache 2.0 Licensed) Java based
-					implementation of the FHIR specification.
+				<p class="welcome-subtext mb-0">
+					Powered by the proven open-source <a href="https://github.com/hapifhir/hapi-fhir/" target="_blank" rel="noopener noreferrer">HAPI FHIR</a> engine (Apache 2.0 Licensed).
 				</p>
 			</div>
 		</div>
