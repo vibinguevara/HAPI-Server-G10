@@ -1,5 +1,6 @@
 package ca.uhn.fhir.jpa.starter.smart;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,15 +11,18 @@ import java.util.Map;
 @RestController
 public class OidcConfigurationController {
 
+    @Autowired
+    private FhirServerConfig fhirServerConfig;
+
     @GetMapping("/.well-known/openid-configuration")
     public Map<String, Object> getOidcConfiguration() {
         Map<String, Object> config = new HashMap<>();
-        String issuer = "https://mofapi.medicalofficeforce.co/fhir";//"https://digressingly-auriferous-lee.ngrok-free.dev/fhir";// "https://localhost:8080/fhir";
+        String issuer = fhirServerConfig.getFhirBaseUrl();
 
         config.put("issuer", issuer);
-        config.put("jwks_uri", issuer + "/auth/jwks");
-        config.put("authorization_endpoint", issuer + "/auth/authorize");
-        config.put("token_endpoint", issuer + "/auth/token");
+        config.put("jwks_uri", fhirServerConfig.getJwksEndpoint());
+        config.put("authorization_endpoint", fhirServerConfig.getAuthorizeEndpoint());
+        config.put("token_endpoint", fhirServerConfig.getTokenEndpoint());
         config.put("userinfo_endpoint", issuer + "/Practitioner/example-1"); // Assuming fhirUser as userinfo for now
 
         config.put("id_token_signing_alg_values_supported", Arrays.asList("RS256"));

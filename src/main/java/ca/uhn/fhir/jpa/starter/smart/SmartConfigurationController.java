@@ -1,5 +1,6 @@
 package ca.uhn.fhir.jpa.starter.smart;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,27 +11,17 @@ import java.util.Map;
 @RestController
 public class SmartConfigurationController {
 
-        @GetMapping("/.well-known/smart-configuration")
-        public Map<String, Object> getSmartConfiguration() {
-                Map<String, Object> config = new HashMap<>();
-                String baseUrl = "https://mofapi.medicalofficeforce.co/";//"https://digressingly-auriferous-lee.ngrok-free.dev";
-                // "https://localhost:8080";
-                // "https://digressingly-auriferous-lee.ngrok-free.dev";
-                // "https://localhost:8080";
-                // Using HTTPS as requested
+    @Autowired
+    private FhirServerConfig fhirServerConfig;
 
-                config.put("authorization_endpoint",
-                                "https://mofapi.medicalofficeforce.co/fhir/auth/authorize");
-                // config.put("authorization_endpoint",
-                // "https://localhost:8080/fhir/auth/authorize");
-                config.put("token_endpoint", "https://mofapi.medicalofficeforce.co/fhir/auth/token");
-                // config.put("token_endpoint", "https://localhost:8080/fhir/auth/token");
-                config.put("introspection_endpoint",
-                                "https://mofapi.medicalofficeforce.co/fhir/auth/introspect");
-                config.put("issuer", "https://mofapi.medicalofficeforce.co/fhir");
-                // config.put("issuer", "https://localhost:8080/fhir");
-                config.put("jwks_uri", "https://mofapi.medicalofficeforce.co/fhir/auth/jwks");
-                // config.put("jwks_uri", "https://localhost:8080/fhir/auth/jwks");
+    @GetMapping("/.well-known/smart-configuration")
+    public Map<String, Object> getSmartConfiguration() {
+        Map<String, Object> config = new HashMap<>();
+        config.put("authorization_endpoint", fhirServerConfig.getAuthorizeEndpoint());
+        config.put("token_endpoint", fhirServerConfig.getTokenEndpoint());
+        config.put("introspection_endpoint", fhirServerConfig.getIntrospectEndpoint());
+        config.put("issuer", fhirServerConfig.getFhirBaseUrl());
+        config.put("jwks_uri", fhirServerConfig.getJwksEndpoint());
                 config.put("response_types_supported", Arrays.asList("code"));
                 config.put("grant_types_supported", Arrays.asList("authorization_code"));
                 config.put("token_endpoint_auth_methods_supported",

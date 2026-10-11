@@ -9,9 +9,9 @@ import ssl
 import re
 
 # Configuration
-BASE_URL = "https://digressingly-auriferous-lee.ngrok-free.dev"
-REDIRECT_URI = "http://localhost:8080/"
-CLIENT_ID = "my-client"
+BASE_URL = os.getenv("BASE_URL", os.getenv("FHIR_BASE_URL", "http://localhost:8080")).rstrip("/").replace("/fhir", "")
+REDIRECT_URI = os.getenv("REDIRECT_URI", "http://localhost:8080/")
+CLIENT_ID = os.getenv("CLIENT_ID", "my-client")
 OUTPUT_FILE = "capabilityStatement.json"
 
 # SSL Context

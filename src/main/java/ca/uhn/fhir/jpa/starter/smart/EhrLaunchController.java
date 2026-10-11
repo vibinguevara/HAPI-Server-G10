@@ -12,6 +12,9 @@ public class EhrLaunchController {
     @Autowired
     private AuthService authService;
 
+    @Autowired
+    private FhirServerConfig fhirServerConfig;
+
     @GetMapping("/auth/launch")
     public RedirectView initiateLaunch(
             @RequestParam("launch_url") String launchUrl,
@@ -27,7 +30,7 @@ public class EhrLaunchController {
 
         // 3. Construct Redirect URL
         // iss should be the FHIR base URL
-        String iss = "https://mofapi.medicalofficeforce.co/fhir";//"https://digressingly-auriferous-lee.ngrok-free.dev/fhir";//"https://localhost:8080/fhir";//
+        String iss = fhirServerConfig.getFhirBaseUrl();
 
         String redirect = launchUrl + (launchUrl.contains("?") ? "&" : "?") +
                 "iss=" + iss +

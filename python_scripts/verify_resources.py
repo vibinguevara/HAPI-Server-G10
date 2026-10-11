@@ -14,9 +14,9 @@ ctx = ssl.create_default_context()
 ctx.check_hostname = False
 ctx.verify_mode = ssl.CERT_NONE
 
-BASE_URL = "https://localhost:8080"
-REDIRECT_URI = "http://localhost:8080/"
-CLIENT_ID = "my-client"
+BASE_URL = os.getenv("BASE_URL", os.getenv("FHIR_BASE_URL", "http://localhost:8080")).rstrip("/").replace("/fhir", "")
+REDIRECT_URI = os.getenv("REDIRECT_URI", "http://localhost:8080/")
+CLIENT_ID = os.getenv("CLIENT_ID", "my-client")
 LOG_FILE_PATH = "src/main/resources/fhir-resources/response_log.txt"
 
 class NoRedirectHandler(urllib.request.HTTPRedirectHandler):

@@ -4,7 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Controller
 public class AuthorizationController {
 
-    private static final String TRUSTED_AUD = "https://mofapi.medicalofficeforce.co/fhir";//"https://digressingly-auriferous-lee.ngrok-free.dev/fhir";
+    @Autowired
+    private FhirServerConfig fhirServerConfig;
 
     @Autowired
     private SmartAppRegistrationRepository registrationRepository;
@@ -36,7 +36,7 @@ public class AuthorizationController {
             @RequestParam("code_challenge") String codeChallenge,
             @RequestParam("code_challenge_method") String codeChallengeMethod) throws java.io.IOException {
         // Validate AUD Parameter strictly
-        if (aud == null || !TRUSTED_AUD.equals(aud)) {
+        if (aud == null || !fhirServerConfig.isAudienceMatch(aud)) {
             String errorJson = "{\"error\": \"invalid_request\", \"error_description\": \"Invalid or missing aud parameter. Must match the trusted FHIR base URL exactly.\"}";
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .contentType(MediaType.APPLICATION_JSON)

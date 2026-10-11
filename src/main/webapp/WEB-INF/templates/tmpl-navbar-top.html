@@ -24,21 +24,13 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
          <!--
-         Server selection dropdown
+         smart-config link
          -->
          <ul class="navbar-nav ms-auto">
-            <li class="nav-item dropdown">
-               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="fas fa-fire topbarIcon"></i>&nbsp;<span id="serverSelectorName" th:text="'Server: ' + ${baseName}"></span>&nbsp;<span class="caret" /></a>
+            <li class="nav-item">
+               <a class="nav-link" th:href="@{/.well-known/smart-configuration}">
+                  <i class="fas fa-fire topbarIcon"></i>&nbsp;<span>smart-config</span>
                </a>
-               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a th:each="serverEntry : ${serverEntries}" th:href="'javascript:selectServer(\'' + ${serverEntry.key} + '\');'" class="dropdown-item">
-                     <i class="far fa-check-square" th:if="${serverEntry.key} == ${serverId}"></i>
-                     <i class="far fa-square" style="color: #CCC;" th:unless="${serverEntry.key} == ${serverId}"></i>
-                     &nbsp;&nbsp;
-                     <th:block 	th:text="${serverEntry.value}"/>
-                  </a>
-               </div>
             </li>
          </ul>
 

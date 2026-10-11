@@ -2,9 +2,10 @@ import urllib.request
 import urllib.parse
 import ssl
 import json
+import os
 
-BASE_URL = "https://localhost:8080"
-NGROK_URL = "https://digressingly-auriferous-lee.ngrok-free.dev"
+BASE_URL = os.getenv("BASE_URL", os.getenv("FHIR_BASE_URL", "http://localhost:8080")).rstrip("/").replace("/fhir", "")
+NGROK_URL = os.getenv("NGROK_URL", BASE_URL)
 CAPABILITY_STATEMENT_FILE_PATH = r"C:/Labs/hwsafe/Analysis/sl-implementation-g10/hapi-fhir-jpaserver-starter-master/hapi-fhir-jpaserver-starter-master/src/main/resources/fhir-resources/us-core-capability-statement/CapabilityStatement-us-core-server.json"
 OUTPUT_FILE = "capabilityStatement.json"
 

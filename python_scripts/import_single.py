@@ -10,9 +10,9 @@ import re
 import os
 
 # Configuration
-BASE_URL = "https://digressingly-auriferous-lee.ngrok-free.dev"
-REDIRECT_URI = "http://localhost:8080/"
-CLIENT_ID = "my-client"
+BASE_URL = os.getenv("BASE_URL", os.getenv("FHIR_BASE_URL", "http://localhost:8080")).rstrip("/").replace("/fhir", "")
+REDIRECT_URI = os.getenv("REDIRECT_URI", "http://localhost:8080/")
+CLIENT_ID = os.getenv("CLIENT_ID", "my-client")
 FILE_PATH = r"c:\Labs\hwsafe\Analysis\sl-implementation-g10\hapi-fhir-jpaserver-starter-master\hapi-fhir-jpaserver-starter-master\src\main\resources\fhir-resources\us-core-capability-statement\CapabilityStatement-us-core-client.json"
 OUTPUT_FILE = "capabilityStatement.json"
 

@@ -2,7 +2,6 @@ package ca.uhn.fhir.jpa.starter.smart;
 
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.RSASSASigner;
-import com.nimbusds.jose.crypto.RSASSAVerifier;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -10,7 +9,6 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
-import java.time.temporal.*;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -38,6 +36,9 @@ public class AuthService {
 
     @Autowired
     private SystemConfigurationRepository configRepository;
+
+    @Autowired
+    private FhirServerConfig fhirServerConfig;
 
     private final Map<String, AuthData> authCodeStore = new ConcurrentHashMap<>();
     private final Map<String, AuthData> refreshTokenStore = new ConcurrentHashMap<>();
@@ -134,7 +135,7 @@ public class AuthService {
 
     public Map<String, Object> generateTokens(AuthData authData) {
         try {
-            String issuer = "https://mofapi.medicalofficeforce.co/fhir";//"https://digressingly-auriferous-lee.ngrok-free.dev/fhir"; // "https://localhost:8080/fhir";
+            String issuer = fhirServerConfig.getFhirBaseUrl();
             Date now = new Date();
             Date exp = new Date(now.getTime() + 300 * 1000); // 5 minutes
 
@@ -292,14 +293,10 @@ public class AuthService {
                 return null;
             }
 
-            // 5. Verify Audience Exact Match
-            // Because the local server might be behind ngrok, the Servlet string might be
-            // localhost or ngrok.
-            // We should just check if the intended ngrok token endpoint is precisely in the
-            // requested audience.
-            String expectedAud = "https://digressingly-auriferous-lee.ngrok-free.dev/fhir/auth/token";
-            if (audList == null || !audList.contains(expectedAud) && !audList.contains(tokenEndpointUrl)) {
-                System.out.println("aud must EXACTLY MATCH the token endpoint. Expected: " + expectedAud + " or "
+            // 5. Verify Audience Match
+            String expectedAud = fhirServerConfig.getTokenEndpoint();
+            if (audList == null || (!audList.contains(expectedAud) && !audList.contains(tokenEndpointUrl))) {
+                System.out.println("aud must match the token endpoint. Expected: " + expectedAud + " or "
                         + tokenEndpointUrl + ", Got: " + audList);
                 return null;
             }
@@ -383,7 +380,7 @@ public class AuthService {
                 }
             }
 
-            String issuer = "https://digressingly-auriferous-lee.ngrok-free.dev/fhir";
+            String issuer = fhirServerConfig.getFhirBaseUrl();
             Date now = new Date();
             Date exp = new Date(now.getTime() + 300 * 1000); // 5 minutes
 

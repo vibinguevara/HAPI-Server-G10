@@ -12,9 +12,9 @@ import os
 from datetime import datetime
 
 # Configuration
-BASE_URL = "https://localhost:8080"
-REDIRECT_URI = "http://localhost:8080/"
-CLIENT_ID = "my-client"
+BASE_URL = os.getenv("BASE_URL", os.getenv("FHIR_BASE_URL", "http://localhost:8080")).rstrip("/").replace("/fhir", "")
+REDIRECT_URI = os.getenv("REDIRECT_URI", "http://localhost:8080/")
+CLIENT_ID = os.getenv("CLIENT_ID", "my-client")
 BUNDLE_FILE_PATH = r"src\main\resources\fhir-resources\singlePatientInfernoG10.json"
 DTO_LOG_FILE_PATH = r"src\main\resources\fhir-resources\response_log.txt"
 
