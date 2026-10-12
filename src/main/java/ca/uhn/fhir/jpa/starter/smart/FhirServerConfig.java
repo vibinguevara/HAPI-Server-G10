@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class FhirServerConfig {
 
-    private static final String DEFAULT_FHIR_BASE_URL = "http://localhost:8080/fhir";
+    private static final String DEFAULT_FHIR_BASE_URL = "https://mofapi.medicalofficeforce.co/fhir";
 
-    @Value("${fhir.base-url:${FHIR_BASE_URL:http://localhost:8080/fhir}}")
+    @Value("${fhir.base-url:${FHIR_BASE_URL:https://mofapi.medicalofficeforce.co/fhir}}")
     private String fhirBaseUrl;
 
     /**
