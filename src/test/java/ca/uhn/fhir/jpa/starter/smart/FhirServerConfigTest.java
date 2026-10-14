@@ -11,11 +11,11 @@ class FhirServerConfigTest {
     @Test
     void testDefaultValues() {
         FhirServerConfig config = new FhirServerConfig();
-        Assertions.assertEquals("http://localhost:8080/fhir", config.getFhirBaseUrl());
-        Assertions.assertEquals("http://localhost:8080/fhir/auth/token", config.getTokenEndpoint());
-        Assertions.assertEquals("http://localhost:8080/fhir/auth/authorize", config.getAuthorizeEndpoint());
-        Assertions.assertEquals("http://localhost:8080/fhir/auth/introspect", config.getIntrospectEndpoint());
-        Assertions.assertEquals("http://localhost:8080/fhir/auth/jwks", config.getJwksEndpoint());
+        Assertions.assertEquals("https://mofapi.medicalofficeforce.co/fhir", config.getFhirBaseUrl());
+        Assertions.assertEquals("https://mofapi.medicalofficeforce.co/fhir/auth/token", config.getTokenEndpoint());
+        Assertions.assertEquals("https://mofapi.medicalofficeforce.co/fhir/auth/authorize", config.getAuthorizeEndpoint());
+        Assertions.assertEquals("https://mofapi.medicalofficeforce.co/fhir/auth/introspect", config.getIntrospectEndpoint());
+        Assertions.assertEquals("https://mofapi.medicalofficeforce.co/fhir/auth/jwks", config.getJwksEndpoint());
     }
 
     @Test

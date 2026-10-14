@@ -59,6 +59,13 @@ public class SmartSecurityInterceptor {
             return;
         }
 
+        // Allow Swagger UI and OpenAPI documentation without auth
+        if (theRequestDetails.getRequestPath() != null &&
+                (theRequestDetails.getRequestPath().startsWith("swagger-ui") ||
+                 theRequestDetails.getRequestPath().startsWith("api-docs"))) {
+            return;
+        }
+
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new AuthenticationException("Missing or invalid Authorization header");
         }

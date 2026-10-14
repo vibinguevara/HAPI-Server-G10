@@ -1,0 +1,452 @@
+{
+  "info": {
+    "_postman_id": "b18b48f2-8924-4f9e-a89e-2fa1c9d8e7b4",
+    "name": "MOF FHIR - Get Patient Collection",
+    "description": "Postman Collection for querying Patients from MOF HAPI FHIR Server (https://mofapi.medicalofficeforce.co/fhir) using SMART on FHIR OAuth 2.0 (Authorization Code + PKCE).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://mofapi.medicalofficeforce.co/fhir",
+      "type": "string"
+    },
+    {
+      "key": "clientId",
+      "value": "4a48eeb3-4650-423a-af4d-fe62c5f4753d",
+      "type": "string"
+    },
+    {
+      "key": "clientSecret",
+      "value": "a61a2099-d9b2-40bb-8c63-b20883f635e1",
+      "type": "string"
+    },
+    {
+      "key": "redirectUri",
+      "value": "https://oauth.pstmn.io/v1/browser-callback",
+      "type": "string"
+    },
+    {
+      "key": "scope",
+      "value": "launch openid fhirUser offline_access user/*.read user/*.* patient/*.read",
+      "type": "string"
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "patientId",
+      "value": "mof-85",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "grant_type",
+        "value": "authorization_code",
+        "type": "string"
+      },
+      {
+        "key": "authUrl",
+        "value": "{{baseUrl}}/auth/authorize",
+        "type": "string"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "{{baseUrl}}/auth/token",
+        "type": "string"
+      },
+      {
+        "key": "clientId",
+        "value": "{{clientId}}",
+        "type": "string"
+      },
+      {
+        "key": "clientSecret",
+        "value": "{{clientSecret}}",
+        "type": "string"
+      },
+      {
+        "key": "redirectUri",
+        "value": "{{redirectUri}}",
+        "type": "string"
+      },
+      {
+        "key": "scope",
+        "value": "{{scope}}",
+        "type": "string"
+      },
+      {
+        "key": "codeChallengeMethod",
+        "value": "S256",
+        "type": "string"
+      },
+      {
+        "key": "clientAuth",
+        "value": "header",
+        "type": "string"
+      },
+      {
+        "key": "tokenName",
+        "value": "MOF FHIR Access Token",
+        "type": "string"
+      },
+      {
+        "key": "addTokenTo",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "1. Discovery & Metadata",
+      "item": [
+        {
+          "name": "Get SMART Configuration (.well-known)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/.well-known/smart-configuration",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                ".well-known",
+                "smart-configuration"
+              ]
+            },
+            "description": "Returns SMART on FHIR OAuth2 endpoints (authorize, token, introspect, jwks) and supported capabilities."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Server Capability Statement (metadata)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/fhir+json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/metadata",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "metadata"
+              ]
+            },
+            "description": "Returns the FHIR CapabilityStatement for the server."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "2. Authentication (Manual Flow)",
+      "item": [
+        {
+          "name": "1. Authorize URL (Open in Browser)",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/authorize?response_type=code&client_id={{clientId}}&redirect_uri={{redirectUri}}&scope={{scope}}&state=xyz123&aud={{baseUrl}}&code_challenge=YOUR_CODE_CHALLENGE&code_challenge_method=S256",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "authorize"
+              ],
+              "query": [
+                {
+                  "key": "response_type",
+                  "value": "code"
+                },
+                {
+                  "key": "client_id",
+                  "value": "{{clientId}}"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "{{redirectUri}}"
+                },
+                {
+                  "key": "scope",
+                  "value": "{{scope}}"
+                },
+                {
+                  "key": "state",
+                  "value": "xyz123"
+                },
+                {
+                  "key": "aud",
+                  "value": "{{baseUrl}}"
+                },
+                {
+                  "key": "code_challenge",
+                  "value": "YOUR_CODE_CHALLENGE",
+                  "description": "Base64URL-encoded SHA256 of your code_verifier"
+                },
+                {
+                  "key": "code_challenge_method",
+                  "value": "S256"
+                }
+              ]
+            },
+            "description": "Open this URL in a browser to approve consent and receive the authorization code in the redirect URI."
+          },
+          "response": []
+        },
+        {
+          "name": "2. Exchange Code for Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var json = pm.response.json();",
+                  "if (json.access_token) {",
+                  "    pm.collectionVariables.set('accessToken', json.access_token);",
+                  "    console.log('Access token saved to collection variable accessToken');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{clientId}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{clientSecret}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "grant_type",
+                  "value": "authorization_code",
+                  "type": "text"
+                },
+                {
+                  "key": "code",
+                  "value": "PASTE_CODE_HERE",
+                  "type": "text"
+                },
+                {
+                  "key": "redirect_uri",
+                  "value": "{{redirectUri}}",
+                  "type": "text"
+                },
+                {
+                  "key": "client_id",
+                  "value": "{{clientId}}",
+                  "type": "text"
+                },
+                {
+                  "key": "code_verifier",
+                  "value": "YOUR_CODE_VERIFIER",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/token",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "token"
+              ]
+            },
+            "description": "Exchanges authorization code and PKCE code_verifier for an access token."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "3. Patients",
+      "item": [
+        {
+          "name": "Get List of Patients (GET /Patient)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test('Response is a FHIR Bundle', function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.resourceType).to.eql('Bundle');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/fhir+json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/Patient",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Patient"
+              ]
+            },
+            "description": "Returns a FHIR Bundle of Patients using Bearer token authentication."
+          },
+          "response": []
+        },
+        {
+          "name": "Search Patient by ID (GET /Patient?_id=...)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/fhir+json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/Patient?_id={{patientId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Patient"
+              ],
+              "query": [
+                {
+                  "key": "_id",
+                  "value": "{{patientId}}"
+                }
+              ]
+            },
+            "description": "Searches for a specific patient by their ID parameter (e.g. mof-85)."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Patient by Instance ID (GET /Patient/{id})",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{accessToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/fhir+json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/Patient/{{patientId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "Patient",
+                "{{patientId}}"
+              ]
+            },
+            "description": "Fetches a single Patient resource directly by instance ID."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
