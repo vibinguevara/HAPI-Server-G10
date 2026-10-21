@@ -1,0 +1,232 @@
+{
+  "server": "https://mofapi.medicalofficeforce.co",
+  "client_id": "685fb6bb-831c-4335-ac1a-3ddb1aec016d",
+  "scope": "system/*.rs",
+  "timestamp": "2026-10-20T13:12:31.881795",
+  "total_bundles_processed": 22,
+  "total_resources_submitted": 289,
+  "total_resources_succeeded": 289,
+  "total_duration_seconds": 24.9,
+  "bundles": [
+    {
+      "file": "mof-85_Organization.json",
+      "resource_types": "Organization",
+      "entries": 3,
+      "status_code": 200,
+      "succeeded": 3,
+      "failed": 0,
+      "elapsed_s": 0.92,
+      "outcome_file": "mof-85_Organization_outcome.json"
+    },
+    {
+      "file": "mof-85_Practitioner.json",
+      "resource_types": "Practitioner, PractitionerRole",
+      "entries": 2,
+      "status_code": 200,
+      "succeeded": 2,
+      "failed": 0,
+      "elapsed_s": 0.92,
+      "outcome_file": "mof-85_Practitioner_outcome.json"
+    },
+    {
+      "file": "mof-85_LocationResource.json",
+      "resource_types": "Location",
+      "entries": 1,
+      "status_code": 200,
+      "succeeded": 1,
+      "failed": 0,
+      "elapsed_s": 0.92,
+      "outcome_file": "mof-85_LocationResource_outcome.json"
+    },
+    {
+      "file": "mof-85_EncounterResource.json",
+      "resource_types": "Encounter",
+      "entries": 1,
+      "status_code": 200,
+      "succeeded": 1,
+      "failed": 0,
+      "elapsed_s": 0.88,
+      "outcome_file": "mof-85_EncounterResource_outcome.json"
+    },
+    {
+      "file": "mof-85_EncounterResourceBundle-Backup.json",
+      "resource_types": "Encounter",
+      "entries": 99,
+      "status_code": 200,
+      "succeeded": 99,
+      "failed": 0,
+      "elapsed_s": 2.15,
+      "outcome_file": "mof-85_EncounterResourceBundle-Backup_outcome.json"
+    },
+    {
+      "file": "mof-85_condition_granular_scope-1.json",
+      "resource_types": "Condition",
+      "entries": 2,
+      "status_code": 200,
+      "succeeded": 2,
+      "failed": 0,
+      "elapsed_s": 0.95,
+      "outcome_file": "mof-85_condition_granular_scope-1_outcome.json"
+    },
+    {
+      "file": "mof-85_ScreeningAssessmentGuidance.json",
+      "resource_types": "Condition",
+      "entries": 1,
+      "status_code": 200,
+      "succeeded": 1,
+      "failed": 0,
+      "elapsed_s": 0.92,
+      "outcome_file": "mof-85_ScreeningAssessmentGuidance_outcome.json"
+    },
+    {
+      "file": "mof-85_ObservationBloodPressureTest.json",
+      "resource_types": "Observation",
+      "entries": 4,
+      "status_code": 200,
+      "succeeded": 4,
+      "failed": 0,
+      "elapsed_s": 0.91,
+      "outcome_file": "mof-85_ObservationBloodPressureTest_outcome.json"
+    },
+    {
+      "file": "mof-85_ObservationBodyHeightTest.json",
+      "resource_types": "Observation",
+      "entries": 3,
+      "status_code": 200,
+      "succeeded": 3,
+      "failed": 0,
+      "elapsed_s": 0.88,
+      "outcome_file": "mof-85_ObservationBodyHeightTest_outcome.json"
+    },
+    {
+      "file": "mof-85_ObservationPulseOximetryTest.json",
+      "resource_types": "Observation",
+      "entries": 4,
+      "status_code": 200,
+      "succeeded": 4,
+      "failed": 0,
+      "elapsed_s": 0.85,
+      "outcome_file": "mof-85_ObservationPulseOximetryTest_outcome.json"
+    },
+    {
+      "file": "mof-85_ObservationLaboratoryResults.json",
+      "resource_types": "Observation",
+      "entries": 12,
+      "status_code": 200,
+      "succeeded": 12,
+      "failed": 0,
+      "elapsed_s": 1.16,
+      "outcome_file": "mof-85_ObservationLaboratoryResults_outcome.json"
+    },
+    {
+      "file": "mof-85_ObservationOccupatientTest.json",
+      "resource_types": "Observation",
+      "entries": 1,
+      "status_code": 200,
+      "succeeded": 1,
+      "failed": 0,
+      "elapsed_s": 0.89,
+      "outcome_file": "mof-85_ObservationOccupatientTest_outcome.json"
+    },
+    {
+      "file": "mof-85_ObservationPregnancyIntent.json",
+      "resource_types": "Observation",
+      "entries": 1,
+      "status_code": 200,
+      "succeeded": 1,
+      "failed": 0,
+      "elapsed_s": 0.92,
+      "outcome_file": "mof-85_ObservationPregnancyIntent_outcome.json"
+    },
+    {
+      "file": "mof-85_ObservationPregnancyStatus.json",
+      "resource_types": "Observation",
+      "entries": 1,
+      "status_code": 200,
+      "succeeded": 1,
+      "failed": 0,
+      "elapsed_s": 0.91,
+      "outcome_file": "mof-85_ObservationPregnancyStatus_outcome.json"
+    },
+    {
+      "file": "mof-85_ObservationScreeningAssessmentTest.json",
+      "resource_types": "Observation",
+      "entries": 9,
+      "status_code": 200,
+      "succeeded": 9,
+      "failed": 0,
+      "elapsed_s": 1.12,
+      "outcome_file": "mof-85_ObservationScreeningAssessmentTest_outcome.json"
+    },
+    {
+      "file": "mof-85_DiagnosticReportResource.json",
+      "resource_types": "DiagnosticReport",
+      "entries": 43,
+      "status_code": 200,
+      "succeeded": 43,
+      "failed": 0,
+      "elapsed_s": 1.89,
+      "outcome_file": "mof-85_DiagnosticReportResource_outcome.json"
+    },
+    {
+      "file": "mof-85_DocumentReferenceResource.json",
+      "resource_types": "DocumentReference",
+      "entries": 46,
+      "status_code": 200,
+      "succeeded": 46,
+      "failed": 0,
+      "elapsed_s": 1.71,
+      "outcome_file": "mof-85_DocumentReferenceResource_outcome.json"
+    },
+    {
+      "file": "mof-85_Procedure.json",
+      "resource_types": "Procedure",
+      "entries": 40,
+      "status_code": 200,
+      "succeeded": 40,
+      "failed": 0,
+      "elapsed_s": 1.33,
+      "outcome_file": "mof-85_Procedure_outcome.json"
+    },
+    {
+      "file": "mof-85_MedicationRequests.json",
+      "resource_types": "Medication, MedicationRequest",
+      "entries": 7,
+      "status_code": 200,
+      "succeeded": 7,
+      "failed": 0,
+      "elapsed_s": 0.88,
+      "outcome_file": "mof-85_MedicationRequests_outcome.json"
+    },
+    {
+      "file": "mof-85_MedicationDispense.json",
+      "resource_types": "Medication, MedicationDispense, MedicationRequest",
+      "entries": 5,
+      "status_code": 200,
+      "succeeded": 5,
+      "failed": 0,
+      "elapsed_s": 0.92,
+      "outcome_file": "mof-85_MedicationDispense_outcome.json"
+    },
+    {
+      "file": "mof-85_DeviceImplantation.json",
+      "resource_types": "Device",
+      "entries": 2,
+      "status_code": 200,
+      "succeeded": 2,
+      "failed": 0,
+      "elapsed_s": 0.92,
+      "outcome_file": "mof-85_DeviceImplantation_outcome.json"
+    },
+    {
+      "file": "mof-85_ServiceRequest.json",
+      "resource_types": "ServiceRequest",
+      "entries": 2,
+      "status_code": 200,
+      "succeeded": 2,
+      "failed": 0,
+      "elapsed_s": 0.87,
+      "outcome_file": "mof-85_ServiceRequest_outcome.json"
+    }
+  ]
+}

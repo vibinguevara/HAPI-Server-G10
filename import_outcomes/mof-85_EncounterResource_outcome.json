@@ -1,0 +1,52 @@
+{
+  "bundle_file": "mof-85_EncounterResource.json",
+  "timestamp": "2026-10-20T13:12:10.735886",
+  "elapsed_seconds": 0.88,
+  "http_status_code": 200,
+  "entries_submitted": 1,
+  "entries_succeeded": 1,
+  "entries_failed": 0,
+  "resource_types": [
+    "Encounter"
+  ],
+  "response": {
+    "resourceType": "Bundle",
+    "id": "8dc81e7b-d243-4cbd-8fd2-27769639e5d8",
+    "type": "transaction-response",
+    "link": [
+      {
+        "relation": "self",
+        "url": "https://mofapi.medicalofficeforce.co/fhir"
+      }
+    ],
+    "entry": [
+      {
+        "response": {
+          "status": "200 OK",
+          "location": "Encounter/8f3a4d64-17fa-215d-7f57-6e2c7eb045c0/_history/4",
+          "etag": "4",
+          "lastModified": "2026-02-04T05:38:29.075+00:00",
+          "outcome": {
+            "resourceType": "OperationOutcome",
+            "issue": [
+              {
+                "severity": "information",
+                "code": "informational",
+                "details": {
+                  "coding": [
+                    {
+                      "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                      "code": "SUCCESSFUL_UPDATE_NO_CHANGE",
+                      "display": "Update succeeded: No changes were detected so no action was taken."
+                    }
+                  ]
+                },
+                "diagnostics": "Successfully updated resource \"Encounter/8f3a4d64-17fa-215d-7f57-6e2c7eb045c0/_history/4\" with no changes detected."
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

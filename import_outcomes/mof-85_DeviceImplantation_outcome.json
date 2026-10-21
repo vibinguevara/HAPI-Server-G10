@@ -1,0 +1,79 @@
+{
+  "bundle_file": "mof-85_DeviceImplantation.json",
+  "timestamp": "2026-10-20T13:12:30.090744",
+  "elapsed_seconds": 0.92,
+  "http_status_code": 200,
+  "entries_submitted": 2,
+  "entries_succeeded": 2,
+  "entries_failed": 0,
+  "resource_types": [
+    "Device"
+  ],
+  "response": {
+    "resourceType": "Bundle",
+    "id": "fed4d111-bcf5-4ab9-b05c-2e426f4be7c4",
+    "type": "transaction-response",
+    "link": [
+      {
+        "relation": "self",
+        "url": "https://mofapi.medicalofficeforce.co/fhir"
+      }
+    ],
+    "entry": [
+      {
+        "response": {
+          "status": "200 OK",
+          "location": "Device/592f034c-9680-b3f2-b73d-50c743ffd096/_history/3",
+          "etag": "3",
+          "lastModified": "2026-02-04T05:38:29.060+00:00",
+          "outcome": {
+            "resourceType": "OperationOutcome",
+            "issue": [
+              {
+                "severity": "information",
+                "code": "informational",
+                "details": {
+                  "coding": [
+                    {
+                      "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                      "code": "SUCCESSFUL_UPDATE",
+                      "display": "Update succeeded."
+                    }
+                  ]
+                },
+                "diagnostics": "Successfully updated resource \"Device/592f034c-9680-b3f2-b73d-50c743ffd096/_history/3\"."
+              }
+            ]
+          }
+        }
+      },
+      {
+        "response": {
+          "status": "200 OK",
+          "location": "Device/8e1d371f-2fb8-4a2f-ae5b-9ed492fd8a79/_history/3",
+          "etag": "3",
+          "lastModified": "2026-02-04T05:38:29.060+00:00",
+          "outcome": {
+            "resourceType": "OperationOutcome",
+            "issue": [
+              {
+                "severity": "information",
+                "code": "informational",
+                "details": {
+                  "coding": [
+                    {
+                      "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                      "code": "SUCCESSFUL_UPDATE",
+                      "display": "Update succeeded."
+                    }
+                  ]
+                },
+                "diagnostics": "Successfully updated resource \"Device/8e1d371f-2fb8-4a2f-ae5b-9ed492fd8a79/_history/3\"."
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

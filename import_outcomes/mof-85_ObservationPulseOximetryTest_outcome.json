@@ -1,0 +1,133 @@
+{
+  "bundle_file": "mof-85_ObservationPulseOximetryTest.json",
+  "timestamp": "2026-10-20T13:12:17.458562",
+  "elapsed_seconds": 0.85,
+  "http_status_code": 200,
+  "entries_submitted": 4,
+  "entries_succeeded": 4,
+  "entries_failed": 0,
+  "resource_types": [
+    "Observation"
+  ],
+  "response": {
+    "resourceType": "Bundle",
+    "id": "d5062901-5296-4098-8519-91449af97c43",
+    "type": "transaction-response",
+    "link": [
+      {
+        "relation": "self",
+        "url": "https://mofapi.medicalofficeforce.co/fhir"
+      }
+    ],
+    "entry": [
+      {
+        "response": {
+          "status": "200 OK",
+          "location": "Observation/1800b219-a1ec-15d1-a95b-37f631c0cd47/_history/3",
+          "etag": "3",
+          "lastModified": "2026-02-04T05:38:29.064+00:00",
+          "outcome": {
+            "resourceType": "OperationOutcome",
+            "issue": [
+              {
+                "severity": "information",
+                "code": "informational",
+                "details": {
+                  "coding": [
+                    {
+                      "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                      "code": "SUCCESSFUL_UPDATE_NO_CHANGE",
+                      "display": "Update succeeded: No changes were detected so no action was taken."
+                    }
+                  ]
+                },
+                "diagnostics": "Successfully updated resource \"Observation/1800b219-a1ec-15d1-a95b-37f631c0cd47/_history/3\" with no changes detected."
+              }
+            ]
+          }
+        }
+      },
+      {
+        "response": {
+          "status": "200 OK",
+          "location": "Observation/32ef1af4-d49e-4442-9afb-9c7e5c07aa0e/_history/2",
+          "etag": "2",
+          "lastModified": "2026-02-04T05:38:29.064+00:00",
+          "outcome": {
+            "resourceType": "OperationOutcome",
+            "issue": [
+              {
+                "severity": "information",
+                "code": "informational",
+                "details": {
+                  "coding": [
+                    {
+                      "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                      "code": "SUCCESSFUL_UPDATE_NO_CHANGE",
+                      "display": "Update succeeded: No changes were detected so no action was taken."
+                    }
+                  ]
+                },
+                "diagnostics": "Successfully updated resource \"Observation/32ef1af4-d49e-4442-9afb-9c7e5c07aa0e/_history/2\" with no changes detected."
+              }
+            ]
+          }
+        }
+      },
+      {
+        "response": {
+          "status": "200 OK",
+          "location": "Observation/55705842-8a31-435a-952b-4e06ff4e6435/_history/2",
+          "etag": "2",
+          "lastModified": "2026-02-04T05:38:29.064+00:00",
+          "outcome": {
+            "resourceType": "OperationOutcome",
+            "issue": [
+              {
+                "severity": "information",
+                "code": "informational",
+                "details": {
+                  "coding": [
+                    {
+                      "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                      "code": "SUCCESSFUL_UPDATE_NO_CHANGE",
+                      "display": "Update succeeded: No changes were detected so no action was taken."
+                    }
+                  ]
+                },
+                "diagnostics": "Successfully updated resource \"Observation/55705842-8a31-435a-952b-4e06ff4e6435/_history/2\" with no changes detected."
+              }
+            ]
+          }
+        }
+      },
+      {
+        "response": {
+          "status": "200 OK",
+          "location": "Observation/f7940ba2-3a51-4534-b269-8432e052bf12/_history/2",
+          "etag": "2",
+          "lastModified": "2026-02-04T05:38:29.064+00:00",
+          "outcome": {
+            "resourceType": "OperationOutcome",
+            "issue": [
+              {
+                "severity": "information",
+                "code": "informational",
+                "details": {
+                  "coding": [
+                    {
+                      "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                      "code": "SUCCESSFUL_UPDATE_NO_CHANGE",
+                      "display": "Update succeeded: No changes were detected so no action was taken."
+                    }
+                  ]
+                },
+                "diagnostics": "Successfully updated resource \"Observation/f7940ba2-3a51-4534-b269-8432e052bf12/_history/2\" with no changes detected."
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

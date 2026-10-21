@@ -1,0 +1,52 @@
+{
+  "bundle_file": "mof-85_LocationResource.json",
+  "timestamp": "2026-10-20T13:12:09.814779",
+  "elapsed_seconds": 0.92,
+  "http_status_code": 200,
+  "entries_submitted": 1,
+  "entries_succeeded": 1,
+  "entries_failed": 0,
+  "resource_types": [
+    "Location"
+  ],
+  "response": {
+    "resourceType": "Bundle",
+    "id": "d228aa3f-0c78-4baa-8326-22bf0319d7b6",
+    "type": "transaction-response",
+    "link": [
+      {
+        "relation": "self",
+        "url": "https://mofapi.medicalofficeforce.co/fhir"
+      }
+    ],
+    "entry": [
+      {
+        "response": {
+          "status": "200 OK",
+          "location": "Location/8944e7cf-1482-b552-11a3-d3063d712d51/_history/2",
+          "etag": "2",
+          "lastModified": "2026-02-04T05:38:29.069+00:00",
+          "outcome": {
+            "resourceType": "OperationOutcome",
+            "issue": [
+              {
+                "severity": "information",
+                "code": "informational",
+                "details": {
+                  "coding": [
+                    {
+                      "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                      "code": "SUCCESSFUL_UPDATE_NO_CHANGE",
+                      "display": "Update succeeded: No changes were detected so no action was taken."
+                    }
+                  ]
+                },
+                "diagnostics": "Successfully updated resource \"Location/8944e7cf-1482-b552-11a3-d3063d712d51/_history/2\" with no changes detected."
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

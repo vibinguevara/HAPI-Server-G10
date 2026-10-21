@@ -1,0 +1,162 @@
+{
+  "bundle_file": "mof-85_MedicationDispense.json",
+  "timestamp": "2026-10-20T13:12:29.171621",
+  "elapsed_seconds": 0.92,
+  "http_status_code": 200,
+  "entries_submitted": 5,
+  "entries_succeeded": 5,
+  "entries_failed": 0,
+  "resource_types": [
+    "Medication",
+    "MedicationDispense",
+    "MedicationRequest"
+  ],
+  "response": {
+    "resourceType": "Bundle",
+    "id": "6dfd1c51-3a2a-44aa-b920-0bbcadcb4d10",
+    "type": "transaction-response",
+    "link": [
+      {
+        "relation": "self",
+        "url": "https://mofapi.medicalofficeforce.co/fhir"
+      }
+    ],
+    "entry": [
+      {
+        "response": {
+          "status": "200 OK",
+          "location": "Medication/58f7a300-f288-6094-a82f-e1e64086902b/_history/3",
+          "etag": "3",
+          "lastModified": "2026-02-04T05:38:29.079+00:00",
+          "outcome": {
+            "resourceType": "OperationOutcome",
+            "issue": [
+              {
+                "severity": "information",
+                "code": "informational",
+                "details": {
+                  "coding": [
+                    {
+                      "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                      "code": "SUCCESSFUL_UPDATE_NO_CHANGE",
+                      "display": "Update succeeded: No changes were detected so no action was taken."
+                    }
+                  ]
+                },
+                "diagnostics": "Successfully updated resource \"Medication/58f7a300-f288-6094-a82f-e1e64086902b/_history/3\" with no changes detected."
+              }
+            ]
+          }
+        }
+      },
+      {
+        "response": {
+          "status": "200 OK",
+          "location": "MedicationRequest/3722c630-7ccd-b25e-316d-78fd30a4ff30/_history/8",
+          "etag": "8",
+          "lastModified": "2026-02-04T05:38:29.059+00:00",
+          "outcome": {
+            "resourceType": "OperationOutcome",
+            "issue": [
+              {
+                "severity": "information",
+                "code": "informational",
+                "details": {
+                  "coding": [
+                    {
+                      "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                      "code": "SUCCESSFUL_UPDATE",
+                      "display": "Update succeeded."
+                    }
+                  ]
+                },
+                "diagnostics": "Successfully updated resource \"MedicationRequest/3722c630-7ccd-b25e-316d-78fd30a4ff30/_history/8\"."
+              }
+            ]
+          }
+        }
+      },
+      {
+        "response": {
+          "status": "200 OK",
+          "location": "MedicationRequest/c98ce29f-de0d-377b-db87-bccbd618d7e3/_history/5",
+          "etag": "5",
+          "lastModified": "2026-02-04T05:38:29.059+00:00",
+          "outcome": {
+            "resourceType": "OperationOutcome",
+            "issue": [
+              {
+                "severity": "information",
+                "code": "informational",
+                "details": {
+                  "coding": [
+                    {
+                      "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                      "code": "SUCCESSFUL_UPDATE_NO_CHANGE",
+                      "display": "Update succeeded: No changes were detected so no action was taken."
+                    }
+                  ]
+                },
+                "diagnostics": "Successfully updated resource \"MedicationRequest/c98ce29f-de0d-377b-db87-bccbd618d7e3/_history/5\" with no changes detected."
+              }
+            ]
+          }
+        }
+      },
+      {
+        "response": {
+          "status": "200 OK",
+          "location": "MedicationDispense/17991da0-97b0-447c-bb49-185eb104a160/_history/3",
+          "etag": "3",
+          "lastModified": "2026-02-04T05:38:29.085+00:00",
+          "outcome": {
+            "resourceType": "OperationOutcome",
+            "issue": [
+              {
+                "severity": "information",
+                "code": "informational",
+                "details": {
+                  "coding": [
+                    {
+                      "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                      "code": "SUCCESSFUL_UPDATE_NO_CHANGE",
+                      "display": "Update succeeded: No changes were detected so no action was taken."
+                    }
+                  ]
+                },
+                "diagnostics": "Successfully updated resource \"MedicationDispense/17991da0-97b0-447c-bb49-185eb104a160/_history/3\" with no changes detected."
+              }
+            ]
+          }
+        }
+      },
+      {
+        "response": {
+          "status": "200 OK",
+          "location": "MedicationDispense/1bc16d93-9ac8-4dc7-ad90-e649c01f8b19/_history/4",
+          "etag": "4",
+          "lastModified": "2026-02-04T05:38:29.085+00:00",
+          "outcome": {
+            "resourceType": "OperationOutcome",
+            "issue": [
+              {
+                "severity": "information",
+                "code": "informational",
+                "details": {
+                  "coding": [
+                    {
+                      "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                      "code": "SUCCESSFUL_UPDATE_NO_CHANGE",
+                      "display": "Update succeeded: No changes were detected so no action was taken."
+                    }
+                  ]
+                },
+                "diagnostics": "Successfully updated resource \"MedicationDispense/1bc16d93-9ac8-4dc7-ad90-e649c01f8b19/_history/4\" with no changes detected."
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

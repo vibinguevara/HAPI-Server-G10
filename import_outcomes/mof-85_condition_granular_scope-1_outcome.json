@@ -1,0 +1,79 @@
+{
+  "bundle_file": "mof-85_condition_granular_scope-1.json",
+  "timestamp": "2026-10-20T13:12:13.783278",
+  "elapsed_seconds": 0.95,
+  "http_status_code": 200,
+  "entries_submitted": 2,
+  "entries_succeeded": 2,
+  "entries_failed": 0,
+  "resource_types": [
+    "Condition"
+  ],
+  "response": {
+    "resourceType": "Bundle",
+    "id": "cb4edcc0-ec88-416a-9c4c-7d2841046236",
+    "type": "transaction-response",
+    "link": [
+      {
+        "relation": "self",
+        "url": "https://mofapi.medicalofficeforce.co/fhir"
+      }
+    ],
+    "entry": [
+      {
+        "response": {
+          "status": "200 OK",
+          "location": "Condition/b9fbaa22-6097-11ed-9b6a-0242ac120002/_history/4",
+          "etag": "4",
+          "lastModified": "2026-02-04T05:38:29.070+00:00",
+          "outcome": {
+            "resourceType": "OperationOutcome",
+            "issue": [
+              {
+                "severity": "information",
+                "code": "informational",
+                "details": {
+                  "coding": [
+                    {
+                      "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                      "code": "SUCCESSFUL_UPDATE_NO_CHANGE",
+                      "display": "Update succeeded: No changes were detected so no action was taken."
+                    }
+                  ]
+                },
+                "diagnostics": "Successfully updated resource \"Condition/b9fbaa22-6097-11ed-9b6a-0242ac120002/_history/4\" with no changes detected."
+              }
+            ]
+          }
+        }
+      },
+      {
+        "response": {
+          "status": "200 OK",
+          "location": "Condition/ef212a07-8629-2870-d65e-406e14cb8cdb/_history/3",
+          "etag": "3",
+          "lastModified": "2026-02-04T05:38:29.070+00:00",
+          "outcome": {
+            "resourceType": "OperationOutcome",
+            "issue": [
+              {
+                "severity": "information",
+                "code": "informational",
+                "details": {
+                  "coding": [
+                    {
+                      "system": "https://hapifhir.io/fhir/CodeSystem/hapi-fhir-storage-response-code",
+                      "code": "SUCCESSFUL_UPDATE_NO_CHANGE",
+                      "display": "Update succeeded: No changes were detected so no action was taken."
+                    }
+                  ]
+                },
+                "diagnostics": "Successfully updated resource \"Condition/ef212a07-8629-2870-d65e-406e14cb8cdb/_history/3\" with no changes detected."
+              }
+            ]
+          }
+        }
+      }
+    ]
+  }
+}

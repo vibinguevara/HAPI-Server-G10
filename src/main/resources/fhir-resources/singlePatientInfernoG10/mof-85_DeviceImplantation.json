@@ -53,7 +53,7 @@
 			},
 			"request": {
 				"method": "PUT",
-				"url": "DocumentReference/104e0c66-cd96-2d6f-0ad8-def79dcd64f4"
+				"url": "Device/592f034c-9680-b3f2-b73d-50c743ffd096"
 			}
 		},
 		{
@@ -107,7 +107,7 @@
 			},
 			"request": {
 				"method": "PUT",
-				"url": "DocumentReference/104e0c66-cd96-2d6f-0ad8-def79dcd64f4"
+				"url": "Device/8e1d371f-2fb8-4a2f-ae5b-9ed492fd8a79"
 			}
 		}
 	]
