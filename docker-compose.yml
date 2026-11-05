@@ -4,9 +4,9 @@ services:
     container_name: hapi-fhir-jpaserver-start
     restart: on-failure
     environment:
-      SPRING_DATASOURCE_URL: "jdbc:postgresql://hapi-fhir-postgres:5432/hapi"
-      SPRING_DATASOURCE_USERNAME: "admin"
-      SPRING_DATASOURCE_PASSWORD: "admin"
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://hws-hapi-fhir.cfigpx8ehmwq.us-east-1.rds.amazonaws.com:5432/mofhapi"
+      SPRING_DATASOURCE_USERNAME: "hwsfhir"
+      SPRING_DATASOURCE_PASSWORD: "r4LRXC7N8g9u2Xe"
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: "org.postgresql.Driver"
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgresDialect
       FHIR_BASE_URL: "${FHIR_BASE_URL:-https://mofapi.medicalofficeforce.co/fhir}"
@@ -20,9 +20,9 @@ services:
     container_name: hapi-fhir-postgres
     restart: always
     environment:
-      POSTGRES_DB: "hapi"
-      POSTGRES_USER: "admin"
-      POSTGRES_PASSWORD: "admin"
+      POSTGRES_DB: "mofhapi"
+      POSTGRES_USER: "hwsfhir"
+      POSTGRES_PASSWORD: "r4LRXC7N8g9u2Xe"
     healthcheck:
       test: ["CMD-SHELL", "sh -c 'pg_isready -U admin -d hapi' || exit 1"]
       interval: 10s

@@ -110,9 +110,9 @@ spring:
 
   datasource:
     # url: "jdbc:h2:file:./target/database/h2"
-    url: jdbc:postgresql://localhost:5432/g10_hapi_db
-    username: postgres
-    password: admin
+    url: jdbc:postgresql://hws-hapi-fhir.cfigpx8ehmwq.us-east-1.rds.amazonaws.com:5432/mofhapi
+    username: hwsfhir
+    password: r4LRXC7N8g9u2Xe
     driver-class-name: org.postgresql.Driver
     # max-active: 15     # (ignored with HikariCP; use hikari.maximum-pool-size)
     hikari:
