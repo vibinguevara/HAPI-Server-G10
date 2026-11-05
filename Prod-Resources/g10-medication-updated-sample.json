@@ -1,0 +1,88 @@
+{
+  "event": {
+    "id": "471a1123-c7a0-4f5c-b8cc-2c20c341f9f4",
+    "type": "medicationStatement.updated",
+    "triggeredAt": "2026-11-03T15:40:24.838Z",
+    "source": "mof-emr-backend",
+    "sourceMethod": "deleteMedicationStatement",
+    "environment": "uat",
+    "patientId": "pat1",
+    "organizationId": "org-athens-heart-001",
+    "organizationName": "Athens Heart Center"
+  },
+  "medicationStatement": {
+    "resourceType": "MedicationStatement",
+    "id": "med1",
+    "identifier": [
+      {
+        "use": "usual",
+        "system": "https://medicalofficeforce.co/fhir/medication-id",
+        "value": "med1"
+      }
+    ],
+    "status": "stopped",
+    "medicationCodeableConcept": {
+      "coding": [
+        {
+          "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+          "code": "314076",
+          "display": "Lisinopril 10 MG Oral Tablet"
+        },
+        {
+          "system": "http://hl7.org/fhir/sid/ndc",
+          "code": "68180-0513-01"
+        }
+      ],
+      "text": "Lisinopril 10 MG Oral Tablet"
+    },
+    "subject": {
+      "reference": "Patient/pat1",
+      "identifier": {
+        "use": "usual",
+        "system": "https://healthwealthsafe.net/mrn",
+        "value": "MRN-1001"
+      }
+    },
+    "effectivePeriod": {
+      "start": "2026-11-01T00:00:00.000Z",
+      "end": "2026-11-30T00:00:00.000Z"
+    },
+    "dateAsserted": "2026-11-03T10:00:00.000Z",
+    "informationSource": {
+      "display": "Dr. Jonathan Carter"
+    },
+    "statusReason": [
+      {
+        "text": "Side effects"
+      }
+    ],
+    "note": [
+      {
+        "text": "Stopped, switching to amlodipine"
+      }
+    ],
+    "dosage": [
+      {
+        "text": "2 tablets by mouth twice daily",
+        "timing": {
+          "repeat": {
+            "frequency": 2,
+            "period": 1,
+            "periodUnit": "d"
+          }
+        },
+        "route": {
+          "text": "Oral"
+        },
+        "doseAndRate": [
+          {
+            "doseQuantity": {
+              "value": 2,
+              "unit": "tablet"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

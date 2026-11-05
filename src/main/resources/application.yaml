@@ -110,9 +110,9 @@ spring:
 
   datasource:
     # url: "jdbc:h2:file:./target/database/h2"
-    url: jdbc:postgresql://localhost:5432/g10_hapi_db
-    username: postgres
-    password: admin
+    url: jdbc:postgresql://hws-hapi-fhir.cfigpx8ehmwq.us-east-1.rds.amazonaws.com:5432/mofhapi
+    username: hwsfhir
+    password: r4LRXC7N8g9u2Xe
     driver-class-name: org.postgresql.Driver
     # max-active: 15     # (ignored with HikariCP; use hikari.maximum-pool-size)
     hikari:
@@ -172,7 +172,7 @@ hapi:
     # use_apache_address_strategy_https: false
     # custom_content_path: ./custom               # folder name must be 'custom'
     # app_content_path: ./configs/app            # served under /web/app
-    server_address: '${FHIR_BASE_URL:https://mofapi.medicalofficeforce.co/fhir}'
+    server_address: '${FHIR_BASE_URL:https://integration.medicalofficeforce.co/fhir}'
     # defer_indexing_for_codesystems_of_size: 101
 
     # -------------------------------------------------------------------------------
@@ -464,6 +464,6 @@ hapi:
     tester:
       home:
         name: Local Tester
-        server_address: '${FHIR_BASE_URL:https://mofapi.medicalofficeforce.co/fhir}'
+        server_address: '${FHIR_BASE_URL:https://integration.medicalofficeforce.co/fhir}'
         refuse_to_fetch_third_party_urls: false
         fhir_version: R4

@@ -137,7 +137,7 @@ public class AuthService {
         try {
             String issuer = fhirServerConfig.getFhirBaseUrl();
             Date now = new Date();
-            Date exp = new Date(now.getTime() + 300 * 1000); // 5 minutes
+            Date exp = new Date(now.getTime() + 7200 * 1000L); // 2 hours
 
             String idTokenSub = authData.getPatientId() != null ? authData.getPatientId() : "123";
             String fhirUser = issuer + "/Practitioner/c38e2d6b-b2d5-3f8e-acae-3044eeb5edbb";
@@ -219,7 +219,7 @@ public class AuthService {
 
             response.put("access_token", accessToken.serialize());
             response.put("token_type", "Bearer");
-            response.put("expires_in", 300);
+            response.put("expires_in", 7200);
             response.put("scope", authData.getScope());
             response.put("id_token", idToken.serialize());
             response.put("refresh_token", refreshToken);
@@ -382,7 +382,7 @@ public class AuthService {
 
             String issuer = fhirServerConfig.getFhirBaseUrl();
             Date now = new Date();
-            Date exp = new Date(now.getTime() + 300 * 1000); // 5 minutes
+            Date exp = new Date(now.getTime() + 7200 * 1000L); // 2 hours
 
             JWTClaimsSet accessClaims = new JWTClaimsSet.Builder()
                     .subject(clientId)
@@ -413,7 +413,7 @@ public class AuthService {
             Map<String, Object> response = new ConcurrentHashMap<>();
             response.put("access_token", accessToken.serialize());
             response.put("token_type", "Bearer");
-            response.put("expires_in", 300);
+            response.put("expires_in", 7200);
             response.put("scope", finalScope);
             response.put("smart_style_url", issuer + "/smart-style.json");
 
