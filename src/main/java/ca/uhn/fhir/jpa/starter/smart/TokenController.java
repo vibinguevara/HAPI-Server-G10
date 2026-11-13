@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.time.Instant;
 import com.nimbusds.jwt.SignedJWT;
+import ca.uhn.fhir.jpa.model.entity.SmartAppRegistration;
 import ca.uhn.fhir.jpa.model.entity.SmartAppToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +35,9 @@ public class TokenController {
     @Autowired
     private SmartAppTokenRepository tokenRepository;
 
+    @Autowired
+    private SmartAppRegistrationRepository registrationRepository;
+
     @PostMapping(value = "/auth/token", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<?> token(
             @RequestHeader(value = "Authorization", required = false) String authHeader,
@@ -44,31 +48,49 @@ public class TokenController {
         String redirectUri = body.getFirst("redirect_uri");
         String codeVerifier = body.getFirst("code_verifier");
 
-        // Extract client_id from body or Basic Auth header
+        // Extract client_id and client_secret from body or Basic Auth header
         String clientId = body.getFirst("client_id");
-        if (clientId == null && authHeader != null && authHeader.startsWith("Basic ")) {
+        String clientSecret = body.getFirst("client_secret");
+        if (authHeader != null && authHeader.startsWith("Basic ")) {
             try {
                 String base64Credentials = authHeader.substring("Basic ".length()).trim();
                 byte[] credDecoded = Base64.getDecoder().decode(base64Credentials);
                 String credentials = new String(credDecoded, StandardCharsets.UTF_8);
                 // credentials = username:password
                 final String[] values = credentials.split(":", 2);
-                if (values.length > 0) {
+                if (values.length > 0 && !values[0].isEmpty()) {
+                    if (clientId != null && !clientId.isEmpty() && !clientId.equals(values[0])) {
+                        return ResponseEntity.status(401)
+                                .body(Map.of("error", "invalid_client", "error_description", "Mismatched client_id in Basic Auth header and request body"));
+                    }
                     clientId = values[0];
                 }
+                if (values.length > 1 && (clientSecret == null || clientSecret.isEmpty())) {
+                    clientSecret = values[1];
+                }
             } catch (Exception e) {
-                ourLog.warn("Failed to parse Basic Auth header for client_id", e);
+                ourLog.warn("Failed to parse Basic Auth header for client credentials", e);
+                return ResponseEntity.status(401)
+                        .body(Map.of("error", "invalid_client", "error_description", "Invalid Basic Authorization header"));
             }
         }
 
         // If client authenticate using client_assertion (asymmetric client)
         String clientAssertionType = body.getFirst("client_assertion_type");
         String clientAssertion = body.getFirst("client_assertion");
-        if (clientId == null && "urn:ietf:params:oauth:client-assertion-type:jwt-bearer".equals(clientAssertionType)
+        boolean authenticatedByAssertion = false;
+        if ("urn:ietf:params:oauth:client-assertion-type:jwt-bearer".equals(clientAssertionType)
                 && clientAssertion != null) {
             String tokenEndpointUrl = org.springframework.web.servlet.support.ServletUriComponentsBuilder
                     .fromCurrentRequest().toUriString();
-            clientId = authService.validateClientAssertion(clientAssertion, tokenEndpointUrl);
+            String assertedClientId = authService.validateClientAssertion(clientAssertion, tokenEndpointUrl);
+            if (assertedClientId == null || (clientId != null && !clientId.isEmpty() && !clientId.equals(assertedClientId))) {
+                return ResponseEntity.status(401)
+                        .body(Map.of("error", "invalid_client", "error_description",
+                                "Invalid client assertion signature or claims"));
+            }
+            clientId = assertedClientId;
+            authenticatedByAssertion = true;
         }
 
         if ("authorization_code".equals(grantType)) {
@@ -77,8 +99,9 @@ public class TokenController {
                 return ResponseEntity.badRequest().body(Map.of("error", "invalid_grant"));
             }
 
-            if (clientId == null || !clientId.equals(authData.getClientId())) {
-                ourLog.warn("Token exchange failed: client_id mismatch. Expected: {}, Got: {}", authData.getClientId(),
+            if (clientId == null || !clientId.equals(authData.getClientId())
+                    || !validateClientCredentials(clientId, clientSecret, authenticatedByAssertion)) {
+                ourLog.warn("Token exchange failed: invalid client credentials for Expected: {}, Got: {}", authData.getClientId(),
                         clientId);
                 return ResponseEntity.status(401)
                         .body(Map.of("error", "invalid_client", "error_description", "Invalid client credentials"));
@@ -121,8 +144,9 @@ public class TokenController {
                         .body(Map.of("error", "invalid_grant", "error_description", "Invalid refresh token"));
             }
 
-            if (clientId == null || !clientId.equals(authData.getClientId())) {
-                ourLog.warn("Refresh token exchange failed: client_id mismatch. Expected: {}, Got: {}",
+            if (clientId == null || !clientId.equals(authData.getClientId())
+                    || !validateClientCredentials(clientId, clientSecret, authenticatedByAssertion)) {
+                ourLog.warn("Refresh token exchange failed: invalid client credentials for Expected: {}, Got: {}",
                         authData.getClientId(), clientId);
                 return ResponseEntity.status(401)
                         .body(Map.of("error", "invalid_client", "error_description", "Invalid client credentials"));
@@ -149,10 +173,10 @@ public class TokenController {
                         .body(Map.of("error", "invalid_request", "error_description", "Invalid client_assertion_type"));
             }
 
-            if (clientId == null) {
+            if (clientId == null || !validateClientCredentials(clientId, clientSecret, authenticatedByAssertion)) {
                 return ResponseEntity.status(401)
                         .body(Map.of("error", "invalid_client", "error_description",
-                                "Invalid client assertion signature or claims"));
+                                "Invalid client credentials"));
             }
 
             try {
@@ -174,6 +198,45 @@ public class TokenController {
         } else {
             return ResponseEntity.badRequest().body(Map.of("error", "unsupported_grant_type"));
         }
+    }
+
+    /**
+     * Validates client credentials based on the registered application type:
+     * - Public apps ("public"): authenticated using only client_id.
+     * - Confidential apps ("confidential"): must authenticate using both client_id and client_secret
+     *   (or a verified asymmetric JWT client_assertion).
+     */
+    private boolean validateClientCredentials(String clientId, String clientSecret, boolean authenticatedByAssertion) {
+        if (clientId == null || clientId.isBlank()) {
+            return false;
+        }
+
+        Optional<SmartAppRegistration> optionalApp = registrationRepository.findById(clientId);
+        if (optionalApp.isEmpty()) {
+            // Allow built-in asymmetric test clients only when authenticated via valid JWT client_assertion
+            if (authenticatedByAssertion && ("inferno_bulk_client".equals(clientId)
+                    || "test-backend-client".equals(clientId)
+                    || "tdavis751076".equals(clientId))) {
+                return true;
+            }
+            ourLog.warn("Client authentication failed: Unknown client_id {}", clientId);
+            return false;
+        }
+
+        SmartAppRegistration app = optionalApp.get();
+        if ("confidential".equalsIgnoreCase(app.getAppType())) {
+            if (authenticatedByAssertion) {
+                return true;
+            }
+            if (clientSecret == null || clientSecret.isBlank() || !clientSecret.equals(app.getClientSecret())) {
+                ourLog.warn("Client authentication failed: Missing or invalid client_secret for confidential client_id {}", clientId);
+                return false;
+            }
+            return true;
+        }
+
+        // Public app: only client_id is required to authenticate
+        return true;
     }
 
     private boolean validatePkce(String verifier, String challenge) {
@@ -261,22 +324,28 @@ public class TokenController {
 
         // Authenticate the client using Basic Auth or Form POST (confidential client)
         String clientId = body.getFirst("client_id");
-        if (clientId == null && authHeader != null && authHeader.startsWith("Basic ")) {
+        String clientSecret = body.getFirst("client_secret");
+        if (authHeader != null && authHeader.startsWith("Basic ")) {
             try {
                 String base64Credentials = authHeader.substring("Basic ".length()).trim();
                 byte[] credDecoded = Base64.getDecoder().decode(base64Credentials);
                 String credentials = new String(credDecoded, StandardCharsets.UTF_8);
                 // credentials = username:password
                 final String[] values = credentials.split(":", 2);
-                if (values.length > 0) {
+                if (values.length > 0 && (clientId == null || clientId.isEmpty())) {
                     clientId = values[0];
+                }
+                if (values.length > 1 && (clientSecret == null || clientSecret.isEmpty())) {
+                    clientSecret = values[1];
                 }
             } catch (Exception e) {
                 ourLog.warn("Failed to parse Basic Auth header for /auth/introspect client_id", e);
+                return ResponseEntity.status(401)
+                        .body(Map.of("error", "invalid_client", "error_description", "Invalid Basic Authorization header"));
             }
         }
 
-        if (clientId == null) {
+        if (clientId == null || !validateClientCredentials(clientId, clientSecret, false)) {
             ourLog.warn("Introspect request failed: Missing or invalid client authentication");
             return ResponseEntity.status(401)
                     .body(Map.of("error", "invalid_client", "error_description", "Client authentication required"));
